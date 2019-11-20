@@ -3,9 +3,9 @@
     <div class="form">
       <form v-if="mode === 'register'" class="register-form stack">
         <h2>👋 Register Here</h2>
-        <input type="text" placeholder="name" />
-        <input type="password" placeholder="password" />
-        <input type="text" placeholder="email address" />
+        <input type="text" placeholder="name" v-model="name" />
+        <input type="password" placeholder="password" v-model="password" />
+        <input type="text" placeholder="email address"  v-model="email" />
         <button>create</button>
         <p class="message">
           Already registered?
@@ -28,9 +28,13 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
+      name:"",
+      password:"",
+      email:"",
       mode: "register"
     };
   },
@@ -42,7 +46,13 @@ export default {
         this.mode = "register";
       }
     }
-  }
+  },
+  created () {
+    console.log(this.auth)
+  this.auth.signup("test@gmail.com", "1234")
+  .then(response => console.log("Confirmation email sent", response))
+  .catch(error => console.log("It's an error", error));
+  },
 };
 </script>
 
