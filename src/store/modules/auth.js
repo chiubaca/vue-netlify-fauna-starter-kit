@@ -3,11 +3,13 @@ export default {
 
   state() {
     return {
-      testData: "test"
+      testData: "test",
+      loggedIn: false
     }
   },
   getters: {
     testData: state => state.testData,
+    loggedIn: state => state.loggedIn
   },
   mutations: {
     updateTestData(state, value) {

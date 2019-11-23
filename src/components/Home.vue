@@ -3,7 +3,9 @@
     <h2>🏠 This is the public home page</h2>
     <div class="test-area">
       <h2>Vuex Test area</h2>
-      Data From Vuex Store: <span> {{testData}} </span>
+      Data From Vuex Store: 
+      <span> {{testData}} </span>  
+      <span>{{anotherWayToGetData}}</span>
       <br/><br/>  
       Update via Mutation: 
       <input
@@ -39,7 +41,10 @@ export default {
   computed: {
     ...mapGetters("auth",[
       "testData"
-    ])
+    ]),
+    anotherWayToGetData(){
+      return this.$store.getters["auth/testData"]
+    }
   },
   methods: {
     ...mapMutations("auth",[

@@ -48,10 +48,7 @@ export default {
     }
   },
   created () {
-    console.log(this.auth)
-  this.auth.signup("test@gmail.com", "1234")
-  .then(response => console.log("Confirmation email sent", response))
-  .catch(error => console.log("It's an error", error));
+
   },
 };
 </script>
