@@ -3,27 +3,51 @@
     <h2>🏠 This is the public home page</h2>
     <div class="test-area">
       <h2>Vuex Test area</h2>
-      Data From Vuex Store: <span> {{dataFromStore}} </span>
+      Data From Vuex Store: <span> {{testData}} </span>
       <br/><br/>  
       Update via Mutation: 
-      <input type="text" name="fname"><button>Commit</button>
+      <input
+        v-model="mutationInput" 
+        type="text" 
+        name="fname"
+      ><button @click="updateTestData(mutationInput)" >Commit</button>
       <br/><br/> 
       Update via Action: 
-      <input type="text" name="fname"><button>Dispatch</button> 
+      <input
+        v-model="actionInput"  
+        type="text" 
+        name="fname"
+      ><button @click="updateTestDataAction(actionInput)">Dispatch</button> 
     </div>
   </main>
 </template>
 
 <script>
+import { mapGetters , mapMutations , mapActions} from 'vuex'
+
 export default {
   name: "Home",
   props: {
     msg: String
   },
-  computed: {
-    dataFromStore() {
-      return this.$store.state.auth.testData 
+  data() {
+    return {
+      mutationInput: null,
+      actionInput:null
     }
+  },
+  computed: {
+    ...mapGetters("auth",[
+      "testData"
+    ])
+  },
+  methods: {
+    ...mapMutations("auth",[
+      "updateTestData"
+    ]),
+    ...mapActions("auth", [
+      "updateTestDataAction"
+    ])
   },
 };
 </script>
