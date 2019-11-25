@@ -17,7 +17,7 @@
         <h2>🔐 Login Here</h2>
         <input type="text" placeholder="username" v-model="crendentials.email" />
         <input type="password" placeholder="password" v-model="crendentials.password" />
-        <button @click="login()">login</button>
+        <button type="button" @click="login()">login</button>
         <p class="message">
           Not registered?
           <a @click="toggleMode" href="#">Create an account</a>
@@ -70,11 +70,11 @@ export default {
       let token = decodeURIComponent(window.location.search).substring(1).split("confirmation_token=")[1];
 
       this.attemptLogin({token , ...this.crendentials})
-        .then((response) => {
-          alert(`You have signed in!
-                 ${response}`);
+        .then(() => {
+          alert(`You have signed in!`);
+          this.$router.push(this.$route.query.redirect || "/");
         })
-        .catch(error =>{
+        .catch(error => {
           alert(`Somethings gone wrong logging up.
                  Error: ${error}`)
           console.error(error, "Somethings gone wrong logging in")

@@ -17,12 +17,14 @@ export default {
   state() {
     return {
       testData: "Hello!",
-      loggedIn: false
+      currentUser:null
     }
   },
   getters: {
     testData: state => state.testData,
-    loggedIn: state => state.loggedIn
+    
+    // When currentUser has data loggedIn will return true
+    loggedIn: state => !!state.currentUser 
   },
   mutations: {
     updateTestData(state, value) {

@@ -30,19 +30,33 @@ const router = new VueRouter({
   mode: 'history'
 })
 
-router.beforeEach((to, from, next) => {
-  const authRequired = to.matched.some(route => route.meta.authRequired);
-  if (!authRequired) return next();
-  // check if current user
+//console logs for debugging
+let debug = (msg) => console.debug(`Router Debug: ${msg}`)
 
+router.beforeEach((to, from, next) => {
+  debug(`Going to ${to.name}, from ${from.name}`)
+  debug(`Logged in state is: ${store.getters["auth/loggedIn"]}`)
+  
+  const authRequired = to.matched.some(route => route.meta.authRequired);
+  debug(`This page needs auth ${authRequired}`)
+  
+  if (!authRequired){
+    // check if current user
+    debug("no login required, pass through")
+    return next();
+  } 
+    
   if (store.getters["auth/loggedIn"]) {
     // maybe do some validation to check token is valid //
-    next()
+    return next()
+  
   }
   
   console.warn("Page restricted, you need to login")
   next({ name: "login", query: { redirectFrom: to.fullPath } });
+
 })
+
 
 
 export default router

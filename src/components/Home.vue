@@ -61,7 +61,6 @@ export default {
 <style lang="scss">
 .test-area {
   background-color: beige;
-  height: 200px;
   width:500px;
   
   span {
