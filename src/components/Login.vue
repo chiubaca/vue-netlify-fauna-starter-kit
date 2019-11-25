@@ -4,8 +4,8 @@
       <form v-if="mode === 'register'" class="register-form stack">
         <h2>👋 Register Here</h2>
         <input type="text" placeholder="name" v-model="crendentials.name" />
-        <input type="password" placeholder="password" v-model="crendentials.password" />
         <input type="text" placeholder="email address" v-model="crendentials.email" />
+        <input type="password" placeholder="password" v-model="crendentials.password" />
         <button @click="signup()">Sign Up</button>
         <p class="message">
           Already registered?
@@ -17,7 +17,7 @@
         <h2>🔐 Login Here</h2>
         <input type="text" placeholder="username" v-model="crendentials.email" />
         <input type="password" placeholder="password" v-model="crendentials.password" />
-        <button @click="attemptLogin">login</button>
+        <button @click="login()">login</button>
         <p class="message">
           Not registered?
           <a @click="toggleMode" href="#">Create an account</a>
@@ -54,18 +54,35 @@ export default {
     },
     signup() {
       this.attemptSignup(this.crendentials)
-        .then(() => {
-          alert("Confirmation email has been sent to you!");
+        .then((response) => {
+          alert(`Confirmation email has been sent to you!
+                 ${response.id}`);
+          console.log(response)
         })
-        .catch(error =>
+        .catch(error =>{
+          alert(`Somethings gone wrong signing up.
+                 Error: ${error}`)
           console.error(error, "Somethings gone wrong signing up")
-        );
+        });
     },
     login() {
-      this.attemptLogin();
+
+      let token = decodeURIComponent(window.location.search)
+        .substring(1)
+        .split("confirmation_token=")[1];
+
+      this.attemptLogin({token , ...this.crendentials})
+        .then((response) => {
+          alert(`You have signed in!
+                 ${response}`);
+        })
+        .catch(error =>{
+          alert(`Somethings gone wrong logging up.
+                 Error: ${error}`)
+          console.error(error, "Somethings gone wrong logging in")
+        });
     }
-  },
-  created() {}
+  }
 };
 </script>
 
