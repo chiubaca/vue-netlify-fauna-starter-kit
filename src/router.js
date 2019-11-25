@@ -8,12 +8,12 @@ import store from './store'
 Vue.use(VueRouter)
 
 const routes = [{
-  path: '/',
+  path: '/home',
   name: 'home',
   component: Home
 },
 {
-  path: '/login',
+  path: '/',
   name: 'login',
   component: Login,
   meta: { guest: true }
