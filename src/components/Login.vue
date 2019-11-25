@@ -67,9 +67,7 @@ export default {
     },
     login() {
 
-      let token = decodeURIComponent(window.location.search)
-        .substring(1)
-        .split("confirmation_token=")[1];
+      let token = decodeURIComponent(window.location.search).substring(1).split("confirmation_token=")[1];
 
       this.attemptLogin({token , ...this.crendentials})
         .then((response) => {
