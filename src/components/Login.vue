@@ -40,7 +40,7 @@ export default {
         email: ""
       },
 
-      mode: "register"
+      mode: "login"
     };
   },
   methods: {
