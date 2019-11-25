@@ -13,13 +13,13 @@ const routes = [{
   component: Home
 },
 {
-  path: '/',
+  path: '/login',
   name: 'login',
   component: Login,
   meta: { guest: true }
 },
 {
-  path: '/restricted',
+  path: '/',
   name: 'restricted',
   component: Restricted,
   meta: { authRequired: true }
