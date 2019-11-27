@@ -1,12 +1,13 @@
 <template>
   <div class="login-page">
     <div class="form">
+      
       <form v-if="mode === 'register'" class="register-form stack">
         <h2>👋 Register Here</h2>
         <input type="text" placeholder="name" v-model="crendentials.name" />
         <input type="text" placeholder="email address" v-model="crendentials.email" />
         <input type="password" placeholder="password" v-model="crendentials.password" />
-        <button @click="signup()">Sign Up</button>
+        <button type="button" @click="signup()">Sign Up</button>
         <p class="message">
           Already registered?
           <a @click="toggleMode" href="#">Sign In</a>
@@ -23,6 +24,7 @@
           <a @click="toggleMode" href="#">Create an account</a>
         </p>
       </form>
+
     </div>
   </div>
 </template>

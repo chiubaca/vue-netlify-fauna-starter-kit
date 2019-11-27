@@ -40,9 +40,11 @@ export default {
     sup() {
       console.log("sup")
     },
+    
     updateTestDataAction({ commit }, value) {
       commit('updateTestData', value)
     },
+    
     attemptLogin({ commit, dispatch }, credentials) {
       console.log(`attempting login for ${credentials.email}`)
 
@@ -65,6 +67,7 @@ export default {
       })
 
     },
+    
     attemptSignup({ dispatch }, credentials) {
       console.log(`attempting signup for ${credentials.email}...`)
       return new Promise((resolve, reject) => {
@@ -82,6 +85,7 @@ export default {
 
 
     },
+    
     attemptConfirmation({ dispatch }, credentials) {
       dispatch("sup")
 
@@ -104,7 +108,24 @@ export default {
             reject(error)
           })
       })
-    }
+    },
 
+    attemptLogout({commit}){
+      
+      commit("SET_CURRENT_USER", null)
+      
+      auth
+        .currentUser()
+        .logout()
+        .then(() => {
+          console.log("User logged out")
+          alert("you have logged out")
+          })
+        .catch(error => {
+          console.warn("could not log out", error)
+          throw error
+        })
+
+    }
   }
 }

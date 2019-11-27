@@ -10,6 +10,9 @@
       <li>
          <router-link :to="{ name: 'restricted' }">Restricted</router-link>
       </li>
+       <li >
+         <button @click="attemptLogout()"> Log Out</button>
+      </li>
 
     </ul>
   
@@ -17,8 +20,15 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
   export default {
-      name: "NavMenu",
+    name: "NavMenu",
+    methods: {
+      ...mapActions("auth", [
+        "attemptLogout"
+        ]),
+    }
+
   }
 </script>
 
