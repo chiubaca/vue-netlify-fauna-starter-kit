@@ -8,7 +8,7 @@
          <router-link :to="{ name: 'login' }">Login</router-link>
       </li>
       <li>
-         <router-link :to="{ name: 'restricted' }">Restricted</router-link>
+         <router-link :to="{ name: 'profile' }">Your Profile</router-link>
       </li>
        <li >
          <button @click="attemptLogout()"> Log Out</button>

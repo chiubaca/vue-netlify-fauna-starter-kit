@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from './components/Home.vue'
 import Login from './components/Login.vue'
-import Restricted from './components/Restricted.vue'
+import Profile from './components/Profile.vue'
 import store from './store'
 
 Vue.use(VueRouter)
@@ -20,8 +20,8 @@ const routes = [{
 },
 {
   path: '/',
-  name: 'restricted',
-  component: Restricted,
+  name: 'profile',
+  component: Profile,
   meta: { authRequired: true }
 }]
 

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>🔒 You should be logged in to see this page 🔒</h2>
+    <h1>Your Profile</h1>
+    <p>🔒 You should be logged in to see this page 🔒</p>
   </div>
 </template>
 
