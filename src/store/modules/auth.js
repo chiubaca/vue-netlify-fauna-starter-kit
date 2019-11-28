@@ -1,7 +1,7 @@
 
 import GoTrue from "gotrue-js";
 
-export const auth = new GoTrue({
+export const Auth = new GoTrue({
   APIUrl: "https://simple-vue-netlify-auth.netlify.com/.netlify/identity",
   audience: "",
   setCookie: false
@@ -12,6 +12,7 @@ let saveState = function (key, state) {
 }
 
 export default {
+  strict: false,
   namespaced: true,
 
   state() {
@@ -24,7 +25,10 @@ export default {
     testData: state => state.testData,
     
     // When currentUser has data loggedIn will return true
-    loggedIn: state => !!state.currentUser 
+    loggedIn: state => !!state.currentUser, 
+
+    currentUser: state => state.currentUser
+  
   },
   mutations: {
     updateTestData(state, value) {
@@ -52,7 +56,7 @@ export default {
 
         dispatch("attemptConfirmation", credentials)
           .then(() => {
-            auth
+            Auth
               .login(credentials.email, credentials.password)
               .then(response => {
                 resolve(response)
@@ -71,7 +75,7 @@ export default {
     attemptSignup({ dispatch }, credentials) {
       console.log(`attempting signup for ${credentials.email}...`)
       return new Promise((resolve, reject) => {
-        auth.signup(credentials.email, credentials.password)
+        Auth.signup(credentials.email, credentials.password)
           .then(response => {
             dispatch("sup")
             console.log(`Confirmation email sent`, response)
@@ -97,7 +101,7 @@ export default {
           return
         }
         
-        auth
+        Auth
           .confirm(credentials.token)
           .then(response => {
             console.log("User has been confirmed")
@@ -114,7 +118,7 @@ export default {
       
       commit("SET_CURRENT_USER", null)
       
-      auth
+      Auth
         .currentUser()
         .logout()
         .then(() => {
@@ -126,6 +130,30 @@ export default {
           throw error
         })
 
+    },
+
+    updateUserMetaData({state, commit}){
+       //TECH DEBT - running this can mutate vuex state directly for some weird reason
+       // consider moving this to a server side function            
+      Auth.currentUser()
+        .update({
+            data: {
+              dbToken: "hihihi",
+              full_name: "Alex Chiu",
+              },
+        })
+        .then((response) => {
+          commit("SET_CURRENT_USER", state.currentUser)
+          console.log("Updated user")
+          console.log(response)
+
+          })
+        .catch(error => {
+          console.log("Failed to update user: %o", error);
+
+          throw error;
+            });
+                            
     }
   }
 }
