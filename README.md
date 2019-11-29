@@ -1,8 +1,8 @@
 # VNF Start Kit
 
-V - Vue.js
-N - Netlify
-F - FaunaDB
+A template to get started with a the VNF stack. 
+
+Vue.js - Netlify - FaunaDB
 
 ## Project setup
 ```
