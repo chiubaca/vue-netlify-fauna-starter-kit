@@ -1,4 +1,8 @@
-# simple-vue-netlify-auth
+# VNF Start Kit
+
+V - Vue.js
+N - Netlify
+F - FaunaDB
 
 ## Project setup
 ```
