@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.3.2",
+    "faunadb": "^2.10.0",
+    "generate-password": "^1.4.2",
     "gotrue-js": "^0.9.25",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",
