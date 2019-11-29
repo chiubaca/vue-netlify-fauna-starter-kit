@@ -1,8 +1,8 @@
-# VNF Start Kit
+# Vue.js - Netlify - FaunaDB Starter Kit
 
-A template to get started with a the VNF stack. 
+A template to get started with a the VNF (Vue.js-Netlify-FaunaDB).
 
-Vue.js - Netlify - FaunaDB
+A versatile stack which uses Vue.js for the front-end, Netlify for APIs via Netlify Functions and FaunaDB as the database. This is an entirely serverless stack which leans heavily on Netlify and Fauna for the backend. At the time of writing this, both services offer extremeley generous free tiers which means anyone can get started and deploy this completely free.  
 
 ## Project setup
 ```
