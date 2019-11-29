@@ -1,5 +1,7 @@
 <template>
   <div class="login-page">
+    <div id="netlify-auth"
+      @click="openNetlifyAuth" > open netlify auth </div>
     <div class="form">
       
       <form v-if="mode === 'register'" class="register-form stack">
@@ -27,10 +29,13 @@
 
     </div>
   </div>
+
+
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import netlifyIdentity from "netlify-identity-widget"
 
 export default {
   name: "Login",
@@ -81,8 +86,37 @@ export default {
                  Error: ${error}`)
           console.error(error, "Somethings gone wrong logging in")
         });
+    },
+
+    openNetlifyAuth(){
+      netlifyIdentity.open();
     }
-  }
+  },
+  mounted () {
+    netlifyIdentity.init({
+      container: '#netlify-auth' // defaults to document.body,
+    });
+
+    netlifyIdentity.on('init', user => {
+      console.log('init', user)
+      });
+    netlifyIdentity.on('login', user => {
+      console.log('login', user)
+        let token = decodeURIComponent(window.location.search).substring(1).split("confirmation_token=")[1];
+
+      this.attemptLogin({token , ...this.crendentials})
+        .then(() => {
+          alert(`You have signed in!`);
+          this.$router.push(this.$route.query.redirect || "/");
+        })
+        .catch(error => {
+          alert(`Somethings gone wrong logging up.
+                 Error: ${error}`)
+          console.error(error, "Somethings gone wrong logging in")
+        });
+      });
+    netlifyIdentity.on('logout', () => console.log('Logged out'));
+  },
 };
 </script>
 
