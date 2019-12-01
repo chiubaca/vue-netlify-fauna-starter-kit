@@ -8,6 +8,13 @@ export default function () {
     .substring(1)
     .split("confirmation_token=")[1];
 
+  // This is how you can manually check for a JWT token,
+  // It possible to deserialise this and use the data see- https://jwt.io/
+  // let jwt = decodeURIComponent(window.location.search)
+  //   .substring(1)
+  //   .split("access_token=")[1]
+  //   .split("&")[0]
+
   // only authorise if a token is available
   if (token) {
     console.log("got a token: ", token)
@@ -23,6 +30,8 @@ export default function () {
       });
     return
   }
+
+
 
   console.log("not a new user")
 
