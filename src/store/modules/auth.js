@@ -1,13 +1,13 @@
 
-import GoTrue from "gotrue-js";
+// import GoTrue from "gotrue-js";
 
 import netlifyIdentity from "netlify-identity-widget"
 
-export const Auth = new GoTrue({
-  APIUrl: "https://simple-vue-netlify-auth.netlify.com/.netlify/identity",
-  audience: "",
-  setCookie: false
-});
+// export const Auth = new GoTrue({
+//   APIUrl: "https://simple-vue-netlify-auth.netlify.com/.netlify/identity",
+//   audience: "",
+//   setCookie: false
+// });
 
 let saveState = function (key, state) {
   window.localStorage.setItem(key, JSON.stringify(state));
@@ -51,83 +51,21 @@ export default {
       commit('updateTestData', value)
     },
     
-    attemptLogin({ commit, dispatch }, credentials) {
-      console.log(`attempting login for ${credentials.email}`)
-
-      return new Promise((resolve, reject) => {
-
-        dispatch("attemptConfirmation", credentials)
-          .then(() => {
-            Auth
-              .login(credentials.email, credentials.password)
-              .then(response => {
-                resolve(response)
-                commit("SET_CURRENT_USER", response)
-              })
-              .catch(error => {
-                console.log("An error occurred trying to signup", error)
-                reject(error)
-              })
-          })
-
-      })
-
-    },
-    
-    attemptSignup({ dispatch }, credentials) {
-      console.log(`attempting signup for ${credentials.email}...`)
-      return new Promise((resolve, reject) => {
-        Auth.signup(credentials.email, credentials.password)
-          .then(response => {
-            dispatch("sup")
-            console.log(`Confirmation email sent`, response)
-            resolve(response)
-          })
-          .catch(error => {
-            console.log("An error occurred trying to signup", error)
-            reject(error)
-          })
-      })
-
-
-    },
-    
-    attemptConfirmation({ dispatch }, token) {
-      dispatch("sup")
-      console.log("what is credential.token " , token)
-      return new Promise((resolve, reject) => {
-     
-        Auth
-          .confirm(token)
-          .then(response => {
-            console.log("Auth Module: User has been confirmed")
-            resolve(response)
-          })
-          .catch(error => {
-            console.log("An error occurred trying to confirm the user", error)
-            reject(error)
-          })
-      })
-    },
 
     attemptLogout({commit}){
-      
       commit("SET_CURRENT_USER", null)
-      
       netlifyIdentity.logout();
-
       alert("You've logged out")
 
     },
-
-    updateUserMetaData({state, commit}){
+   
+   updateUserMetaData({state, commit}){
        //TECH DEBT - running this can mutate vuex state directly for some weird reason
        // consider moving this to a server side function            
-      Auth.currentUser()
+      netlifyIdentity.gotrue.currentUser()
         .update({
             data: {
-              dbToken: "hihihi",
-              full_name: "Alex Chiu",
+              randomData: "hihihi",
               },
         })
         .then((response) => {
