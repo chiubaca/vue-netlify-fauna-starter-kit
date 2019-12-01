@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from './components/Home.vue'
-import Login from './components/Login.vue'
+// import Login from './components/Login.vue'
 import Profile from './components/Profile.vue'
 import store from './store'
 
@@ -12,12 +12,12 @@ const routes = [{
   name: 'home',
   component: Home
 },
-{
-  path: '/login',
-  name: 'login',
-  component: Login,
-  meta: { guest: true }
-},
+// {
+//   path: '/login',
+//   name: 'login',
+//   component: Login,
+//   meta: { guest: true }
+// },
 {
   path: '/',
   name: 'profile',
@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
   }
   
   console.warn("Page restricted, you need to login")
-  next({ name: "login", query: { redirectFrom: to.fullPath } });
+  next({ name: "home", query: { redirectFrom: to.fullPath } });
 
 })
 

@@ -1,6 +1,8 @@
 
 import GoTrue from "gotrue-js";
 
+import netlifyIdentity from "netlify-identity-widget"
+
 export const Auth = new GoTrue({
   APIUrl: "https://simple-vue-netlify-auth.netlify.com/.netlify/identity",
   audience: "",
@@ -118,17 +120,9 @@ export default {
       
       commit("SET_CURRENT_USER", null)
       
-      Auth
-        .currentUser()
-        .logout()
-        .then(() => {
-          console.log("User logged out")
-          alert("you have logged out")
-          })
-        .catch(error => {
-          console.warn("could not log out", error)
-          throw error
-        })
+      netlifyIdentity.logout();
+
+      alert("You've logged out")
 
     },
 

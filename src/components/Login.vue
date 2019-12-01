@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import netlifyIdentity from "netlify-identity-widget"
 
 export default {
@@ -51,7 +51,8 @@ export default {
     };
   },
   methods: {
-    ...mapActions("auth", ["attemptLogin", "attemptSignup"]),
+    ...mapActions("auth", ["attemptLogin", "attemptSignup", "attemptConfirmation"]),
+    ...mapMutations("auth", ["SET_CURRENT_USER"]),
     toggleMode() {
       if (this.mode === "register") {
         this.mode = "login";
@@ -99,23 +100,22 @@ export default {
 
     netlifyIdentity.on('init', user => {
       console.log('init', user)
+      
       });
     netlifyIdentity.on('login', user => {
       console.log('login', user)
-        let token = decodeURIComponent(window.location.search).substring(1).split("confirmation_token=")[1];
-
-      this.attemptLogin({token , ...this.crendentials})
-        .then(() => {
-          alert(`You have signed in!`);
-          this.$router.push(this.$route.query.redirect || "/");
-        })
-        .catch(error => {
-          alert(`Somethings gone wrong logging up.
-                 Error: ${error}`)
-          console.error(error, "Somethings gone wrong logging in")
-        });
+      this.SET_CURRENT_USER(user)
+      this.$router.push(this.$route.query.redirect || "/");
+        
       });
     netlifyIdentity.on('logout', () => console.log('Logged out'));
+
+    netlifyIdentity.on('open', () => {
+      console.log('Widget opened')
+      
+      });
+
+        
   },
 };
 </script>
