@@ -1,13 +1,6 @@
 
-// import GoTrue from "gotrue-js";
 
 import netlifyIdentity from "netlify-identity-widget"
-
-// export const Auth = new GoTrue({
-//   APIUrl: "https://simple-vue-netlify-auth.netlify.com/.netlify/identity",
-//   audience: "",
-//   setCookie: false
-// });
 
 let saveState = function (key, state) {
   window.localStorage.setItem(key, JSON.stringify(state));
