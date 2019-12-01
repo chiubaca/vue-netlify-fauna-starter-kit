@@ -1,0 +1,3 @@
+# Netlify settings for single-page application
+# https://stackoverflow.com/questions/56414707/vue-router-with-parameter-cant-run-deploy-on-netlify
+/*    /index.html   200

@@ -92,21 +92,15 @@ export default {
 
     },
     
-    attemptConfirmation({ dispatch }, credentials) {
+    attemptConfirmation({ dispatch }, token) {
       dispatch("sup")
-
+      console.log("what is credential.token " , token)
       return new Promise((resolve, reject) => {
-        
-        //check if there is a redirect token
-        if(!credentials.token){
-          resolve();
-          return
-        }
-        
+     
         Auth
-          .confirm(credentials.token)
+          .confirm(token)
           .then(response => {
-            console.log("User has been confirmed")
+            console.log("Auth Module: User has been confirmed")
             resolve(response)
           })
           .catch(error => {

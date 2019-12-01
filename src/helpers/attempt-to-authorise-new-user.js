@@ -10,6 +10,7 @@ export default function () {
 
   // only authorise if a token is available
   if (token) {
+    console.log("got a token: ", token)
     store.dispatch("auth/attemptConfirmation", token)
       .then((resp) => {
         alert(`Your account has been confirmed, please login`);
