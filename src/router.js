@@ -8,7 +8,7 @@ import store from './store'
 Vue.use(VueRouter)
 
 const routes = [{
-  path: '/home',
+  path: '/',
   name: 'home',
   component: Home
 },
@@ -19,7 +19,7 @@ const routes = [{
 //   meta: { guest: true }
 // },
 {
-  path: '/',
+  path: '/profile',
   name: 'profile',
   component: Profile,
   meta: { authRequired: true }

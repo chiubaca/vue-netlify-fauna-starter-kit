@@ -26,9 +26,7 @@ export default {
   
   },
   mutations: {
-    updateTestData(state, value) {
-      state.testData = value
-    },
+
     SET_CURRENT_USER(state, value) {
       state.currentUser = value;
       saveState("auth.currentUser", value)
@@ -39,11 +37,6 @@ export default {
     sup() {
       console.log("sup")
     },
-    
-    updateTestDataAction({ commit }, value) {
-      commit('updateTestData', value)
-    },
-    
 
     attemptLogout({commit}){
       commit("SET_CURRENT_USER", null)
