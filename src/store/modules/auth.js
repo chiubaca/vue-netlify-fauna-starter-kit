@@ -27,7 +27,9 @@ export default {
     // When currentUser has data loggedIn will return true
     loggedIn: state => !!state.currentUser, 
 
-    currentUser: state => state.currentUser
+    currentUser: state => state.currentUser,
+
+    authToken: () => "authToken placeholder"
   
   },
   mutations: {
@@ -49,33 +51,51 @@ export default {
       commit('updateTestData', value)
     },
     
-    attemptLogin({ commit, dispatch }, credentials) {
+    attemptLogin({ commit }, credentials) {
       console.log(`attempting login for ${credentials.email}`)
 
       return new Promise((resolve, reject) => {
 
-        dispatch("attemptConfirmation", credentials)
-          .then(() => {
-            Auth
-              .login(credentials.email, credentials.password)
-              .then(response => {
-                resolve(response)
-                commit("SET_CURRENT_USER", response)
-              })
-              .catch(error => {
-                console.log("An error occurred trying to signup", error)
-                reject(error)
-              })
+        Auth
+          .login(credentials.email, credentials.password)
+          .then(response => {
+            resolve(response)
+            commit("SET_CURRENT_USER", response)
           })
-
+          .catch(error => {
+            console.log("An error occurred trying to signup", error)
+            reject(error)
+          })
+         
       })
 
     },
+
+    attemptExternalLogin(){
+      console.log("login with external")
+      console.log( Auth.loginExternalUrl("Google"))
+      window.location.href = Auth.loginExternalUrl("Google");
+
+    },
+
+    completeExternalLogin({commit}, params){
+      console.log("completing external login, using params" , params)
+      Auth.createUser(params)
+        .then(user =>{
+          console.log("completed external login" , user)
+          commit("SET_CURRENT_USER", user)
+
+        })
+        .catch(err => {
+          console.log("problem with external login" , err)
+        })
+       
+    },
     
     attemptSignup({ dispatch }, credentials) {
-      console.log(`attempting signup for ${credentials.email}...`)
+      console.log(`attempting signup for ${credentials.email}...`, credentials)
       return new Promise((resolve, reject) => {
-        Auth.signup(credentials.email, credentials.password)
+        Auth.signup(credentials.email, credentials.password, { full_name: credentials.name })
           .then(response => {
             dispatch("sup")
             console.log(`Confirmation email sent`, response)
@@ -90,19 +110,13 @@ export default {
 
     },
     
-    attemptConfirmation({ dispatch }, credentials) {
+    attemptConfirmation({ dispatch }, token) {
       dispatch("sup")
-
+      console.log("trying to verify token in vuex" , token)
       return new Promise((resolve, reject) => {
         
-        //check if there is a redirect token
-        if(!credentials.token){
-          resolve();
-          return
-        }
-        
         Auth
-          .confirm(credentials.token)
+          .confirm(token)
           .then(response => {
             console.log("User has been confirmed")
             resolve(response)

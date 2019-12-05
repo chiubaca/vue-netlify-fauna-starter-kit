@@ -19,6 +19,7 @@
         <input type="text" placeholder="username" v-model="crendentials.email" />
         <input type="password" placeholder="password" v-model="crendentials.password" />
         <button type="button" @click="login()">login</button>
+        <div @click="loginExternal()"> Sign in with Google </div>
         <p class="message">
           Not registered?
           <a @click="toggleMode" href="#">Create an account</a>
@@ -46,7 +47,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("auth", ["attemptLogin", "attemptSignup"]),
+    ...mapActions("auth", ["attemptLogin", "attemptSignup", "attemptExternalLogin"]),
     toggleMode() {
       if (this.mode === "register") {
         this.mode = "login";
@@ -81,6 +82,9 @@ export default {
                  Error: ${error}`)
           console.error(error, "Somethings gone wrong logging in")
         });
+    },
+    loginExternal(){
+      this.attemptExternalLogin()
     }
   }
 };

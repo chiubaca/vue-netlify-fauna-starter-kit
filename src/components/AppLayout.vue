@@ -6,6 +6,7 @@
     </header>
 
     <NavMenu />
+    <DevPanel />
     
     <router-view />
   </div>
@@ -13,10 +14,12 @@
 
 <script>
 import NavMenu from "./NavMenu.vue";
+import DevPanel from "./DevPanel.vue"
 
 export default {
   components: {
-    NavMenu
+    NavMenu,
+    DevPanel
   }
 };
 </script>

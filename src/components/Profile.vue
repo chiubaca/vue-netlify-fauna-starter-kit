@@ -2,7 +2,7 @@
   <div>
     <h1>Your Profile</h1>
     <p>🔒 You should be logged in to see this page 🔒</p>
-    {{currentUser}}
+
     
     <button @click="updateUserMetaData">
       Update user meta data
@@ -12,13 +12,9 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from "vuex"
+  import {mapActions} from "vuex"
   export default {
-    computed: {
-      ...mapGetters("auth",[
-        "currentUser"
-      ]) 
-    },
+
     methods: {
       ...mapActions("auth",[
         "updateUserMetaData"
