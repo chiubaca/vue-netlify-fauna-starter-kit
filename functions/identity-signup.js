@@ -22,7 +22,7 @@ function createUser(userData, password) {
 }
 
 function obtainToken(user, password) {
-  console.log("creating FaunaDB token for " + user)
+  console.log("creating FaunaDB token")
   return client.query(
     q.Login(q.Select("ref", user), { password }))
 }
@@ -39,9 +39,11 @@ function handler(event, context, callback) {
   createUser(userData, password)
     .then((user) => obtainToken(user, password))
     .then((key) => callback(null, {
-      statusCode: 200,
+      // the if return status is 200 or 204 the function will get blocked
+      statusCode: 200, 
       body: JSON.stringify({
         app_metadata: {
+          //the return body will update the netlify user  
           faunadb_token : key.secret
           // we discard the credential, and can create a new one if we ever need a new token
           // faunadb_credential : password
