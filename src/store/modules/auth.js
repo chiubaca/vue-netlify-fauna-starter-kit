@@ -11,6 +11,34 @@ let saveState = function (key, state) {
   window.localStorage.setItem(key, JSON.stringify(state));
 }
 
+//hacking around - call a new signup Netlify function after
+//external login completes
+let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
+  let userObject =  { 
+        user:{
+          id: userID,
+          user_metadata: userMetaDataObject
+      }
+     };
+
+  let data = JSON.stringify(userObject);
+  
+  // Must provide the user JWT here otherwise we cant update the Netlify user
+  // app_metadata properties which is required for storing the users DB token
+  fetch("https://simple-vue-netlify-auth.netlify.com/.netlify/functions/identity-external-signup",
+        {
+          method: "POST",
+          body: data,
+           headers: {
+            "cache-control": "no-cache",
+            Authorization: "Bearer " + JWT,
+           },
+        }
+      )
+      .then((res) => {console.log("invoked signup function direclty", res)})
+      .catch(err => {console.error("error invoking signup function directly", err)})
+}
+
 export default {
   strict: false,
   namespaced: true,
@@ -79,13 +107,19 @@ export default {
     },
 
     completeExternalLogin({commit}, params){
-      console.log("completing external login, using params" , params)
+      console.log("JWT token" , params.access_token)
+      
       Auth.createUser(params)
         .then(user =>{
-          console.log("completed external login" , user)
+          console.log("completed external login, user object: " , user)
+          console.log("user id ",user.id)
+          console.log("user meta ", user.user_metadata)
+          console.log("JWT  ", params.access_token)
+          invokeSignupFunction(user.id ,user.user_metadata,params.access_token)
           commit("SET_CURRENT_USER", user)
 
         })
+        .then(user => {console.log("finally so somthing with the user object here...", user)})
         .catch(err => {
           console.log("problem with external login" , err)
         })
@@ -152,9 +186,10 @@ export default {
       Auth.currentUser()
         .update({
             data: {
-              dbToken: "hihihi",
-              full_name: "Alex Chiu",
-              },
+              app_metadata:{
+                dbToken: "hihihi",
+              }
+            },
         })
         .then((response) => {
           commit("SET_CURRENT_USER", state.currentUser)
@@ -168,6 +203,12 @@ export default {
           throw error;
             });
                             
+    },
+
+    getUserJWTToken(){
+      Auth.currentUser().jwt().then((token) => {
+        console.log("got user token: ",token)
+      })
     }
   }
 }
