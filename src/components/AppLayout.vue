@@ -6,9 +6,10 @@
     </header>
 
     <NavMenu />
-    <DevPanel />
     
     <router-view />
+    
+    <DevPanel />
   </div>
 </template>
 
