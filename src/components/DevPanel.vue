@@ -4,15 +4,13 @@
       Dev Panel test
       <h2>User Data Getters</h2>
       
-      goTrue Logged in : {{netlifyUserLoggedIn}}
-       <br/>
-      Current_UserID : {{currentUser.id}}
-       <br/>
-      Current_Email : {{currentUser.email}}
-       <br/>
-      app_metadata : {{currentUser.app_metadata}}
-      
-      <br/>
+      <ul>
+        <li>goTrue Logged in : {{netlifyUserLoggedIn}}</li>
+        <li> Current_UserID : {{currentUser.id}}  </li>
+        <li> Current_Email : {{currentUser.email}} </li>
+        <li> app_metadata : {{currentUser.app_metadata}} </li>
+        <li> netlify JWT : {{currentUser.token.access_token}} </li>
+      </ul>
       
       <button @click="updateUserMetaData">Update user meta data</button>
       <button @click="triggerNetlifyFunction">trigger netlify signup function</button>
