@@ -108,13 +108,12 @@ function handler(event, context, callback) {
     createUser(userData, password)
       .then((user) => obtainToken(user, password))
       .then((key) => updateNetlifyUser(key, usersUrl, adminAuthHeader))
-      .then((results) => {console.log("results of process", results)})
-      .catch((e) => {
-        console.error(e)
+      .catch((error) => {
+        console.error("Unable to create a user account",error)
         callback(null, {
           statusCode: 500,
           body: JSON.stringify({
-            error: e
+            error: error
           })
         })
       })

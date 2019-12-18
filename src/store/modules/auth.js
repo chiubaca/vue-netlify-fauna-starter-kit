@@ -14,29 +14,36 @@ let saveState = function (key, state) {
 //hacking around - call a new signup Netlify function after
 //external login completes
 let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
-  let userObject =  { 
-        user:{
-          id: userID,
-          user_metadata: userMetaDataObject
-      }
-     };
 
-  let data = JSON.stringify(userObject);
-  
-  // Must provide the user JWT here otherwise we cant update the Netlify user
-  // app_metadata properties which is required for storing the users DB token
-  fetch("https://simple-vue-netlify-auth.netlify.com/.netlify/functions/identity-external-signup",
-        {
-          method: "POST",
-          body: data,
-           headers: {
-            "cache-control": "no-cache",
-            Authorization: "Bearer " + JWT,
-           },
+  return new Promise((resolve, reject) => {
+    console.log("invoking external signup function")
+    let userObject =  { 
+          user:{
+            id: userID,
+            user_metadata: userMetaDataObject
         }
-      )
-      .then((res) => {console.log("invoked signup function direclty", res)})
-      .catch(err => {console.error("error invoking signup function directly", err)})
+      };
+
+    let data = JSON.stringify(userObject);
+    
+    // Must provide the user JWT here otherwise we cant update the Netlify user
+    // app_metadata properties which is required for storing the users DB token
+    fetch("https://simple-vue-netlify-auth.netlify.com/.netlify/functions/identity-external-signup",
+          {
+            method: "POST",
+            body: data,
+            headers: {
+              "cache-control": "no-cache",
+              Authorization: "Bearer " + JWT,
+            },
+          }
+         )
+         .then((resp)=>{
+           console.log("external-signup function was called sucessfully")
+           resolve(resp)
+         })
+         .catch(error => {reject("error invoking signup function directly", error)}  )
+  })      
 }
 
 export default {
@@ -50,14 +57,16 @@ export default {
     }
   },
   getters: {
-    testData: state => state.testData,
     
     // When currentUser has data loggedIn will return true
     loggedIn: state => !!state.currentUser, 
 
     currentUser: state => state.currentUser,
 
-    authToken: () => "authToken placeholder"
+    netlifyUserLoggedIn: () => !!Auth.currentUser(),
+
+    currentNetlifyUser:() => Auth.currentUser()
+  
   
   },
   mutations: {
@@ -115,14 +124,17 @@ export default {
           console.log("user id ",user.id)
           console.log("user meta ", user.user_metadata)
           console.log("JWT  ", params.access_token)
-          invokeSignupFunction(user.id ,user.user_metadata,params.access_token)
-          commit("SET_CURRENT_USER", user)
 
+          invokeSignupFunction(user.id ,user.user_metadata,params.access_token)
+            .then((resp) => {
+              console.log("response back", resp)
+              console.log("seeting current user to state, ", Auth.currentUser())
+              commit("SET_CURRENT_USER", Auth.currentUser())
+            })
+            .catch(error => {console.error("problem with external signup function" , error)})
+            
         })
-        .then(user => {console.log("finally so somthing with the user object here...", user)})
-        .catch(err => {
-          console.log("problem with external login" , err)
-        })
+        .catch(error => {console.error("problem with external login" , error)})
        
     },
     
@@ -205,10 +217,23 @@ export default {
                             
     },
 
-    getUserJWTToken(){
+    getUserJWTToken({getters}){
+      console.log(getters.currentNetlifyUser)
+      if(!getters.currentNetlifyUser){
+        alert("Please sign in again")
+        console.warn("User needs to sign in again")
+        return
+      }
+
       Auth.currentUser().jwt().then((token) => {
         console.log("got user token: ",token)
       })
+    
+    },
+
+    getCurrentUser(){
+      console.log("User Object",Auth.currentUser())
     }
+
   }
 }
