@@ -9,6 +9,7 @@
         <li> Current_UserID : {{currentUser.id}}  </li>
         <li> Current_Email : {{currentUser.email}} </li>
         <li> app_metadata : {{currentUser.app_metadata}} </li>
+        <li> user_metadata : {{currentUser.user_metadata}} </li>
         <li> netlify JWT : {{currentUser.token.access_token}} </li>
       </ul>
       
