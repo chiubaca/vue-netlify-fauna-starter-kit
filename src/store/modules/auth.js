@@ -125,11 +125,13 @@ export default {
           console.log("user meta ", user.user_metadata)
           console.log("JWT  ", params.access_token)
 
+          //TODO: do these then blocks need to be nested like this?
           invokeSignupFunction(user.id ,user.user_metadata,params.access_token)
-            .then((resp) => {
+            .then((resp) => resp.json())
+            .then(resp => {
               console.log("response back", resp)
-              console.log("seeting current user to state, ", Auth.currentUser())
-              commit("SET_CURRENT_USER", Auth.currentUser())
+              console.log("seeting current user to state, ", resp.data)
+              commit("SET_CURRENT_USER", resp.data)
             })
             .catch(error => {console.error("problem with external signup function" , error)})
             

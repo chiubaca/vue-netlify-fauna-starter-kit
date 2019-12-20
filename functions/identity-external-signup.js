@@ -105,6 +105,10 @@ function handler(event, context, callback) {
   
     console.log("admin url check", usersUrl)
 
+
+    //TODO - check if user already exists in db
+    // if so send the current netlify user object 
+
     const password = generator.generate({
     length: 10,
     numbers: true
