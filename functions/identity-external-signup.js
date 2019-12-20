@@ -46,6 +46,17 @@ function obtainToken(user, password) {
     q.Login(q.Select("ref", user), { password }))
 }
 
+/**
+ * Update the app_metadata for a netlfy user to include add the faunaDB token
+ * TODO: This could be a much more generic function to allow for any arbitary
+ *       data to be written to user account. Current it is very tightly coupled
+ *       to the obtainToken meth
+ * 
+ * @param {object} key - object from obtain token
+ * @param {string} usersUrl -  url of  eg "<SITE.com>/.netlify/identity/admin/users/123-abc-456"
+ * @param {string} adminAuthHeader - bearer along with JWT to be passed into the 
+ *                                   header of the PUT request
+ */
 function updateNetlifyUser (key, usersUrl, adminAuthHeader){
 
   try {
@@ -55,30 +66,28 @@ function updateNetlifyUser (key, usersUrl, adminAuthHeader){
       body: JSON.stringify({
         app_metadata: {
           faunadb_token : key.secret
-        } })
-    })
-      .then(response => {
-        return response.json();
+          } 
+        })
       })
+      .then(response => response.json())
       .then(data => {
-        console.log("Updated the user");
-        console.log(JSON.stringify({ data }));
-        return { statusCode: 204 };
+        console.log("Updated the user", data.id );
+        return { data };
       })
       .catch(e => { console.error("error authorising user",e) });
-  } catch (e) {
+  } 
+  catch (e) {
       console.error("error trying to update netlify user", e)
       return e;
   }
-
 }
 
 function handler(event, context, callback) {
 
 // the context of the netlify function  needs to be set to idenity
 // is set when calling this function with
-// 
- const { identity, user } = context.clientContext;
+
+  const { identity, user } = context.clientContext;
 
   //block if user hits endpoint direclty
   if (!user) {
@@ -92,24 +101,29 @@ function handler(event, context, callback) {
     let payload = JSON.parse(event.body);
     let userData = payload.user;
     const usersUrl = `${identity.url}/admin/users/${userData.id}`;
-    const adminAuthHeader = "Bearer " + identity.token;
+    const adminAuthHeader = `Bearer ${identity.token}`;
   
-    console.log("user data", userData)
-    console.log("user context check" , user.app_metadata.faunadb_token )
     console.log("admin url check", usersUrl)
 
-      const password = generator.generate({
-      length: 10,
-      numbers: true
-     });
+    const password = generator.generate({
+    length: 10,
+    numbers: true
+    });
   
-    console.log("function invoked directly, creating user in DB")
+    console.log("Creating user in DB via external signup")
 
     createUser(userData, password)
       .then((user) => obtainToken(user, password))
       .then((key) => updateNetlifyUser(key, usersUrl, adminAuthHeader))
+      .then((resp) => {
+        console.log("Received response: ", resp)
+        callback(null, {
+          statusCode: 200, 
+          body: JSON.stringify(resp)
+        })
+      })
       .catch((error) => {
-        console.error("Unable to create a user account",error)
+        console.error("Unable to create a user account", error)
         callback(null, {
           statusCode: 500,
           body: JSON.stringify({
@@ -119,13 +133,14 @@ function handler(event, context, callback) {
       })
   }
   catch(error) {
+    let errorMessage = "Cant process the given payload"
     callback(null, {
         statusCode: 418,
-        body: "Cant process the given payload"
+        body: errorMessage
       });
-    console.error("Cant process the given payload" , error)
+    console.error(errorMessage , error)
     return
   }
-    
 }
+
 module.exports = {handler: handler};
