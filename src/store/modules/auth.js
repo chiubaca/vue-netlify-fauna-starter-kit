@@ -130,8 +130,8 @@ export default {
             .then((resp) => resp.json())
             .then(resp => {
               console.log("response back", resp)
-              console.log("seeting current user to state, ", resp.data)
-              commit("SET_CURRENT_USER", resp.data)
+              console.log("seeting current user to state, ", resp)
+              commit("SET_CURRENT_USER", resp)
             })
             .catch(error => {console.error("problem with external signup function" , error)})
             
