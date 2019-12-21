@@ -82,14 +82,37 @@ function updateNetlifyUser (key, usersUrl, adminAuthHeader){
   }
 }
 
-function handler(event, context, callback) {
+function checkNetlifyUserHasDbToken (usersUrl, adminAuthHeader){
+  console.log("Checking Netlify user account....")
+  return new Promise((resolve, reject)=>{
+    fetch(usersUrl, {
+    method: "GET",
+    headers: { Authorization: adminAuthHeader },
+    })
+    .then(response => response.json())
+    .then(data => {
+      let dbToken = data.app_metadata.faunadb_token
+      console.log("Does user have DB token?", dbToken);
+      if(!!dbToken === true){
+        resolve(data) 
+      }
+      else if(!!dbToken === false){
+        resolve(false) 
+      }
+    })
+    .catch(e => { 
+      console.error("error authorising user",e) 
+      reject(e)
+      });
 
-// the context of the netlify function  needs to be set to idenity
-// is set when calling this function with
+  })
+} 
+
+function handler(event, context, callback) {
 
   const { identity, user } = context.clientContext;
 
-  //block if user hits endpoint direclty
+  //Guard if user hits this function URL direclty
   if (!user) {
       return callback(null, {
       statusCode: 401,
@@ -97,6 +120,8 @@ function handler(event, context, callback) {
       });
   }
 
+  // Try-block required as we cant guarantee the event.body can parse correctly
+  // if it fails it results in a runtime error.
   try {
     let payload = JSON.parse(event.body);
     let userData = payload.user;
@@ -104,39 +129,50 @@ function handler(event, context, callback) {
     const adminAuthHeader = `Bearer ${identity.token}`;
   
     console.log("admin url check", usersUrl)
+    console.log("bearer token check", adminAuthHeader)
 
-
-    //TODO - check if user already exists in db
-    // if so send the current netlify user object 
-
-    const password = generator.generate({
-    length: 10,
-    numbers: true
-    });
-  
-    console.log("Creating user in DB via external signup")
-
-    createUser(userData, password)
-      .then((user) => obtainToken(user, password))
-      .then((key) => updateNetlifyUser(key, usersUrl, adminAuthHeader))
-      .then((resp) => {
-        console.log("Received response: ", resp)
+    checkNetlifyUserHasDbToken(usersUrl, adminAuthHeader)
+    .then((resp) => {
+      if(!!resp === true){
+        //send the callback and end the process 
+        console.log("User has DB token present, ending process")
         callback(null, {
           statusCode: 200, 
           body: JSON.stringify(resp)
         })
-      })
-      .catch((error) => {
-        console.error("Unable to create a user account", error)
-        callback(null, {
-          statusCode: 500,
-          body: JSON.stringify({
-            error: error
+        return
+      } else {
+        // As no DB token is present, we can gurantee this is brand new signup
+        // therefor go ahead and create the new user in the DB
+        console.log("New user, creating user in DB via external signup")
+        
+        const password = generator.generate({
+        length: 10,
+        numbers: true
+        });
+  
+        createUser(userData, password)
+          .then((user) => obtainToken(user, password))
+          .then((key) => updateNetlifyUser(key, usersUrl, adminAuthHeader))
+          .then((resp) => {
+            console.log("Received response: ", !!resp)
+            callback(null, {
+              statusCode: 200, 
+              body: JSON.stringify(resp.data)
+            })
           })
-        })
-      })
-  }
-  catch(error) {
+          .catch((error) => {
+            console.error("Unable to create a user account", error)
+            callback(null, {
+              statusCode: 500,
+              body: JSON.stringify({
+                error: error
+              })
+            })
+          })
+      }
+    })
+  } catch(error) {
     let errorMessage = "Cant process the given payload"
     callback(null, {
         statusCode: 418,
