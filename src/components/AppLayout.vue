@@ -2,7 +2,7 @@
   <div class="app-layout">
     
     <header>
-      <h1> My Simple App With Netlify Authentication</h1>
+      <h1> REFACTOR: My Simple App With Netlify Authentication</h1>
     </header>
 
     <NavMenu />
