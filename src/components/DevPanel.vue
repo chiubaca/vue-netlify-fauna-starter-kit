@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="dev-panel">
-      Dev Panel test
-      <h2>User Data Getters</h2>
+     
+      <h2>Dev Panel</h2>
       
       <ul>
         <li>goTrue Logged in : {{netlifyUserLoggedIn}}</li>
