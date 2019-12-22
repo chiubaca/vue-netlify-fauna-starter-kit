@@ -55,28 +55,22 @@ function obtainToken(user, password) {
  * @param {string} adminAuthHeader - authorisation JWT
  */
 function updateNetlifyUser (key, usersUrl, JWT){
-
-  try {
-    return fetch(usersUrl, {
-      method: "PUT",
-      headers: { Authorization: `Bearer ${JWT}` },
-      body: JSON.stringify({
+  
+  return fetch(usersUrl, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${JWT}` },
+    body: JSON.stringify({
         app_metadata: {
           faunadb_token : key.secret
-          } 
-        })
+        } 
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Updated the user", data.id );
-        return data ;
-      })
-      .catch(e => { console.error("error authorising user", e) });
-  } 
-  catch (e) {
-      console.error("error trying to update netlify user", e)
-      return e;
-  }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Updated the user", data.id );
+      return data ;
+    })
+    .catch(e => { console.error("error authorising user", e) });
 }
 
 function handler(event, context, callback) {
@@ -106,9 +100,7 @@ function handler(event, context, callback) {
   console.log("admin url check", usersUrl)
   console.log("bearer token check", JWT)
   console.log("New user, creating user in DB via external signup")
-  console.log(userObject)
-  
-  
+
   createDbUser(userObject, password)
     .then((user) => obtainToken(user, password))
     .then((key) => updateNetlifyUser(key, usersUrl, JWT))
