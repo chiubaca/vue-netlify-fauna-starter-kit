@@ -47,7 +47,7 @@ export default function () {
 
     store.dispatch("auth/completeExternalLogin", params)
     .then(() => {
-        alert(`You have successfully signed in via external provider,`);
+        alert("You have successfully signed in via external provider");
       })
       .catch(error => {
         alert(`Can't Authorise your account right now, try again`)

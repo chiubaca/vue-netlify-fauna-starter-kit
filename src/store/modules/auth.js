@@ -13,6 +13,12 @@ let saveState = function (key, state) {
 
 //hacking around - call a new signup Netlify function after
 //external login completes
+/**
+ * 
+ * @param {*} userID 
+ * @param {*} userMetaDataObject 
+ * @param {*} JWT 
+ */
 let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
 
   return new Promise((resolve, reject) => {
@@ -38,9 +44,10 @@ let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
             },
           }
          )
-         .then((resp)=>{
-           console.log("external-signup function was called sucessfully")
-           resolve(resp)
+         .then((resp) => resp.json())
+         .then((data)=>{
+           console.log("external-signup function was called sucessfully, resolving with data", data)
+           resolve(data)
          })
          .catch(error => {reject("error invoking signup function directly", error)}  )
   })      
@@ -115,29 +122,42 @@ export default {
 
     },
 
+    // This currently getting called in src\helpers\authorise-tokens.js
     completeExternalLogin({commit}, params){
-      console.log("JWT token" , params.access_token)
+      return new Promise((resolve, reject)=>{
+        console.log("JWT token" , params.access_token)
       
-      Auth.createUser(params)
-        .then(user =>{
-          console.log("completed external login, user object: " , user)
-          console.log("user id ",user.id)
-          console.log("user meta ", user.user_metadata)
-          console.log("JWT  ", params.access_token)
+        // If a user already exists, this will return the existing user and not
+        // create a new one
+        Auth.createUser(params)
+          .then((user) => {
+            console.log("completed external login, user object: " , user)
+            console.log("user id ",user.id) // eg 5549d142-2059-4902-8ab6-22cd0e0be1bd
+            console.log("user meta ", user.user_metadata)
+            console.log("JWT  ", params.access_token)
 
-          //TODO: do these then blocks need to be nested like this?
-          invokeSignupFunction(user.id ,user.user_metadata,params.access_token)
-            .then((resp) => resp.json())
-            .then(resp => {
-              console.log("response back", resp)
-              console.log("seeting current user to state, ", resp)
-              commit("SET_CURRENT_USER", resp)
-            })
-            .catch(error => {console.error("problem with external signup function" , error)})
-            
+            // TODO : if db token is present here, theres no need to call the external
+            // signup
+            if(user.app_metadata.faunadb_token){
+              console.log("no need to call external signup got db token, ", user)
+              commit("SET_CURRENT_USER", user)
+              resolve("sign in successfully")
+              return
+            }
+
+            invokeSignupFunction(user.id , user.user_metadata,params.access_token)
+              .then(resp => {
+                console.log("setting current user to state, ", resp)
+                commit("SET_CURRENT_USER", resp)
+                resolve("sign in successfully")
+              })
+              .catch(error => {
+                console.error("problem with external signup function", error)
+                reject(error)
+              })
+          })
+          .catch(error => {console.error("problem with external login", error)})
         })
-        .catch(error => {console.error("problem with external login" , error)})
-       
     },
     
     attemptSignup({ dispatch }, credentials) {

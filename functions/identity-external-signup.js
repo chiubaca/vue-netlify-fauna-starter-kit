@@ -3,16 +3,7 @@ Generates a new account in faunaDB based on the unique user ID
 along with some supplementry user_metadata
 
 This function will only work if invoked with a POST request along with
-the body containing an object 
-
-{ 
-  user:{
-    id: 'test-id',
-    user_metadata: { 
-      full_name: 'user name' 
-    }
-  }
-}
+an Authorisation header that has a valid JWT
 */
 
 "use strict";
@@ -29,7 +20,7 @@ const client = new faunadb.Client({
 })
 
 /* create a user in FaunaDB that can connect from the browser */
-function createUser(userData, password) {
+function createDbUser(userData, password) {
   return client.query(q.Create(q.Collection("users"), {
     credentials : {
       password : password
@@ -57,12 +48,12 @@ function obtainToken(user, password) {
  * @param {string} adminAuthHeader - bearer along with JWT to be passed into the 
  *                                   header of the PUT request
  */
-function updateNetlifyUser (key, usersUrl, adminAuthHeader){
+function updateNetlifyUser (key, usersUrl, JWT){
 
   try {
     return fetch(usersUrl, {
       method: "PUT",
-      headers: { Authorization: adminAuthHeader },
+      headers: { Authorization: `Bearer ${JWT}` },
       body: JSON.stringify({
         app_metadata: {
           faunadb_token : key.secret
@@ -82,12 +73,12 @@ function updateNetlifyUser (key, usersUrl, adminAuthHeader){
   }
 }
 
-function checkNetlifyUserHasDbToken (usersUrl, adminAuthHeader){
+function checkNetlifyUserHasDbToken (usersUrl, JWT){
   console.log("Checking Netlify user account....")
   return new Promise((resolve, reject)=>{
     fetch(usersUrl, {
     method: "GET",
-    headers: { Authorization: adminAuthHeader },
+    headers: { Authorization: `Bearer ${JWT}` },
     })
     .then(response => response.json())
     .then(data => {
@@ -113,10 +104,12 @@ function handler(event, context, callback) {
   const { identity, user } = context.clientContext;
 
   //Guard if user hits this function URL direclty
+  console.log("What is the user?", user)
+
   if (!user) {
       return callback(null, {
       statusCode: 401,
-      body: "<img src='https://media.tenor.co/images/fb288a6182d05e93d8e731cec487a0ad/tenor.gif' alt='You should'nt be here...'>"
+      body: "You should'nt be here"
       });
   }
 
@@ -124,14 +117,15 @@ function handler(event, context, callback) {
   // if it fails it results in a runtime error.
   try {
     let payload = JSON.parse(event.body);
+    console.log("What is the payload?", payload)
     let userData = payload.user;
     const usersUrl = `${identity.url}/admin/users/${userData.id}`;
-    const adminAuthHeader = `Bearer ${identity.token}`;
+    const JWT = identity.token;
   
     console.log("admin url check", usersUrl)
-    console.log("bearer token check", adminAuthHeader)
+    console.log("bearer token check", JWT)
 
-    checkNetlifyUserHasDbToken(usersUrl, adminAuthHeader)
+    checkNetlifyUserHasDbToken(usersUrl, JWT)
     .then((resp) => {
       if(!!resp === true){
         //send the callback and end the process 
@@ -151,9 +145,9 @@ function handler(event, context, callback) {
         numbers: true
         });
   
-        createUser(userData, password)
+        createDbUser(userData, password)
           .then((user) => obtainToken(user, password))
-          .then((key) => updateNetlifyUser(key, usersUrl, adminAuthHeader))
+          .then((key) => updateNetlifyUser(key, usersUrl, JWT))
           .then((resp) => {
             console.log("Received response: ", !!resp)
             callback(null, {
