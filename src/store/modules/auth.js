@@ -21,24 +21,17 @@ let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
 
   return new Promise((resolve, reject) => {
     console.log("invoking external signup function")
-    let userObject =  { 
-          user:"just some random data"
-      };
-
-    let data = JSON.stringify(userObject);
     
     // Must provide the user JWT here otherwise we cant update the Netlify user
     // app_metadata properties which is required for storing the users DB token
     fetch("https://simple-vue-netlify-auth.netlify.com/.netlify/functions/identity-external-signup",
           {
             method: "POST",
-            body: data,
             headers: {
               "cache-control": "no-cache",
               Authorization: "Bearer " + JWT,
             },
-          }
-         )
+          })
          .then((resp) => resp.json())
          .then((data)=>{
            if (data.code >= 400){
@@ -48,7 +41,7 @@ let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
            console.log("external-signup function was called sucessfully, resolving with data", data)
            resolve(data)
          })
-         .catch(error => {reject("error invoking signup function directly", error)}  )
+         .catch(error => {reject("error invoking signup function directly", error)})
   })      
 }
 
