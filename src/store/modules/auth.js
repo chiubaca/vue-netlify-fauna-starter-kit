@@ -11,10 +11,8 @@ let saveState = function (key, state) {
   window.localStorage.setItem(key, JSON.stringify(state));
 }
 
-//hacking around - call a new signup Netlify function after
-//external login completes
 /**
- * 
+ * call external user signup
  * @param {*} userID 
  * @param {*} userMetaDataObject 
  * @param {*} JWT 
@@ -24,10 +22,7 @@ let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
   return new Promise((resolve, reject) => {
     console.log("invoking external signup function")
     let userObject =  { 
-          user:{
-            id: userID,
-            user_metadata: userMetaDataObject
-        }
+          user:"just some random data"
       };
 
     let data = JSON.stringify(userObject);
@@ -46,6 +41,10 @@ let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
          )
          .then((resp) => resp.json())
          .then((data)=>{
+           if (data.code >= 400){
+             reject(data.msg)
+             console.error(data)
+           }
            console.log("external-signup function was called sucessfully, resolving with data", data)
            resolve(data)
          })
