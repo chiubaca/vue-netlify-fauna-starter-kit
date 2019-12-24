@@ -44,7 +44,7 @@ function handler(event, context, callback) {
       body: JSON.stringify({
         app_metadata: {
           //the return body will update the netlify user  
-          faunadb_token : key.secret
+          db_token : key.secret
           // we discard the credential, and can create a new one if we ever need a new token
           // faunadb_credential : password
         } })

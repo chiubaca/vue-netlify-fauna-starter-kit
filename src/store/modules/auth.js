@@ -130,7 +130,7 @@ export default {
 
             // TODO : if db token is present here, theres no need to call the external
             // signup
-            if(user.app_metadata.faunadb_token){
+            if(user.app_metadata.db_token){
               console.log("no need to call external signup got db token, ", user)
               commit("SET_CURRENT_USER", user)
               resolve("sign in successfully")
