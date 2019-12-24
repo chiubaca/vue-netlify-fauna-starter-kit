@@ -45,31 +45,21 @@ function obtainToken(user, password) {
 }
 
 /**
- * Update the app_metadata for a netlfy user to include add the faunaDB token
- * TODO: This could be a much more generic function to allow for any arbitary
- *       data to be written to user account. Current it is very tightly coupled
- *       to the obtainToken meth
+ * Update the app_metadata for a netlify user to include add the faunaDB token
  * 
- * @param {object} key - object from obtain token
- * @param {string} usersUrl -  url of  eg "<SITE.com>/.netlify/identity/admin/users/123-abc-456"
+ * @param {object} appMetaDataObject - object containing any additional arbitary data for the user
+ * @param {string} usersAdminUrl -  url of  eg "<SITE.com>/.netlify/identity/admin/users/123-abc-456"
  * @param {string} adminAuthHeader - authorisation JWT
  */
-function updateNetlifyUser (key, usersUrl, JWT){
+function updateNetlifyUserAppMetaData (appMetaData, usersAdminUrl, JWT){
   
-  return fetch(usersUrl, {
+  return fetch(usersAdminUrl, {
     method: "PUT",
     headers: { Authorization: `Bearer ${JWT}` },
-    body: JSON.stringify({
-        app_metadata: {
-          faunadb_token : key.secret
-        } 
-      })
+    body: JSON.stringify({app_metadata: appMetaData})
     })
     .then(response => response.json())
-    .then(data => {
-      console.log("Updated the user", data.id );
-      return data ;
-    })
+    .then(data =>  data )
     .catch(e => { console.error("error authorising user", e) });
 }
 
@@ -77,7 +67,8 @@ function handler(event, context, callback) {
 
   const { identity, user } = context.clientContext;
 
-  // Guard if endpoint is hit without correct headers
+  // Guard if endpoint is hit and user has not provided a valid user
+  // JWT in the authorisation header. context.user object will be null
   if (!user) {
       return callback(null, {
       statusCode: 401,
@@ -87,7 +78,7 @@ function handler(event, context, callback) {
 
   const userID = user.sub
   const JWT = identity.token;
-  const usersUrl = `${identity.url}/admin/users/${userID}`;
+  const usersAdminUrl = `${identity.url}/admin/users/${userID}`;
   const userObject = {
     id : userID,
     user_metadata: user.user_metadata
@@ -97,15 +88,15 @@ function handler(event, context, callback) {
   numbers: true
   });
 
-  console.log("admin url check", usersUrl)
+  console.log("admin url check", usersAdminUrl)
   console.log("bearer token check", JWT)
-  console.log("New user, creating user in DB via external signup")
 
   createDbUser(userObject, password)
     .then((user) => obtainToken(user, password))
-    .then((key) => updateNetlifyUser(key, usersUrl, JWT))
+    .then((key) => updateNetlifyUserAppMetaData({db_token : key.secret} , usersAdminUrl, JWT))
     .then((resp) => {
       console.log("Received response: ", !!resp)
+      console.log("Updated the user", resp.id );
       callback(null, {
         statusCode: 200, 
         body: JSON.stringify(resp)
