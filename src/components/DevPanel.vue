@@ -4,7 +4,7 @@
      
       <h2>Dev Panel</h2>
       
-      <ul>
+      <ul v-if="currentUser">
         <li>goTrue Logged in : {{netlifyUserLoggedIn}}</li>
         <li> Current_UserID : {{currentUser.id}}  </li>
         <li> Current_Email : {{currentUser.email}} </li>
@@ -13,6 +13,8 @@
         <!-- no access token available when signing up externaly 
           <li> netlify JWT : {{currentUser.token.access_token}} </li> -->  
       </ul>
+
+      <div v-else> No data to show</div>
       
       <button @click="updateUserMetaData">Update user meta data</button>
       <button @click="triggerNetlifyFunction">trigger netlify signup function</button>
