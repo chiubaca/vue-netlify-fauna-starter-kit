@@ -12,9 +12,6 @@ new Vue({
   store,
 })
 
-// store.commit("auth/SET_GOTRUE", GoTrueAuth)
-
-
 restoreState()
 attemptToAuthoriseTokens()
 
