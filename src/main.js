@@ -5,15 +5,17 @@ import store from './store'
 import restoreState from "./helpers/restore-state"
 import attemptToAuthoriseTokens from "./helpers/authorise-tokens"
 
-Vue.config.productionTip = false
-
 new Vue({
   el: '#app',
   render: h => h(AppLayout),
   router,
-  store
+  store,
 })
+
+// store.commit("auth/SET_GOTRUE", GoTrueAuth)
+
 
 restoreState()
 attemptToAuthoriseTokens()
 
+Vue.config.productionTip = false

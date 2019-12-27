@@ -1,11 +1,6 @@
+import {Auth} from  '../../helpers/init-auth.js'
 
-import GoTrue from "gotrue-js";
-
-export const Auth = new GoTrue({
-  APIUrl: "https://simple-vue-netlify-auth.netlify.com/.netlify/identity",
-  audience: "",
-  setCookie: false
-});
+console.log(Auth)
 
 let saveState = function (key, state) {
   window.localStorage.setItem(key, JSON.stringify(state));
@@ -51,12 +46,14 @@ export default {
 
   state() {
     return {
-      testData: "Hello!",
-      currentUser:null
+      testData: "some test data",
+      currentUser:null,
     }
   },
   getters: {
-    
+
+    testData : state => state.testData,
+
     // When currentUser has data loggedIn will return true
     loggedIn: state => !!state.currentUser, 
 
@@ -72,6 +69,9 @@ export default {
     updateTestData(state, value) {
       state.testData = value
     },
+    SET_GOTRUE(state, value){
+      Auth = value
+    },
     SET_CURRENT_USER(state, value) {
       state.currentUser = value;
       saveState("auth.currentUser", value)
@@ -84,6 +84,10 @@ export default {
     },
     
     updateTestDataAction({ commit }, value) {
+      commit('updateTestData', value)
+    },
+
+     updateAuth({ commit }, value) {
       commit('updateTestData', value)
     },
     
@@ -188,7 +192,7 @@ export default {
       })
     },
 
-    attemptLogout({commit}){
+    attemptLogout({commit,}){
       
       commit("SET_CURRENT_USER", null)
       
