@@ -16,9 +16,9 @@
 
       <div v-else> No data to show</div>
 
-      <button @click="triggerNetlifyFunction">trigger netlify signup function</button>
       <button @click="getUserJWTToken">Get User JWT</button>
       <button @click="getCurrentUser">Get User Object</button>
+      
     </div>
   </div>
 </template>
@@ -35,41 +35,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions("auth", ["updateUserMetaData" ,"getUserJWTToken","getCurrentUser"]),
-    triggerNetlifyFunction() {
-      let userObject =  { 
-            user:{
-              id: 'test-id',//id created by netlify
-              user_metadata: { 
-              full_name: 'local sdev testing' 
-            }
-        }
-      };
-
-      let data = JSON.stringify(userObject);
-
-      fetch(
-        "http://localhost:34567/.netlify/functions/identity-external-signup",
-        {
-          method: "POST",
-          body: data
-        }
-      )
-        .then(function(res) {
-          return res.json();
-        })
-        .then(function(data) {
-          alert(JSON.stringify(data));
-        });
-    }
-    
+    ...mapActions("auth", ["updateUserMetaData" ,"getUserJWTToken","getCurrentUser"]),    
   },
   computed: {
     ...mapGetters("auth", ["currentUser", "netlifyUserLoggedIn"])
   }
 };
 </script>
-
 
 <style scoped>
 .dev-panel {
