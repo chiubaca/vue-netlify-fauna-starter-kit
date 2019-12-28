@@ -15,12 +15,10 @@
       </ul>
 
       <div v-else> No data to show</div>
-      
-      <button @click="updateUserMetaData">Update user meta data</button>
+
       <button @click="triggerNetlifyFunction">trigger netlify signup function</button>
       <button @click="getUserJWTToken">Get User JWT</button>
       <button @click="getCurrentUser">Get User Object</button>
-
     </div>
   </div>
 </template>

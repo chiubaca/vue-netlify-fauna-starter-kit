@@ -1,40 +1,35 @@
 import {Auth} from  '../../helpers/init-auth.js'
 
-console.log(Auth)
-
-let saveState = function (key, state) {
+function saveState (key, state) {
   window.localStorage.setItem(key, JSON.stringify(state));
 }
 
 /**
  * call external user signup
- * @param {*} userID 
- * @param {*} userMetaDataObject 
- * @param {*} JWT 
+ * @param {string} - JWT 
+ * @return {promise} -  
  */
-let invokeSignupFunction = function(userID, userMetaDataObject, JWT){
-
+function invokeSignupFunction (JWT) {
   return new Promise((resolve, reject) => {
     console.log("invoking external signup function")
-    
     // Must provide the user JWT here otherwise we cant update the Netlify user
     // app_metadata properties which is required for storing the users DB token
-    fetch("https://simple-vue-netlify-auth.netlify.com/.netlify/functions/identity-external-signup",
+    fetch(process.env.VUE_APP_NETLIFY_URL + ".netlify/functions/identity-external-signup",
           {
             method: "POST",
             headers: {
               "cache-control": "no-cache",
               Authorization: "Bearer " + JWT,
-            },
+            }
           })
          .then((resp) => resp.json())
-         .then((data)=>{
-           if (data.code >= 400){
-             reject(data.msg)
-             console.error(data)
-           }
-           console.log("external-signup function was called sucessfully, resolving with data", data)
-           resolve(data)
+         .then((data) => {
+            if (data.code >= 400){
+              reject(data.msg)
+              console.error(data)
+            }
+            console.log("external-signup function was called sucessfully, resolving with data", data)
+            resolve(data)
          })
          .catch(error => {reject("error invoking signup function directly", error)})
   })      
@@ -79,10 +74,7 @@ export default {
 
   },
   actions: {
-    sup() {
-      console.log("sup")
-    },
-    
+        
     updateTestDataAction({ commit }, value) {
       commit('updateTestData', value)
     },
@@ -95,7 +87,6 @@ export default {
       console.log(`attempting login for ${credentials.email}`)
 
       return new Promise((resolve, reject) => {
-
         Auth
           .login(credentials.email, credentials.password)
           .then(response => {
@@ -106,23 +97,19 @@ export default {
             console.log("An error occurred trying to signup", error)
             reject(error)
           })
-         
       })
-
     },
 
     attemptExternalLogin(){
       console.log("login with external")
       console.log( Auth.loginExternalUrl("Google"))
       window.location.href = Auth.loginExternalUrl("Google");
-
     },
 
     // This currently getting called in src\helpers\authorise-tokens.js
     completeExternalLogin({commit}, params){
       return new Promise((resolve, reject)=>{
         console.log("JWT token" , params.access_token)
-      
         // If a user already exists, this will return the existing user and not
         // create a new one
         Auth.createUser(params)
@@ -132,8 +119,7 @@ export default {
             console.log("user meta ", user.user_metadata)
             console.log("JWT  ", params.access_token)
 
-            // TODO : if db token is present here, theres no need to call the external
-            // signup
+            //If db token is present here, theres no need to call the external signup so exit early
             if(user.app_metadata.db_token){
               console.log("no need to call external signup got db token, ", user)
               commit("SET_CURRENT_USER", user)
@@ -141,7 +127,7 @@ export default {
               return
             }
 
-            invokeSignupFunction(user.id , user.user_metadata,params.access_token)
+            invokeSignupFunction(params.access_token)
               .then(resp => {
                 console.log("setting current user to state, ", resp)
                 commit("SET_CURRENT_USER", resp)
@@ -156,12 +142,11 @@ export default {
         })
     },
     
-    attemptSignup({ dispatch }, credentials) {
+    attemptSignup(store , credentials) {
       console.log(`attempting signup for ${credentials.email}...`, credentials)
       return new Promise((resolve, reject) => {
         Auth.signup(credentials.email, credentials.password, { full_name: credentials.name })
           .then(response => {
-            dispatch("sup")
             console.log(`Confirmation email sent`, response)
             resolve(response)
           })
@@ -170,15 +155,11 @@ export default {
             reject(error)
           })
       })
-
-
     },
     
-    attemptConfirmation({ dispatch }, token) {
-      dispatch("sup")
-      console.log("trying to verify token in vuex" , token)
+    attemptConfirmation(store , token) {
+      console.log("Attempting trying to verify token" , token)
       return new Promise((resolve, reject) => {
-        
         Auth
           .confirm(token)
           .then(response => {
@@ -193,9 +174,7 @@ export default {
     },
 
     attemptLogout({commit,}){
-      
       commit("SET_CURRENT_USER", null)
-      
       Auth
         .currentUser()
         .logout()
@@ -207,32 +186,6 @@ export default {
           console.warn("could not log out", error)
           throw error
         })
-
-    },
-
-    updateUserMetaData({state, commit}){
-       //TECH DEBT - running this can mutate vuex state directly for some weird reason
-       // consider moving this to a server side function            
-      Auth.currentUser()
-        .update({
-            data: {
-              app_metadata:{
-                dbToken: "hihihi",
-              }
-            },
-        })
-        .then((response) => {
-          commit("SET_CURRENT_USER", state.currentUser)
-          console.log("Updated user")
-          console.log(response)
-
-          })
-        .catch(error => {
-          console.log("Failed to update user: %o", error);
-
-          throw error;
-            });
-                            
     },
 
     getUserJWTToken({getters}){
@@ -242,16 +195,13 @@ export default {
         console.warn("User needs to sign in again")
         return
       }
-
       Auth.currentUser().jwt().then((token) => {
         console.log("got user token: ",token)
       })
-    
     },
 
     getCurrentUser(){
       console.log("User Object",Auth.currentUser())
     }
-
   }
 }

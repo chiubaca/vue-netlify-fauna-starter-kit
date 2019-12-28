@@ -2,11 +2,9 @@
 helper file to validate tokens in the URL if they are present 
 */ 
 
-
 import store from '../store'
 
 export default function () {
-  console.log("Hello from attempt to authorise token helper")
   
   // hash from URL
   const hash = (document.location.hash || "").replace(/^#\/?/, "");
