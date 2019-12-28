@@ -1,9 +1,8 @@
 /*
-Generates a new account in faunaDB based on the unique user ID 
-along with some supplementry user_metadata
-
-This function will only work if invoked with a POST request along with
-an Authorisation header that has a valid JWT
+This is a Netlify serverless function which leverages code from identity-signup.js
+As external signups are not triggered automatically by Netlify, some additional code is required. The main difference is
+that we need to make sure the function handler has an identity context. This is provided by the client calling this 
+function imperatively. Without this, the function is unable to update the user app_metadata via the Netlify admin API.
 */
 
 "use strict";
@@ -12,12 +11,12 @@ const identitySignup = require('./identity-signup')
 
 /**
  * Update the app_metadata for a netlify user to include add the faunaDB token
- * @param {object} appMetaDataObject - object containing any additional arbitary data for the user
- * @param {string} usersAdminUrl -  url of  eg "<SITE.com>/.netlify/identity/admin/users/123-abc-456"
- * @param {string} adminAuthHeader - authorisation JWT
+ * @param {object} - appMetaDataObject - object containing any additional arbitrary data for the user
+ * @param {string} - usersAdminUrl -  url of  eg "<SITE.com>/.netlify/identity/admin/users/123-abc-456"
+ * @param {string} - adminAuthHeader - authorisation JWT
+ * @return {promise <object>} - Netlify user
  */
 function updateNetlifyUserAppMetaData (appMetaData, usersAdminUrl, JWT){
-  
   return fetch(usersAdminUrl, {
       method: "PUT",
       headers: { Authorization: `Bearer ${JWT}` },
@@ -29,15 +28,13 @@ function updateNetlifyUserAppMetaData (appMetaData, usersAdminUrl, JWT){
 }
 
 function handler(event, context, callback) {
-
   const { identity, user } = context.clientContext;
 
-  // Guard if endpoint is hit and user has not provided a valid user
-  // JWT in the authorisation header. context.user object will be null
+  // Guard if endpoint is hit directly and user has not provided a valid user JWT in the authorisation header.
   if (!user) {
       return callback(null, {
       statusCode: 401,
-      body: "You should'nt be here"
+      body: "You shouldn't be here"
       });
   }
 

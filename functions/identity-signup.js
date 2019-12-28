@@ -1,3 +1,12 @@
+/*
+This is a Netlify serverless function that first generates a new FaunaDB account based on the Netlify unique user ID. 
+It will then update the Netlify user_metadata account with the FaunaDB token which is embedded in the user JWT for
+future authentication sessions.
+
+This function is triggered on a successfully email signup. This does not get triggered on external signups. Read more 
+about event-triggered functions here: https://docs.netlify.com/functions/trigger-on-events/#available-triggers 
+*/
+
 "use strict";
 const faunadb = require("faunadb");
 const generator = require('generate-password');
@@ -9,11 +18,12 @@ const client = new faunadb.Client({
 })
 
 /**
- * create a user in FaunaDB that can connect from the browser
- * @param {object} userData
- * @property {string} userData.id - netlify id nunmber
- * @property {object} userData.user_metadata - additonal arbitary 
- * @param {string} password 
+ * create and store Netlify metadata in a new user FaunaDB record.
+ * @param {object} - userData
+ * @property {string} - userData.id - netlify id nunmber
+ * @property {object} - userData.user_metadata - additonal arbitary 
+ * @param {string} - password 
+ * @return {promise <object>} - FaunaDB response object
  */ 
 function createDbUser(userData, password) {
   return client.query(q.Create(q.Collection("users"), {
@@ -27,12 +37,22 @@ function createDbUser(userData, password) {
   }))
 }
 
+/**
+ * Create a new record in the DB user table.
+ * @param {string} - userID 
+ * @param {string} - password 
+ * @return {promise <object>} - FaunaDB response object
+ */
 function obtainToken(user, password) {
   console.log("Generating new DB token")
   return client.query(
     q.Login(q.Select("ref", user), { password }))
 }
 
+/**
+ * Wrapper function to return a randomly generated password
+ * @return {string} - randomly generated password
+ */
 function generatePassword(){
   return generator.generate({
       length: 10,
@@ -40,8 +60,8 @@ function generatePassword(){
   });
 }
 
-function handler(event, context, callback) {
 
+function handler(event, context, callback) {
   let payload = JSON.parse(event.body);
   let userData = payload.user;
   const password = generatePassword();
