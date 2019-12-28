@@ -1,31 +1,10 @@
 <template>
   <main class="home">
     <h2>🏠 This is the public home page</h2>
-    <div class="test-area">
-      <h2>Vuex Test area</h2>
-      Data From Vuex Store: 
-      <span> {{testData}} </span>  
-      <span>{{anotherWayToGetData}}</span>
-      <br/><br/>  
-      Update via Mutation: 
-      <input
-        v-model="mutationInput" 
-        type="text" 
-        name="fname"
-      ><button @click="updateTestData(mutationInput)" >Commit</button>
-      <br/><br/> 
-      Update via Action: 
-      <input
-        v-model="actionInput"  
-        type="text" 
-        name="fname"
-      ><button @click="updateTestDataAction(actionInput)">Dispatch</button> 
-    </div>
   </main>
 </template>
 
 <script>
-import { mapGetters , mapMutations , mapActions} from 'vuex'
 
 export default {
   name: "Home",
@@ -34,25 +13,13 @@ export default {
   },
   data() {
     return {
-      mutationInput: null,
-      actionInput:null
     }
   },
   computed: {
-    ...mapGetters("auth",[
-      "testData"
-    ]),
-    anotherWayToGetData(){
-      return this.$store.getters["auth/testData"]
-    }
+
   },
   methods: {
-    ...mapMutations("auth",[
-      "updateTestData"
-    ]),
-    ...mapActions("auth", [
-      "updateTestDataAction"
-    ])
+
   },
 };
 </script>
