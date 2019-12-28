@@ -58,8 +58,7 @@ export default {
     signup() {
       this.attemptSignup(this.crendentials)
         .then((response) => {
-          alert(`Confirmation email has been sent to you!
-                 ${response.id}`);
+          alert(`Confirmation email has been sent to you! ${response.id}`);
           console.log(response)
         })
         .catch(error =>{
@@ -70,21 +69,21 @@ export default {
     },
     login() {
 
-      let token = decodeURIComponent(window.location.search).substring(1).split("confirmation_token=")[1];
+      // let token = decodeURIComponent(window.location.search).substring(1).split("confirmation_token=")[1];
 
-      this.attemptLogin({token , ...this.crendentials})
+      this.attemptLogin({...this.crendentials})
         .then(() => {
           alert(`You have signed in!`);
           this.$router.push(this.$route.query.redirect || "/");
         })
         .catch(error => {
-          alert(`Somethings gone wrong logging up.
+          alert(`Somethings gone wrong logging in.
                  Error: ${error}`)
           console.error(error, "Somethings gone wrong logging in")
         });
     },
     loginExternal(){
-      this.attemptExternalLogin()
+      this.attemptExternalLogin("Google")
     }
   }
 };
