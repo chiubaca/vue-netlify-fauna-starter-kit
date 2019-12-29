@@ -2,7 +2,7 @@
   <div class="app-layout">
     
     <header>
-      <h1> My Simple App With Netlify Authentication</h1>
+      <h1> A super charged JAM stack powered by Vue.js, Netlify and FaunaDB 🚀 </h1>
     </header>
 
     <NavMenu />
