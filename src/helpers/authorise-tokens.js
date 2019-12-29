@@ -4,6 +4,10 @@ Extract and validate tokens in the URL if they are present.
 
 import store from '../store'
 
+/**
+ * Checks the URL for a confirmation token, this is available when the user has successfully signed up via emauik and 
+ * confirms their email address via the automated email sent by Netlify. 
+ */
 function checkConfirmationToken(){
 
   let token = decodeURIComponent(window.location.search)
@@ -25,6 +29,10 @@ function checkConfirmationToken(){
   }
 }
 
+/**
+ * Checks the URL for an access_token. This is avaiable when the user is redirected back when they have authenticated
+ * via an external provider
+ */
 function checkAccessToken(){
   const externalToken = /access_token=/;
   
@@ -51,7 +59,6 @@ function checkAccessToken(){
 }
 
 export default function () {
-  
   checkConfirmationToken();
   checkAccessToken();
 }
