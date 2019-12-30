@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from './components/Home.vue'
 import Login from './components/Login.vue'
 import Profile from './components/Profile.vue'
+import AllPosts from './components/AllPosts.vue'
 import store from './store'
 
 Vue.use(VueRouter)
@@ -17,6 +18,12 @@ const routes = [{
   name: 'login',
   component: Login,
   meta: { guest: true }
+},
+{
+  path: '/allposts',
+  name: 'allposts',
+  component: AllPosts,
+  meta: { authRequired: true }
 },
 {
   path: '/',

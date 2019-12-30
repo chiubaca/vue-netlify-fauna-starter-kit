@@ -9,18 +9,15 @@
     
     <router-view />
     
-    <DevPanel />
   </div>
 </template>
 
 <script>
 import NavMenu from "./NavMenu.vue";
-import DevPanel from "./DevPanel.vue"
 
 export default {
   components: {
-    NavMenu,
-    DevPanel
+    NavMenu
   }
 };
 </script>
