@@ -1,8 +1,8 @@
-import {Auth} from  '../../helpers/init-auth.js'
+/**
+ * This module is responsible for all state and actions related to the current authenticated user.
+ */
 
-function saveState (key, state) {
-  window.localStorage.setItem(key, JSON.stringify(state));
-}
+import {Auth} from  '../../helpers/init-auth.js'
 
 export default {
   strict: false,
@@ -30,7 +30,6 @@ export default {
 
     SET_CURRENT_USER(state, value) {
       state.currentUser = value;
-      saveState("auth.currentUser", value)
     }
   },
   actions: {
@@ -200,7 +199,7 @@ export default {
     },
 
     /**
-     * 
+     *not required, delete at some point
      * @param {*} store - vuex store object  
      */
     getUserJWTToken({getters}){
@@ -215,6 +214,9 @@ export default {
       })
     },
 
+    /**
+     * This should be deleted at some point
+     */
     getCurrentUser(){
       console.log("User Object",Auth.currentUser())
     }

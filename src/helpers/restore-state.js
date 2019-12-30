@@ -1,15 +1,14 @@
 import store from '../store'
 
-let savedUser = JSON.parse(localStorage.getItem("auth.currentUser")) ;
-
 export default function () {
 
-if (!savedUser){
-console.log("No user found in local storage")
-return
-}
+  let savedUser = JSON.parse(localStorage.getItem("store")) ;
 
-console.log("restoring the following user to app state", savedUser.email)
+  if (!savedUser){
+    console.log("No user found in local storage")
+    return
+  }
 
-store.commit("auth/SET_CURRENT_USER", savedUser)
+  console.log("restoring the following user to app state", savedUser.currentUser)
+  store.commit("auth/SET_CURRENT_USER", savedUser.currentUser)
 }
