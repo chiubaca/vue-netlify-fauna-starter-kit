@@ -12,8 +12,10 @@
 </template>
 
 <script>
+import {AddPost} from "../models/PostsModel"
 
 export default {
+
   data() {
     return {
       post: {
@@ -23,10 +25,24 @@ export default {
     }
   },
   methods: {
+    /**
+     * Sumbit a new post to db
+     */
     submit() {
-      alert("Post Submitted")
+      console.log("Post Submitted", this.post)
+   
+      AddPost()
+      .then(resp => {
+        alert(resp.message)
+        console.log(resp)
+      })
+      .catch(err => {
+        alert("there was a problem adding post")
+        console.error(err)
+      })
     }
-  },
+  
+  }
 };
 
 </script>
