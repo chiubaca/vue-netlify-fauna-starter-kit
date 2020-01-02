@@ -31,7 +31,7 @@ export default {
     submit() {
       console.log("Post Submitted", this.post)
    
-      AddPost()
+      AddPost(this.post)
       .then(resp => {
         alert(resp.message)
         console.log(resp)
