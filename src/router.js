@@ -1,9 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from './components/Home.vue'
-import Login from './components/Login.vue'
-import Profile from './components/Profile.vue'
-import AllPosts from './components/AllPosts.vue'
 import store from './store'
 
 Vue.use(VueRouter)
@@ -11,24 +7,24 @@ Vue.use(VueRouter)
 const routes = [{
   path: '/home',
   name: 'home',
-  component: Home
+  component: () => import('./components/Home.vue')
 },
 {
   path: '/login',
   name: 'login',
-  component: Login,
+  component: () => import('./components/Login.vue'),
   meta: { guest: true }
 },
 {
   path: '/allposts',
   name: 'allposts',
-  component: AllPosts,
+  component: () => import('./components/AllPosts.vue'),
   meta: { authRequired: true }
 },
 {
   path: '/',
   name: 'profile',
-  component: Profile,
+  component: () => import('./components/Profile.vue'),
   meta: { authRequired: true }
 }]
 
@@ -41,9 +37,7 @@ const router = new VueRouter({
 let debug = (msg) => console.debug(`Router Debug: ${msg}`)
 
 router.beforeEach((to, from, next) => {
-  debug(`Going to ${to.name}, from ${from.name}`)
-  debug(`Logged in state is: ${store.getters["auth/loggedIn"]}`)
-  
+
   const authRequired = to.matched.some(route => route.meta.authRequired);
   debug(`This page needs auth ${authRequired}`)
   
@@ -56,12 +50,10 @@ router.beforeEach((to, from, next) => {
   if (store.getters["auth/loggedIn"]) {
     // maybe do some validation to check token is valid //
     return next()
-  
   }
   
   console.warn("Page restricted, you need to login")
   next({ name: "login", query: { redirectFrom: to.fullPath } });
-
 })
 
 export default router
