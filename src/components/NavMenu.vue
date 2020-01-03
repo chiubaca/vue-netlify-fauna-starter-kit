@@ -1,6 +1,6 @@
 <template>
-  <div class="nav-menu">
-    <ul>
+  <div>
+    <ul class="nav-menu">
       <li>  
         <router-link :to="{ name: 'home' }">Home</router-link>
       </li>
@@ -24,5 +24,9 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .nav-menu{
+    display: flex;
+    justify-content: space-evenly;
+    list-style-type: none;
+  }
 </style>
