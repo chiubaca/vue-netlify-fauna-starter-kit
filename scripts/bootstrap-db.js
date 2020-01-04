@@ -2,8 +2,6 @@
 const faunadb = require('faunadb')
 const q = faunadb.query
 
-
-
 /* idempotent operation */
 function setupFaunaDB(key) {
 
@@ -23,15 +21,22 @@ function setupFaunaDB(key) {
         q.CreateCollection({
           name: "posts",
           permissions: {
-            create: q.Class("users")
+            create: q.Collection("users")
+          }
+        }),
+        q.CreateCollection({
+          name: "journals",
+          permissions: {
+            create: q.Collection("users")
           }
         })
+
       )))
     .then(() => client.query(
       q.Do(
         q.CreateIndex({
           name: 'users_by_id',
-          source: q.Class("users"),
+          source: q.Collection("users"),
           terms: [{
             field: ['data', 'id']
           }],
@@ -45,6 +50,13 @@ function setupFaunaDB(key) {
         q.CreateIndex({
           name: "all_posts",
           source: q.Collection("posts"),
+          permissions: {
+            read: q.Collection("users")
+          }
+        }),
+        q.CreateIndex({
+          name: "all_journals",
+          source: q.Collection("journals"),
           permissions: {
             read: q.Collection("users")
           }
@@ -62,6 +74,6 @@ function setupFaunaDB(key) {
     })
 }
 
-setupFaunaDB("")
+setupFaunaDB("fnADhSm0yKACC8CSDcWXPglV57ltSIp56Jt4aGqR") //This is an example key
 .then(resp => console.log(resp))
 .catch(err => console.error(err))
