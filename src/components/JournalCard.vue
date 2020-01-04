@@ -1,6 +1,10 @@
 <template>
   <div class="journal-card">
-    <span>{{this.journalData.title}} </span>
+    <router-link 
+      :to="{path: `journals/${this.journalData.ref.value.id}/posts`}" 
+    >
+      <span>{{this.journalData.data.title}} </span>
+    </router-link>
   </div>
 </template>
 
