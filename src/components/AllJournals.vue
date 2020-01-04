@@ -6,7 +6,7 @@
       <JournalCard
         v-for="(item, index) in this.allJournals"
         :key="index" 
-        :journal-data="item.data"/>
+        :journal-data="item"/>
     </div>
       
     <h2>Create A New Journal</h2>
