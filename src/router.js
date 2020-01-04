@@ -17,8 +17,14 @@ const routes = [{
 },
 {
   path: '/journals',
-  name: 'alljournals',
+  name: 'journals',
   component: () => import('./components/AllJournals.vue'),
+  meta: { authRequired: true }
+},
+{
+  path: '/journals/:id/posts',
+  name: 'posts',
+  component: () => import('./components/AllPosts.vue'),
   meta: { authRequired: true }
 },
 {
