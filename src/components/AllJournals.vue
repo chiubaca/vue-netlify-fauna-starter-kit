@@ -1,0 +1,84 @@
+<template>
+  <div>
+  
+    <h1>Your Journals</h1>
+    <div id="journals-container">
+      <JournalCard
+        v-for="(item, index) in this.allJournals"
+        :key="index" 
+        :journal-data="item.data"/>
+    </div>
+      
+    <h2>Create A New Journal</h2>
+    <form 
+      class="create-new-journal">
+        <input type="text" placeholder="Title" v-model="journal.title" />
+        <button type="button" @click="submit()">Create</button>
+    </form>
+    
+  </div>
+</template>
+
+<script>
+import {createJournal , getJournals} from "../models/JournalsModel"
+import JournalCard from "./JournalCard"
+
+export default {
+  components: {
+    JournalCard,
+  },
+
+  data: function() {
+    return {
+      journal: {
+        title:"",
+      },
+      allJournals:[]
+    }
+  },
+  methods: {
+    /**
+     * Sumbit a new post to db
+     */
+    submit() {
+      console.log("Journal Created", this.journal)
+      createJournal(this.journal)
+      .then(resp => {
+        alert(resp.message)
+        console.log(resp)
+      })
+      .catch(err => {
+        alert("There was a problem creating your journal")
+        console.error(err)
+      })
+    }
+  },
+  beforeMount () {
+
+  getJournals()
+  .then(resp => {
+    console.log("Journal data from DB", resp)
+    this.allJournals = resp
+  })
+
+  },
+};
+
+</script>
+
+<style lang="scss" scoped>
+
+.create-new-journal{
+  width:400px;
+  display: flex;
+  flex-direction: column
+}
+
+.journal-card {
+  margin:20px;
+}
+
+#journals-container{
+  display: flex;
+}
+</style>

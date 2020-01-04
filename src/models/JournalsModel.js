@@ -10,15 +10,15 @@ const client = new faunadb.Client({
   secret: dbToken
 })
 
-export function addPost(postData) {
+export function createJournal(journalData) {
 
   const me = q.Select("ref", q.Get(
         q.Ref("classes/users/self")));
 
-  return client.query(q.Create(q.Collection("posts"), 
+  return client.query(q.Create(q.Collection("journals"), 
           {
             data: {
-              ...postData,
+              ...journalData,
               owner: q.Select("ref", q.Get(q.Ref("classes/users/self")))
               },
             permissions: {
@@ -30,20 +30,13 @@ export function addPost(postData) {
     .catch(error => error)
 }
 
-export function getPosts(){
+export function getJournals(){
 
     return client.query(
       q.Map(
         q.Paginate(
           q.Match( // todo use lists_by_owner
-            q.Ref("indexes/all_posts"))), (ref) => q.Get(ref)))
+            q.Ref("indexes/all_journals"))), (ref) => q.Get(ref)))
       .then((r) => r.data);
-}
-
-export function test() {
-  console.log(
-    "test fdb ", 
-    q.Select("ref", q.Get(q.Ref("classes/users/self")))
-  )
 }
 

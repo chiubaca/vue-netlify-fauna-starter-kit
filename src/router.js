@@ -16,9 +16,9 @@ const routes = [{
   meta: { guest: true }
 },
 {
-  path: '/allposts',
-  name: 'allposts',
-  component: () => import('./components/AllPosts.vue'),
+  path: '/journals',
+  name: 'alljournals',
+  component: () => import('./components/AllJournals.vue'),
   meta: { authRequired: true }
 },
 {

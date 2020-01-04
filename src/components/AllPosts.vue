@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {addPost , getPosts} from "../models/PostsModel"
+import {addPost , getPosts, test} from "../models/PostsModel"
 import PostCard from "./PostCard"
 
 export default {
@@ -56,11 +56,14 @@ export default {
     }
   },
   beforeMount () {
+
   getPosts()
   .then(resp => {
     console.log("data from DB", resp)
     this.allPosts = resp
-    })
+  })
+
+  test()
   },
 };
 
