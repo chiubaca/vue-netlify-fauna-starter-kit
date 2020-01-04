@@ -8,7 +8,7 @@
          <router-link :to="{ name: 'login' }">Login</router-link>
       </li>
       <li>  
-        <router-link :to="{ name: 'alljournals' }">All Journals</router-link>
+        <router-link :to="{ name: 'journals' }">All Journals</router-link>
       </li>
       <li>
          <router-link :to="{ name: 'profile' }">Your Profile</router-link>
