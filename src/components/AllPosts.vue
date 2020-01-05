@@ -2,11 +2,16 @@
   <div>
   
     <h1>Your Posts</h1>
+
+    <div class="dev-stuff">
+      Journal ID: {{this.$route.params.id}}
+    </div>
+
     <div id="posts-container">
       <PostCard
         v-for="(item, index) in this.allPosts"
         :key="index" 
-        :card-data="item.data"/>
+        :card-data="item"/>
     </div>
       
     <h2>Add A New Post</h2>
@@ -21,7 +26,7 @@
 </template>
 
 <script>
-import {addPost , getPosts, test} from "../models/PostsModel"
+import {addPost , getPosts} from "../models/PostsModel"
 import PostCard from "./PostCard"
 
 export default {
@@ -44,7 +49,7 @@ export default {
      */
     submit() {
       console.log("Post Submitted", this.post)
-      addPost(this.post)
+      addPost(this.post , this.$route.params.id)
       .then(resp => {
         alert(resp.message)
         console.log(resp)
@@ -57,13 +62,11 @@ export default {
   },
   beforeMount () {
 
-  getPosts()
+  getPosts(this.$route.params.id)
   .then(resp => {
-    console.log("data from DB", resp)
-    this.allPosts = resp
+    console.log("posts data from DB", resp)
+    this.allPosts = resp.data
   })
-
-  test()
   },
 };
 
