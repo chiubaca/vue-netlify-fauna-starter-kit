@@ -10,7 +10,7 @@ const client = new faunadb.Client({
   secret: dbToken
 })
 
-export function addPost(postData) {
+export function addPost(postData , journalID) {
 
   const me = q.Select("ref", q.Get(
         q.Ref("classes/users/self")));
@@ -19,8 +19,9 @@ export function addPost(postData) {
           {
             data: {
               ...postData,
+              journal: q.Ref(q.Collection('journals'), journalID),
               owner: q.Select("ref", q.Get(q.Ref("classes/users/self")))
-              },
+            },
             permissions: {
               read: me,
               write: me
@@ -30,20 +31,25 @@ export function addPost(postData) {
     .catch(error => error)
 }
 
-export function getPosts(){
+export function getPosts(journalID){
 
-    return client.query(
-      q.Map(
-        q.Paginate(
-          q.Match( // todo use lists_by_owner
-            q.Ref("indexes/all_posts"))), (ref) => q.Get(ref)))
-      .then((r) => r.data);
-}
+    // Get the Current Journal reference object
+    // TODO: Wonder if we could just store the current journal ID object into a vuex,
+    // this could save an additonal request to get the journal ID
 
-export function test() {
-  console.log(
-    "test fdb ", 
-    q.Select("ref", q.Get(q.Ref("classes/users/self")))
-  )
+    return client.query(q.Get(q.Ref(`collections/journals/${journalID}`))) 
+      .then((journal) => {
+        console.log("Got Journal", journal)
+
+        return client.query(q.Map(
+            q.Paginate(q.Match(q.Index("posts_by_journal"),journal.ref)),
+            (ref) => q.Get(ref) // fauna lambda function , what does "Get()" do?
+          ))
+          .then(resp => {
+            console.log("got posts", resp);
+            return resp
+          })
+      })
+      .catch(err => console.error("couldnt get posts", err));
 }
 
