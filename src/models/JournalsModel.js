@@ -1,14 +1,4 @@
-import faunadb from "faunadb";
-import store from '../store'
-
-const dbToken = store.getters["auth/currentUser"].app_metadata.db_token
-console.log("hello from posts model, db Token", dbToken)
-
-/* configure faunaDB Client with our secret */
-const q = faunadb.query
-const client = new faunadb.Client({
-  secret: dbToken
-})
+import {q, client} from "../helpers/init-db"
 
 export function createJournal(journalData) {
 
@@ -31,7 +21,7 @@ export function createJournal(journalData) {
 }
 
 export function getJournals(){
-
+  
     return client.query(
       q.Map(
         q.Paginate(
