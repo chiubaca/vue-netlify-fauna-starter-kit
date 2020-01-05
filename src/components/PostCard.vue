@@ -1,8 +1,7 @@
 <template>
   <div class="post-card">
-    <span>Title: {{this.cardData.title}} </span>
-    <span>Contents:{{this.cardData.contents}} </span>
-    <!-- {{this.cardData}} -->
+    <span>Title: {{this.cardData.data.title}} </span>
+    <span>Contents:{{this.cardData.data.contents}} </span>
   </div>
 </template>
 
@@ -14,8 +13,6 @@ export default {
       type: Object,
     },
   },
-
-
 };
 
 </script>
@@ -27,5 +24,4 @@ export default {
     border-style: solid;
     width:500px;
   }
-
 </style>
