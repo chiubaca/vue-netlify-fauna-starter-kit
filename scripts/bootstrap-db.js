@@ -60,6 +60,16 @@ function setupFaunaDB(key) {
           permissions: {
             read: q.Collection("users")
           }
+        }),
+        q.CreateIndex({
+          name: 'posts_by_journal',
+          source: q.Collection("posts"),
+          terms: [{
+            field: ['data', 'journal']
+          }],
+          permissions: {
+            read: q.Collection("users")
+          }
         })
       )
     ))
@@ -74,6 +84,6 @@ function setupFaunaDB(key) {
     })
 }
 
-setupFaunaDB("fnADhSm0yKACC8CSDcWXPglV57ltSIp56Jt4aGqR") //This is an example key
+setupFaunaDB("<Your-Key>") 
 .then(resp => console.log(resp))
 .catch(err => console.error(err))
