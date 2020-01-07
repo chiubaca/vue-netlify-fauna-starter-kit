@@ -1,0 +1,23 @@
+/*
+* === COLORS ===
+*/
+[theme="light"] {
+    --app-background-color: #FFFFFF;
+    --primary-text: rgb(44, 44, 44);
+}
+
+[theme="dark"] {
+    --app-background-color: #091A28;
+    --primary-text: #FFFFFF
+}
+
+[theme="sepia"] {
+    --app-background-color: #F1E7D0;
+}
+
+/*
+* === STYLES ===
+*/
+.app-background {
+  background-color: var(--app-background-color);
+}

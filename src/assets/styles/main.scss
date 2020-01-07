@@ -1,3 +1,12 @@
+@import 'reset';
+@import 'theme-colours';
+
 * {
-    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+h1 {
+    color: var(--primary-text);;
 }

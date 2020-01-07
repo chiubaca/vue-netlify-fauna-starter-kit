@@ -1,5 +1,5 @@
 <template>
-  <div class="app-layout">
+  <div class="app-layout app-background">
     
     <header>
       <h1> A super charged JAM stack powered by Vue.js, Netlify and FaunaDB 🚀 </h1>
