@@ -4,7 +4,11 @@ import store from './store'
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+{ path: '/', 
+  redirect: '/journals' 
+},
+{
   path: '/home',
   name: 'home',
   component: () => import('./components/Home.vue')
@@ -28,7 +32,7 @@ const routes = [{
   meta: { authRequired: true }
 },
 {
-  path: '/',
+  path: '/profile',
   name: 'profile',
   component: () => import('./components/Profile.vue'),
   meta: { authRequired: true }
