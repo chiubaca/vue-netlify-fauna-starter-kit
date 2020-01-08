@@ -10,3 +10,6 @@
   publish = "dist" # If you use a _redirect file, provide the path to your static content folder
   jwtRolePath = "app_metadata.authorization.roles" # Object path we should look for role values for JWT based redirects
   autoLaunch = true # a Boolean value that determines if Netlify Dev launches the local server address in your browser
+
+[template.environment]
+  FAUNADB_SERVER_SECRET = "your FaunaDB server secret"
