@@ -24,6 +24,12 @@
           Not registered?
           <a @click="toggleMode" href="#">Create an account</a>
         </p>
+
+        <div v-if="isDevEnvironment"> 
+          Looks like your in a dev environment. Ensure Netlify Identity is enable and set your netlify URL here:
+          <input type="text" placeholder="https://<YOUR-NETLIFY-SITE>.netlify.com/" v-model="netlifyURL" />  
+        </div>
+
       </form>
 
     </div>
@@ -31,7 +37,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Login",
@@ -42,8 +48,8 @@ export default {
         password: "",
         email: ""
       },
-
-      mode: "login"
+      mode: "login",
+      netlifyURL:""
     };
   },
   methods: {
@@ -84,6 +90,14 @@ export default {
     },
     loginExternal(){
       this.attemptExternalLogin("Google")
+    }
+  },
+  computed: {
+    ...mapGetters("app", ["isDevEnvironment"])
+  },
+  watch:{
+    netlifyURL:function(newChange){
+      this.$store.commit("app/SET_SITE_URL", newChange)
     }
   }
 };

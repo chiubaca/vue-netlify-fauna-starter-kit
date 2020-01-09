@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import restoreState from "./helpers/restore-state"
 import attemptToAuthoriseTokens from "./helpers/authorise-tokens"
+import {initAuth} from "./helpers/init-auth"
 
 new Vue({
   el: '#app',
@@ -14,6 +15,7 @@ new Vue({
 
 restoreState()
 attemptToAuthoriseTokens()
+initAuth()
 //Redirect to journals if user is already logged in
 if(!!store.getters["auth/currentUser"]){
   router.push('journals')
