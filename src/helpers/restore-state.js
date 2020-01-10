@@ -1,10 +1,11 @@
 /**
- * Restore user from local storage into vuex user store
- */
+ * Restore user from local storage into vuex
+ * Should this logic all be moved into a Vuex action which is initialised on startup? 🤔
+ * 
 
 import store from '../store'
 
-export default function () {
+function restoreUser(){
   let savedUser = null;
 
   try{
@@ -16,11 +17,25 @@ export default function () {
     store.commit("auth/SET_CURRENT_USER", savedUser.currentUser)
   }
   catch{
-    // No user in Local storage so exit early
-    // if (!savedUser){
-    //   return
-    // }
     console.log("no saved user")
   }
+}
 
+function restoreDevURL(){
+    let netlifyURL = null;
+
+  try{
+    netlifyURL = JSON.parse(localStorage.getItem("store")) ;
+    store.commit("app/SET_SITE_URL", netlifyURL.siteURL)
+  }
+  catch{
+    console.log("no saved user")
+  }
+}
+
+
+export default function () {
+
+  restoreUser()
+  restoreDevURL()
 }

@@ -25,10 +25,9 @@
           <a @click="toggleMode" href="#">Create an account</a>
         </p>
 
-        <div v-if="isDevEnvironment"> 
-          Looks like your in a dev environment. Ensure Netlify Identity is enable and set your netlify URL here:
-          <input type="text" placeholder="https://<YOUR-NETLIFY-SITE>.netlify.com/" v-model="netlifyURL" />  
-        </div>
+        <SetNetlifyURL
+          v-if="isDevEnvironment"
+        />
 
       </form>
 
@@ -37,10 +36,14 @@
 </template>
 
 <script>
+import SetNetlifyURL from "./SetNetlifyURL"
 import { mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Login",
+  components: {
+    SetNetlifyURL,
+  },
   data() {
     return {
       crendentials: {
