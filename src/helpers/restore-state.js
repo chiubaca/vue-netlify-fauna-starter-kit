@@ -1,7 +1,7 @@
 /**
- * Restore user from local storage into vuex
+ * Restore user from local storage into Vuex user store
  * Should this logic all be moved into a Vuex action which is initialised on startup? 🤔
- * 
+ */
 
 import store from '../store'
 
