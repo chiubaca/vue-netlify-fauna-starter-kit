@@ -4,7 +4,7 @@
 
     <input type="text" placeholder="<YOUR-NETLIFY-SITE>.netlify.com" v-model="netlifyURL" />  
     <button type="button" @click="setURL()">SET</button>
-    <span>SetURL: {{siteURL}} </span>  
+    <span v-if="this.siteURL">Saved URL: {{siteURL}} </span>  
   </div>
 </template>
 
