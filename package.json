@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "netlify dev",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy": "npm run build && netlify deploy",
-    "deploy:prod": "npm run build && netlify deploy --prod "
+    "deploy:prod": "npm run build && netlify deploy --prod ",
+    "dev": "netlify dev",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "core-js": "^3.3.2",
@@ -23,7 +24,9 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
+    "@vue/cli-plugin-unit-jest": "^4.1.2",
     "@vue/cli-service": "^4.0.0",
+    "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -46,7 +49,18 @@
     },
     "parserOptions": {
       "parser": "babel-eslint"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
   },
   "postcss": {
     "plugins": {
