@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "netlify dev",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "npm run build && netlify deploy --prod "
+    "deploy": "npm run build && netlify deploy",
+    "deploy:prod": "npm run build && netlify deploy --prod "
   },
   "dependencies": {
     "core-js": "^3.3.2",
