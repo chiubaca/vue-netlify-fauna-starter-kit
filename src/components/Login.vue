@@ -24,6 +24,11 @@
           Not registered?
           <a @click="toggleMode" href="#">Create an account</a>
         </p>
+
+        <SetNetlifyURL
+          v-if="isDevEnvironment"
+        />
+
       </form>
 
     </div>
@@ -31,10 +36,14 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import SetNetlifyURL from "./SetNetlifyURL"
+import { mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Login",
+  components: {
+    SetNetlifyURL,
+  },
   data() {
     return {
       crendentials: {
@@ -42,8 +51,8 @@ export default {
         password: "",
         email: ""
       },
-
-      mode: "login"
+      mode: "login",
+      netlifyURL:""
     };
   },
   methods: {
@@ -84,6 +93,14 @@ export default {
     },
     loginExternal(){
       this.attemptExternalLogin("Google")
+    }
+  },
+  computed: {
+    ...mapGetters("app", ["isDevEnvironment"])
+  },
+  watch:{
+    netlifyURL:function(newChange){
+      this.$store.commit("app/SET_SITE_URL", newChange)
     }
   }
 };

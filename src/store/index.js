@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from 'vuex-persist';
 import auth from "./modules/auth"
+import app from "./modules/app"
 
 Vue.use(Vuex)
 
@@ -10,7 +11,8 @@ const vuexLocalStorage = new VuexPersist({
   storage: window.localStorage, // or window.sessionStorage or localForage
   // Function that passes the state and returns the state with only the objects you want to store.
   reducer: state => ({
-    currentUser:state.auth.currentUser
+    currentUser:state.auth.currentUser,
+    siteURL:state.app.siteURL
     }),
   // Function that passes a mutation and lets you decide if it should update the state in localStorage.
   // filter: mutation => (true)
@@ -19,7 +21,8 @@ const vuexLocalStorage = new VuexPersist({
 const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   modules:{
-    auth
+    auth,
+    app
   },
   plugins: [vuexLocalStorage.plugin]
 })
