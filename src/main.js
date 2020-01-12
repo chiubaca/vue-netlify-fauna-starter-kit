@@ -13,8 +13,8 @@ new Vue({
   store,
 })
 
-initAuth()
 restoreState()
+initAuth()
 attemptToAuthoriseTokens()
 
 //Redirect to journals if user is already logged in
