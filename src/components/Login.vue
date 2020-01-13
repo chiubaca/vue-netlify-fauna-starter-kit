@@ -52,7 +52,6 @@ export default {
         email: ""
       },
       mode: "login",
-      netlifyURL:""
     };
   },
   methods: {
@@ -78,8 +77,6 @@ export default {
     },
     login() {
 
-      // let token = decodeURIComponent(window.location.search).substring(1).split("confirmation_token=")[1];
-
       this.attemptLogin({...this.crendentials})
         .then(() => {
           alert(`You have signed in!`);
@@ -98,11 +95,7 @@ export default {
   computed: {
     ...mapGetters("app", ["isDevEnvironment"])
   },
-  watch:{
-    netlifyURL:function(newChange){
-      this.$store.commit("app/SET_SITE_URL", newChange)
-    }
-  }
+
 };
 </script>
 
