@@ -47,10 +47,11 @@ export default {
     */
     invokeSignupFunction (store , JWT) {
       return new Promise((resolve, reject) => {
-        console.log("invoking external signup function")
+        let URL = `https://${document.location.hostname}/.netlify/functions/identity-external-signup`
+        console.log("invoking external signup function @", URL)
         // Must provide the user JWT here otherwise we cant update the Netlify user
         // app_metadata properties which is required for storing the users DB token
-        fetch(process.env.VUE_APP_NETLIFY_URL + ".netlify/functions/identity-external-signup",
+        fetch(URL ,
               {
                 method: "POST",
                 headers: {
@@ -99,8 +100,8 @@ export default {
      * @param {*} store - vuex store object
      * @param {string} provider - eg "Google", "GitHub", "GitLab"
      */
-    attemptExternalLogin(store, provider){
-      window.location.href = this.state.GoTrueAuth.loginExternalUrl(provider);
+    attemptExternalLogin({state}, provider){
+      window.location.href = state.GoTrueAuth.loginExternalUrl(provider);
     },
 
     /**
@@ -113,11 +114,11 @@ export default {
      * @property {string} params.refresh_token eg. "UXarIArZKDt3j-5KyltLJw"
      * @property {string} params.token_type: eg. "bearer"
      */   
-    completeExternalLogin({commit, dispatch}, params){
+    completeExternalLogin({commit, dispatch, state}, params){
     // This currently getting called in src\helpers\authorise-tokens.js
       return new Promise((resolve, reject)=>{
         // If a user already exists, this will return the existing user and not create a new one
-        this.state.GoTrueAuth.createUser(params)
+        state.GoTrueAuth.createUser(params)
           .then((user) => {
             console.log("Completed external login for user ID " , user.id)
             //If db token is present here, theres no need to call the external signup so exit early
@@ -133,10 +134,7 @@ export default {
                 commit("SET_CURRENT_USER", resp)
                 resolve("Signed in successfully")
               })
-              .catch(error => {
-                console.error("Problem with external login", error)
-                reject(error)
-              })
+              .catch(error => { reject(error) })
           })
           .catch(error => {console.error("Problem with external login", error)})
         })
@@ -149,10 +147,10 @@ export default {
      * @property {string} credentials.email - email of the user eg hello@email.com
      * @property {string} credentials.password - password string
      */
-    attemptSignup(store , credentials) {
+    attemptSignup({state} , credentials) {
       console.log(`Attempting signup for ${credentials.email}...`, credentials)
       return new Promise((resolve, reject) => {
-        this.state.GoTrueAuth.signup(credentials.email, credentials.password, { full_name: credentials.name })
+        state.GoTrueAuth.signup(credentials.email, credentials.password, { full_name: credentials.name })
           .then(response => {
             console.log(`Confirmation email sent`, response)
             resolve(response)
@@ -170,10 +168,10 @@ export default {
      * @param {*} store - vuex store object 
      * @param {string} token - token from confimration email eg. "BFX7olHxIwThlfjLGGfaCA"
      */
-    attemptConfirmation(store , token) {
+    attemptConfirmation({state} , token) {
       console.log("Attempting to verify token" , token)
       return new Promise((resolve, reject) => {
-        this.state.GoTrueAuth
+        state.GoTrueAuth
           .confirm(token)
           .then(response => {
             console.log("User has been confirmed")
@@ -191,9 +189,9 @@ export default {
      * TODO: Promisify this, and remove alert out. follow up UI changes should be handled outside of vuex
      * @param {*} store - vuex store object  
      */
-    attemptLogout({commit}){
+    attemptLogout({state ,commit}){
       commit("SET_CURRENT_USER", null)
-      this.state.GoTrueAuth
+      state.GoTrueAuth
         .currentUser()
         .logout()
         .then(() => {
@@ -207,14 +205,14 @@ export default {
      *not required, delete at some point
      * @param {*} store - vuex store object  
      */
-    getUserJWTToken({getters}){
+    getUserJWTToken({getters, state}){
       console.log(getters.currentNetlifyUser)
       if(!getters.currentNetlifyUser){
         alert("Please sign in again")
         console.warn("User needs to sign in again")
         return
       }
-      this.state.GoTrueAuth.currentUser().jwt().then((token) => {
+      state.GoTrueAuth.currentUser().jwt().then((token) => {
         alert("got user token: ",token)
       })
     },
@@ -222,8 +220,8 @@ export default {
     /**
      * This should be deleted at some point
      */
-    getCurrentUser(){
-      console.log("User Object",this.state.GoTrueAuth.currentUser())
+    getCurrentUser({state}){
+      console.log("User Object", state.GoTrueAuth.currentUser())
     },
 
     initAuth({commit, rootGetters}){
@@ -244,7 +242,6 @@ export default {
             })
 
         commit("SET_GOTRUE", Auth)
-        // this.state.GoTrueAuth = Auth  
       
         this.subscribe((mutation) => {
           if (mutation.type === "app/SET_SITE_URL"){
