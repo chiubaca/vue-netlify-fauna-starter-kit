@@ -21,23 +21,19 @@ export default {
 
     currentUser: state => state.currentUser,
 
-    netlifyUserLoggedIn: () => !!this.state.GoTrueAuth.currentUser(),
+    netlifyUserLoggedIn: (state) => !!state.GoTrueAuth.currentUser(),
 
-    currentNetlifyUser:() => this.state.GoTrueAuth.currentUser(),
+    currentNetlifyUser:(state) => state.GoTrueAuth.currentUser(),
 
     GoTrueAuth:(state) => state.GoTrueAuth
   },
   mutations: {
     SET_GOTRUE(state, value){
-      this.state.GoTrueAuth = value
+      state.GoTrueAuth = value
     },
 
     SET_CURRENT_USER(state, value) {
       state.currentUser = value;
-    },
-
-    SET_AUTH(state , value){
-      state.GoTrueAuth = value
     }
 
   },
@@ -81,10 +77,10 @@ export default {
      * @property {string} credentials.email - email of the user eg hello@email.com
      * @property {string} credentials.password - password string
      */
-    attemptLogin({ commit }, credentials) {
+    attemptLogin({ commit, state }, credentials) {
       console.log(`Attempting login for ${credentials.email}`)
       return new Promise((resolve, reject) => {
-        this.state.GoTrueAuth
+        state.GoTrueAuth
           .login(credentials.email, credentials.password)
           .then(response => {
             resolve(response)
@@ -247,7 +243,8 @@ export default {
               setCookie: false
             })
 
-        this.state.GoTrueAuth = Auth  
+        commit("SET_GOTRUE", Auth)
+        // this.state.GoTrueAuth = Auth  
       
         this.subscribe((mutation) => {
           if (mutation.type === "app/SET_SITE_URL"){
@@ -257,8 +254,9 @@ export default {
               audience: "",
               setCookie: false
             })
+            
 
-            this.state.GoTrueAuth = Auth  
+          commit("SET_GOTRUE", Auth)
           }
         })
 
@@ -272,7 +270,7 @@ export default {
         setCookie: false
       })
 
-      this.state.GoTrueAuth = Auth  
+    commit("SET_GOTRUE", Auth) 
     }
 
   }
