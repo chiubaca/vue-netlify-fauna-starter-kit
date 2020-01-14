@@ -2,7 +2,8 @@
  * This module is responsible for all state and actions related to the current authenticated user.
  */
 
-import {Auth} from  '../../helpers/init-auth.js'
+// import {Auth} from  '../../helpers/init-auth.js'
+import GoTrue from "gotrue-js";
 
 export default {
   strict: false,
@@ -12,6 +13,7 @@ export default {
     return {
       testData: "some test data",
       currentUser:null,
+      GoTrueAuth:null
     }
   },
   getters: {
@@ -19,18 +21,25 @@ export default {
 
     currentUser: state => state.currentUser,
 
-    netlifyUserLoggedIn: () => !!Auth.currentUser(),
+    netlifyUserLoggedIn: () => !!this.state.GoTrueAuth.currentUser(),
 
-    currentNetlifyUser:() => Auth.currentUser()
+    currentNetlifyUser:() => this.state.GoTrueAuth.currentUser(),
+
+    GoTrueAuth:(state) => state.GoTrueAuth
   },
   mutations: {
     SET_GOTRUE(state, value){
-      Auth = value
+      this.state.GoTrueAuth = value
     },
 
     SET_CURRENT_USER(state, value) {
       state.currentUser = value;
+    },
+
+    SET_AUTH(state , value){
+      state.GoTrueAuth = value
     }
+
   },
   actions: {
 
@@ -75,7 +84,7 @@ export default {
     attemptLogin({ commit }, credentials) {
       console.log(`Attempting login for ${credentials.email}`)
       return new Promise((resolve, reject) => {
-        Auth
+        this.state.GoTrueAuth
           .login(credentials.email, credentials.password)
           .then(response => {
             resolve(response)
@@ -95,7 +104,7 @@ export default {
      * @param {string} provider - eg "Google", "GitHub", "GitLab"
      */
     attemptExternalLogin(store, provider){
-      window.location.href = Auth.loginExternalUrl(provider);
+      window.location.href = this.state.GoTrueAuth.loginExternalUrl(provider);
     },
 
     /**
@@ -112,7 +121,7 @@ export default {
     // This currently getting called in src\helpers\authorise-tokens.js
       return new Promise((resolve, reject)=>{
         // If a user already exists, this will return the existing user and not create a new one
-        Auth.createUser(params)
+        this.state.GoTrueAuth.createUser(params)
           .then((user) => {
             console.log("Completed external login for user ID " , user.id)
             //If db token is present here, theres no need to call the external signup so exit early
@@ -147,7 +156,7 @@ export default {
     attemptSignup(store , credentials) {
       console.log(`Attempting signup for ${credentials.email}...`, credentials)
       return new Promise((resolve, reject) => {
-        Auth.signup(credentials.email, credentials.password, { full_name: credentials.name })
+        this.state.GoTrueAuth.signup(credentials.email, credentials.password, { full_name: credentials.name })
           .then(response => {
             console.log(`Confirmation email sent`, response)
             resolve(response)
@@ -168,7 +177,7 @@ export default {
     attemptConfirmation(store , token) {
       console.log("Attempting to verify token" , token)
       return new Promise((resolve, reject) => {
-        Auth
+        this.state.GoTrueAuth
           .confirm(token)
           .then(response => {
             console.log("User has been confirmed")
@@ -188,7 +197,7 @@ export default {
      */
     attemptLogout({commit}){
       commit("SET_CURRENT_USER", null)
-      Auth
+      this.state.GoTrueAuth
         .currentUser()
         .logout()
         .then(() => {
@@ -209,7 +218,7 @@ export default {
         console.warn("User needs to sign in again")
         return
       }
-      Auth.currentUser().jwt().then((token) => {
+      this.state.GoTrueAuth.currentUser().jwt().then((token) => {
         alert("got user token: ",token)
       })
     },
@@ -218,7 +227,53 @@ export default {
      * This should be deleted at some point
      */
     getCurrentUser(){
-      console.log("User Object",Auth.currentUser())
+      console.log("User Object",this.state.GoTrueAuth.currentUser())
+    },
+
+    initAuth({commit, rootGetters}){
+      console.log("Hello from vuex init Auth")
+      // https://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp/57421931#57421931
+      const IPv4Pattern = /\b((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\b/;
+      const hostName = document.location.hostname
+      const APIUrl = `https://${hostName}/.netlify/identity`
+    
+      if(hostName.match(IPv4Pattern) || hostName ==="localhost"){
+        console.log("Looks like your in a dev environment", hostName)
+        commit("app/SET_DEV_ENV", true , {root : true})
+        console.log("initialising Go True client with", rootGetters["app/siteURL"])
+        let Auth = new GoTrue({
+              APIUrl: `https://${rootGetters["app/siteURL"]}/.netlify/identity`,
+              audience: "",
+              setCookie: false
+            })
+
+        this.state.GoTrueAuth = Auth  
+      
+        this.subscribe((mutation) => {
+          if (mutation.type === "app/SET_SITE_URL"){
+            console.log("re-initialising Go True client with", rootGetters["app/siteURL"])
+            let Auth = new GoTrue({
+              APIUrl: `https://${rootGetters["app/siteURL"]}/.netlify/identity`,
+              audience: "",
+              setCookie: false
+            })
+
+            this.state.GoTrueAuth = Auth  
+          }
+        })
+
+        return
+      }
+
+      console.log("Initialising Go True client with ", APIUrl)
+      let Auth = new GoTrue({
+        APIUrl: APIUrl,
+        audience: "",
+        setCookie: false
+      })
+
+      this.state.GoTrueAuth = Auth  
     }
+
   }
 }

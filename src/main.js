@@ -3,7 +3,7 @@ import AppLayout from './components/AppLayout.vue'
 import router from './router'
 import store from './store'
 import attemptToAuthoriseTokens from "./helpers/authorise-tokens"
-import {initAuth} from "./helpers/init-auth"
+// import {initAuth} from "./helpers/init-auth"
 
 new Vue({
   el: '#app',
@@ -12,7 +12,8 @@ new Vue({
   store,
 })
 
-initAuth()
+store.dispatch("auth/initAuth")
+// initAuth()
 attemptToAuthoriseTokens()
 
 //Redirect to journals if user is already logged in
