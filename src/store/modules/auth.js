@@ -222,6 +222,13 @@ export default {
       console.log("User Object", state.GoTrueAuth.currentUser())
     },
 
+    /**
+     * Initialises a GoTrue instance. This method also checks if user is in a local environment  based on the URL.
+     * this updates the `app/SET_DEV_ENV` flag. This facilitates a zero-config setup as a developer can input their 
+     * netlify URL in the UI (see the the `SetNetlifyURL.vue` component). Inspired from the official Netlify 
+     * Identity widget.
+     * @param {*} store - vuex store object  
+     */
     initAuth({commit, rootGetters}){
       console.log("Hello from vuex init Auth")
       // https://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp/57421931#57421931
@@ -248,9 +255,7 @@ export default {
               APIUrl: `https://${rootGetters["app/siteURL"]}/.netlify/identity`,
               audience: "",
               setCookie: false
-            })
-            
-
+            })   
           commit("SET_GOTRUE", Auth)
           }
         })
