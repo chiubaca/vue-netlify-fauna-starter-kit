@@ -1,6 +1,6 @@
-# Vue - Netlify - Fauna Starter Kit
+ # Vue - Netlify - Fauna Starter Kit
 
-A [JAM stack](https://jamstack.org/) template which uses [Vue](https://vuejs.org/) for the front-end, [Netlify](https://www.netlify.com/) for APIs (via Netlify Functions) and [Fauna](https://www.netlify.com/) for the database. 
+A [JAM stack](https://jamstack.org/) template for building CRUD applications with authentication ready to go. Uses [Vue](https://vuejs.org/) for the front-end, [Netlify](https://www.netlify.com/) for APIs (via Netlify Functions) and [Fauna](https://www.netlify.com/) for the database. 
 
 This is an entirely serverless stack which leans heavily on Netlify and Fauna for the backend. At the time of writing this, these services offer generous free tiers which means anyone can get started and deploy and host this completely free.
 
@@ -39,3 +39,14 @@ npm run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## App Features
+TODO...
+
+## Why This Exists
+
+This template was made to be a reusable template to build upon and create more complex CRUD applications with authentication ready to go. This was built for my own learning purposes and was heavily inspired from the following Github repos which also leverage Netlify Identity, Functions and FaunaDB. 
+
+- https://github.com/shortdiv/gotruejs-in-vue
+- https://github.com/fauna/netlify-faunadb-todomvc
+- https://github.com/netlify/netlify-faunadb-example (doesn't have authentication)
