@@ -60,7 +60,10 @@
           "jest": true
         }
       }
-    ]
+    ],
+    "env": {
+      "jest": true
+    }
   },
   "postcss": {
     "plugins": {
