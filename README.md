@@ -1,8 +1,8 @@
-# Vue.js - Netlify - FaunaDB Starter Kit
+# Vue - Netlify - Fauna Starter Kit
 
-A versatile stack which uses Vue.js for the front-end, Netlify for APIs (via Netlify Functions) and FaunaDB as the database. 
+A [JAM stack](https://jamstack.org/) template which uses [Vue](https://vuejs.org/) for the front-end, [Netlify](https://www.netlify.com/) for APIs (via Netlify Functions) and [Fauna](https://www.netlify.com/) for the database. 
 
-This is an entirely serverless stack which leans heavily on Netlify and Fauna for the backend. At the time of writing this, these services offer generous free tiers which means anyone can get started and deploy this completely free.
+This is an entirely serverless stack which leans heavily on Netlify and Fauna for the backend. At the time of writing this, these services offer generous free tiers which means anyone can get started and deploy and host this completely free.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/chiubaca/vue-netlify-fauna-starter-kit)
 
@@ -11,9 +11,10 @@ This is an entirely serverless stack which leans heavily on Netlify and Fauna fo
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development via [Netlify Dev](https://www.netlify.com/products/dev/). (Make sure you have Netlify Dev installed with `npm install netlify-cli -g`)
+
 ```
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
@@ -21,14 +22,19 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
+### Runs a build and deploys to Netlify on a preview URL
 ```
-npm run test
+npm run deploy
 ```
 
-### Lints and fixes files
+### Runs a build and deploys to Netlify on your master URL
 ```
-npm run lint
+npm run deploy:prod
+```
+
+### Runs unit tests with Jest
+```
+npm run test:unit
 ```
 
 ### Customize configuration
