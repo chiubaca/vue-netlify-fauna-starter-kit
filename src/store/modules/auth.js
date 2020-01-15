@@ -1,8 +1,6 @@
 /**
  * This module is responsible for all state and actions related to the current authenticated user.
  */
-
-// import {Auth} from  '../../helpers/init-auth.js'
 import GoTrue from "gotrue-js";
 
 export default {
