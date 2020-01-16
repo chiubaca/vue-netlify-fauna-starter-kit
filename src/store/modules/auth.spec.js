@@ -47,13 +47,21 @@ describe('auth/getters', () => {
 
 //Mutations tests
 describe('auth/mutations', () => {
-  test('test', () => {
+  test('SET_GOTRUE updates GoTrueAuth state', () => {
+    const state = {
+      GoTrueAuth: null
+    }
+    authModule.mutations.SET_GOTRUE(state , {"payload": "some_data"})
+     expect(state.GoTrueAuth).toEqual({"payload": "some_data"})
   })
 
-  //TODO
-  // - SET_GOTRUE
-  // - SET_CURRENT_USER
-
+  test('SET_CURRENT_USER updates currentUser state', () => {
+    const state = {
+      currentUser: null
+    }
+    authModule.mutations.SET_CURRENT_USER(state , {"payload": "some_data"})
+     expect(state.currentUser).toEqual({"payload": "some_data"})
+  })
 })
 
 //Actions tests
