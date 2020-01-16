@@ -37,7 +37,9 @@
   "eslintConfig": {
     "root": true,
     "env": {
-      "node": true
+      "node": true,
+      "jest": true,
+      "env":true
     },
     "extends": [
       "plugin:vue/essential",
@@ -60,10 +62,7 @@
           "jest": true
         }
       }
-    ],
-    "env": {
-      "jest": true
-    }
+    ]
   },
   "postcss": {
     "plugins": {
