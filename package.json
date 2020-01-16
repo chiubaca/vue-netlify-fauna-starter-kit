@@ -9,7 +9,8 @@
     "deploy": "npm run build && netlify deploy",
     "deploy:prod": "npm run build && netlify deploy --prod ",
     "dev": "netlify dev",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "test:unit--watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "core-js": "^3.3.2",
