@@ -19,11 +19,11 @@ export default {
 
     currentUser: state => state.currentUser,
 
-    netlifyUserLoggedIn: (state) => !!state.GoTrueAuth.currentUser(),
+    netlifyUserLoggedIn: state => !!state.GoTrueAuth.currentUser(),
 
-    currentNetlifyUser:(state) => state.GoTrueAuth.currentUser(),
+    currentNetlifyUser: state => state.GoTrueAuth.currentUser(),
 
-    GoTrueAuth:(state) => state.GoTrueAuth
+    GoTrueAuth: state => state.GoTrueAuth
   },
   mutations: {
     SET_GOTRUE(state, value){
