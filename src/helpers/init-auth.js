@@ -12,6 +12,12 @@ export function initAuth(){
   if(hostName.match(IPv4Pattern) || hostName ==="localhost"){
     console.log("Looks like your in a dev environment", hostName)
     store.commit("app/SET_DEV_ENV", true)
+    console.log("initialising Go True client with", store.getters["app/siteURL"])
+    Auth = new GoTrue({
+          APIUrl: `https://${store.getters["app/siteURL"]}/.netlify/identity`,
+          audience: "",
+          setCookie: false
+        })
     
     store.subscribe((mutation) => {
       if (mutation.type === "app/SET_SITE_URL"){

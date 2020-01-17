@@ -3,7 +3,6 @@ import AppLayout from './components/AppLayout.vue'
 import router from './router'
 import store from './store'
 import attemptToAuthoriseTokens from "./helpers/authorise-tokens"
-import {initAuth} from "./helpers/init-auth"
 
 new Vue({
   el: '#app',
@@ -12,7 +11,9 @@ new Vue({
   store,
 })
 
-initAuth()
+store.dispatch("auth/initAuth")
+
+//TODO: This is not guranteed to run. It seems to gets skipped when a route gets redirected. Needs tweaking. 
 attemptToAuthoriseTokens()
 
 //Redirect to journals if user is already logged in
