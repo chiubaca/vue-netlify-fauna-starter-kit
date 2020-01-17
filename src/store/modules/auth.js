@@ -230,33 +230,29 @@ export default {
      * @param {*} store - vuex store object  
      */
     initAuth({commit, rootGetters}){
-      console.log("Hello from vuex init Auth")
       // https://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp/57421931#57421931
       const IPv4Pattern = /\b((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\b/;
       const hostName = document.location.hostname
       const APIUrl = `https://${hostName}/.netlify/identity`
-    
-      if(hostName.match(IPv4Pattern) || hostName ==="localhost"){
-        console.log("Looks like your in a dev environment", hostName)
-        commit("app/SET_DEV_ENV", true , {root : true})
-        console.log("initialising Go True client with", rootGetters["app/siteURL"])
-        let Auth = new GoTrue({
-              APIUrl: `https://${rootGetters["app/siteURL"]}/.netlify/identity`,
+      const initNewGoTrue = function(APIUrl){
+        return new GoTrue({
+              APIUrl: APIUrl,
               audience: "",
               setCookie: false
             })
+      } 
 
-        commit("SET_GOTRUE", Auth)
+      if(hostName.match(IPv4Pattern) || hostName ==="localhost"){
+        console.log("Looks like your in a dev environment", hostName)
+        commit("app/SET_DEV_ENV", true , {root : true})
+        
+        console.log("initialising Go True client with", `https://${rootGetters["app/siteURL"]}/.netlify/identity`)
+        commit("SET_GOTRUE", initNewGoTrue(`https://${rootGetters["app/siteURL"]}/.netlify/identity`))
       
         this.subscribe((mutation) => {
           if (mutation.type === "app/SET_SITE_URL"){
             console.log("re-initialising Go True client with", rootGetters["app/siteURL"])
-            let Auth = new GoTrue({
-              APIUrl: `https://${rootGetters["app/siteURL"]}/.netlify/identity`,
-              audience: "",
-              setCookie: false
-            })   
-          commit("SET_GOTRUE", Auth)
+            commit("SET_GOTRUE", initNewGoTrue(`https://${rootGetters["app/siteURL"]}/.netlify/identity`))
           }
         })
 
@@ -264,13 +260,7 @@ export default {
       }
 
       console.log("Initialising Go True client with ", APIUrl)
-      let Auth = new GoTrue({
-        APIUrl: APIUrl,
-        audience: "",
-        setCookie: false
-      })
-
-    commit("SET_GOTRUE", Auth) 
+      commit("SET_GOTRUE", initNewGoTrue(APIUrl)) 
     }
 
   }
