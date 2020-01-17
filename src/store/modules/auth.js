@@ -57,9 +57,9 @@ export default {
                   Authorization: "Bearer " + JWT,
                 }
               })
-            .then((resp) => resp.json())
-            .then((data) => {
-                if (data.code >= 400){
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.code >= 400) {
                   reject(data.msg)
                   console.error("There was an error invoking external signup", data)
                 }
