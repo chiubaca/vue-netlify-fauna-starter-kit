@@ -66,11 +66,11 @@ describe('auth/mutations', () => {
 
 //Actions tests
 describe('auth/actions', () => {
-  test('test', () => {
-  })
-
   //TODO
   // - invokeSignupFunction
+  //   - returns a promise
+  //   - returns expected data
+  //   - returns an error
   // - attemptLogin
   // - attemptExternalLogin
   // - completeExternalLogin
