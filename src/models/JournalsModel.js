@@ -33,5 +33,5 @@ export function getJournals() {
         ref => q.Get(ref)
       )
     )
-    .then(r => r.data);
+    .then(resp => resp);
 }

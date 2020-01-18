@@ -260,7 +260,7 @@ export default {
         commit("app/SET_DEV_ENV", true, { root: true });
 
         console.log(
-          "initialising Go True client with",
+          "Initialising Go True client with",
           `https://${rootGetters["app/siteURL"]}/.netlify/identity`
         );
         commit(
@@ -273,7 +273,7 @@ export default {
         this.subscribe(mutation => {
           if (mutation.type === "app/SET_SITE_URL") {
             console.log(
-              "re-initialising Go True client with",
+              "Re-initialising Go True client with",
               rootGetters["app/siteURL"]
             );
             commit(

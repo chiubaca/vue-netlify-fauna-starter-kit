@@ -36,8 +36,8 @@ export default {
   },
   beforeMount() {
     getJournals().then(resp => {
-      console.log("Journal data from DB", resp);
-      this.allJournals = resp;
+      console.log("Got journals from DB", resp.data);
+      this.allJournals = resp.data;
     });
   },
   methods: {

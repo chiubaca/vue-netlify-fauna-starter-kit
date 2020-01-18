@@ -45,7 +45,7 @@ export default {
   },
   beforeMount() {
     getPosts(this.$route.params.id).then(resp => {
-      console.log("posts data from DB", resp);
+      console.log("Got posts from DB", resp.data);
       this.allPosts = resp.data;
     });
   },

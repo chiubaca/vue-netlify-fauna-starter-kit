@@ -29,8 +29,6 @@ export function getPosts(journalID) {
   return client
     .query(q.Get(q.Ref(`collections/journals/${journalID}`)))
     .then(journal => {
-      console.log("Got Journal", journal);
-
       return client
         .query(
           q.Map(
@@ -38,10 +36,7 @@ export function getPosts(journalID) {
             ref => q.Get(ref) // fauna lambda function , what does "Get()" do?
           )
         )
-        .then(resp => {
-          console.log("got posts", resp);
-          return resp;
-        });
+        .then(resp => resp);
     })
     .catch(err => console.error("couldnt get posts", err));
 }
