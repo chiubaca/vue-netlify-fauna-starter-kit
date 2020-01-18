@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "lint": "vue-cli-service lint --no-fix ",
+    "lint:--fix": "vue-cli-service lint --no-fix ",
     "deploy": "npm run build && netlify deploy",
     "deploy:prod": "npm run build && netlify deploy --prod ",
     "dev": "netlify dev",
