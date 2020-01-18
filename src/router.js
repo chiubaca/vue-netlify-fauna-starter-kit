@@ -42,16 +42,11 @@ const router = new VueRouter({
   mode: "history"
 });
 
-//console logs for debugging
-let debug = msg => console.debug(`Router Debug: ${msg}`);
-
 router.beforeEach((to, from, next) => {
   const authRequired = to.matched.some(route => route.meta.authRequired);
-  debug(`This page needs auth ${authRequired}`);
 
   if (!authRequired) {
     // check if current user
-    debug("no login required, pass through");
     return next();
   }
 
