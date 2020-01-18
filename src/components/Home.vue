@@ -5,22 +5,14 @@
 </template>
 
 <script>
-
 export default {
   name: "Home",
   props: {
     msg: String
   },
   data() {
-    return {
-    }
-  },
-  computed: {
-
-  },
-  methods: {
-
-  },
+    return {};
+  }
 };
 </script>
 
@@ -28,12 +20,11 @@ export default {
 <style lang="scss">
 .test-area {
   background-color: beige;
-  width:500px;
-  
+  width: 500px;
+
   span {
     background-color: red;
-    padding:5px
+    padding: 5px;
   }
-
 }
 </style>
