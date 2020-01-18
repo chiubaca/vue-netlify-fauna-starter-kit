@@ -3,9 +3,11 @@ import store from '../store'
 
 /* configure faunaDB Client with our secret */
 export const q = faunadb.query
-export let client = new faunadb.Client({
+// client needs to be mutable so it can dynamically re-initialise when a new user logs in.
+// eslint-disable-next-line import/no-mutable-exports
+export let client = new faunadb.Client({ 
   secret: store.getters["auth/currentUser"].app_metadata.db_token
-})
+}) 
 
 // Its important we watch the current user object and update the fauna db client
 // otherwise when switching accounts the previous users token is still cached in memory

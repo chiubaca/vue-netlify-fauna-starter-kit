@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import Home from "../../src/components/Home.vue"
+import Home from "./Home.vue"
 
 describe('Home', () => {
     it('renders a ', async () => {
