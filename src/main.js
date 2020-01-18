@@ -13,11 +13,11 @@ new Vue({
 
 store.dispatch("auth/initAuth")
 
-//TODO: This is not guranteed to run. It seems to gets skipped when a route gets redirected. Needs tweaking. 
+//TODO: This is not guaranteed to run. It seems to gets skipped when a route gets redirected. Needs tweaking. 
 attemptToAuthoriseTokens()
 
 //Redirect to journals if user is already logged in
-if(Boolean(store.getters["auth/currentUser"])){
+if(store.getters["auth/currentUser"]){
   router.push('journals')
 }
 
