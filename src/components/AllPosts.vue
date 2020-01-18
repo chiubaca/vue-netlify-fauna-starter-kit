@@ -9,7 +9,7 @@
 
     <div id="posts-container">
       <PostCard
-        v-for="(item, index) in this.allPosts"
+        v-for="(item, index) in allPosts"
         :key="index" 
         :card-data="item"/>
     </div>
@@ -17,8 +17,8 @@
     <h2>Add A New Post</h2>
     <form 
       class="new-post">
-        <input type="text" placeholder="Title" v-model="post.title" />
-        <textarea type="text" placeholder="What's on your mind?" v-model="post.contents" />
+        <input v-model="post.title" type="text" placeholder="Title"/>
+        <textarea v-model="post.contents" type="text" placeholder="What's on your mind?"/>
         <button type="button" @click="submit()">Submit</button>
     </form>
     
@@ -27,7 +27,7 @@
 
 <script>
 import {addPost , getPosts} from "../models/PostsModel"
-import PostCard from "./PostCard"
+import PostCard from "./PostCard.vue"
 
 export default {
   components: {
@@ -42,6 +42,14 @@ export default {
       },
       allPosts:[]
     }
+  },
+  beforeMount () {
+
+    getPosts(this.$route.params.id)
+    .then(resp => {
+      console.log("posts data from DB", resp)
+      this.allPosts = resp.data
+    })
   },
   methods: {
     /**
@@ -59,15 +67,7 @@ export default {
         console.error(err)
       })
     }
-  },
-  beforeMount () {
-
-  getPosts(this.$route.params.id)
-  .then(resp => {
-    console.log("posts data from DB", resp)
-    this.allPosts = resp.data
-  })
-  },
+  }
 };
 
 </script>

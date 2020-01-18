@@ -34,14 +34,14 @@ export default {
       actionInput: null
     };
   },
+  computed: {
+    ...mapGetters("auth", ["currentUser", "netlifyUserLoggedIn"])
+  },
   methods: {
     ...mapActions("auth", ["updateUserMetaData",
                            "getUserJWTToken",
                            "getCurrentUser",
                            "attemptLogout"]),    
-  },
-  computed: {
-    ...mapGetters("auth", ["currentUser", "netlifyUserLoggedIn"])
   }
 };
 </script>

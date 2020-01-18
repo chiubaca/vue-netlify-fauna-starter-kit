@@ -1,7 +1,7 @@
 <template>
   <div class="post-card">
-    <span>Title: {{this.cardData.data.title}} </span>
-    <span>Contents:{{this.cardData.data.contents}} </span>
+    <span>Title: {{cardData.data.title}} </span>
+    <span>Contents:{{cardData.data.contents}} </span>
   </div>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
   <div class="journal-card">
     <router-link 
-      :to="{path: `journals/${this.journalData.ref.value.id}/posts`}" 
+      :to="{path: `journals/${journalData.ref.value.id}/posts`}" 
     >
-      <span>{{this.journalData.data.title}} </span>
+      <span>{{journalData.data.title}} </span>
     </router-link>
   </div>
 </template>

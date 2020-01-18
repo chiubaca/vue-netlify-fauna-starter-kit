@@ -4,25 +4,25 @@
       
       <form v-if="mode === 'register'" class="register-form stack">
         <h2>👋 Register Here</h2>
-        <input type="text" placeholder="name" v-model="crendentials.name" />
-        <input type="text" placeholder="email address" v-model="crendentials.email" />
-        <input type="password" placeholder="password" v-model="crendentials.password" />
+        <input v-model="crendentials.name" type="text" placeholder="name"/>
+        <input v-model="crendentials.email" type="text" placeholder="email address"/>
+        <input v-model="crendentials.password" type="password" placeholder="password"  />
         <button type="button" @click="signup()">Sign Up</button>
         <p class="message">
           Already registered?
-          <a @click="toggleMode" href="#">Sign In</a>
+          <a href="#" @click="toggleMode">Sign In</a>
         </p>
       </form>
 
       <form v-else class="login-form stack">
         <h2>🔐 Login Here</h2>
-        <input type="text" placeholder="username" v-model="crendentials.email" />
-        <input type="password" placeholder="password" v-model="crendentials.password" />
+        <input v-model="crendentials.email" type="text" placeholder="username"/>
+        <input v-model="crendentials.password" type="password" placeholder="password"/>
         <button type="button" @click="login()">login</button>
         <div @click="loginExternal()"> Sign in with Google </div>
         <p class="message">
           Not registered?
-          <a @click="toggleMode" href="#">Create an account</a>
+          <a href="#" @click="toggleMode">Create an account</a>
         </p>
 
         <SetNetlifyURL
@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import SetNetlifyURL from "./SetNetlifyURL"
 import { mapActions, mapGetters} from "vuex";
+import SetNetlifyURL from "./SetNetlifyURL.vue"
 
 export default {
   name: "Login",
@@ -53,6 +53,9 @@ export default {
       },
       mode: "login",
     };
+  },
+  computed: {
+    ...mapGetters("app", ["isDevEnvironment"])
   },
   methods: {
     ...mapActions("auth", ["attemptLogin", "attemptSignup", "attemptExternalLogin"]),
@@ -91,10 +94,7 @@ export default {
     loginExternal(){
       this.attemptExternalLogin("Google")
     }
-  },
-  computed: {
-    ...mapGetters("app", ["isDevEnvironment"])
-  },
+  }
 
 };
 </script>

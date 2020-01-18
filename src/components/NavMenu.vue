@@ -14,7 +14,7 @@
          <router-link :to="{ name: 'profile' }">Your Profile</router-link>
       </li>
     </ul>
-    <input type="checkbox" class='theme-switch' v-model="darkMode"/>
+    <input v-model="darkMode" type="checkbox" class='theme-switch' />
   </div>
 </template>
 

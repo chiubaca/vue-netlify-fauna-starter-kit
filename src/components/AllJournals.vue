@@ -4,7 +4,7 @@
     <h1>Your Journals</h1>
     <div id="journals-container">
       <JournalCard
-        v-for="(item, index) in this.allJournals"
+        v-for="(item, index) in allJournals"
         :key="index" 
         :journal-data="item"/>
     </div>
@@ -12,7 +12,7 @@
     <h2>Create A New Journal</h2>
     <form 
       class="create-new-journal">
-        <input type="text" placeholder="Title" v-model="journal.title" />
+        <input v-model="journal.title" type="text" placeholder="Title"/>
         <button type="button" @click="submit()">Create</button>
     </form>
     
@@ -21,7 +21,7 @@
 
 <script>
 import {createJournal , getJournals} from "../models/JournalsModel"
-import JournalCard from "./JournalCard"
+import JournalCard from "./JournalCard.vue"
 
 export default {
   components: {
@@ -35,6 +35,15 @@ export default {
       },
       allJournals:[]
     }
+  },
+   beforeMount () {
+
+    getJournals()
+    .then(resp => {
+      console.log("Journal data from DB", resp)
+      this.allJournals = resp
+    })
+
   },
   methods: {
     /**
@@ -52,16 +61,7 @@ export default {
         console.error(err)
       })
     }
-  },
-  beforeMount () {
-
-  getJournals()
-  .then(resp => {
-    console.log("Journal data from DB", resp)
-    this.allJournals = resp
-  })
-
-  },
+  }
 };
 
 </script>
