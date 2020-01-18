@@ -17,7 +17,7 @@ store.dispatch("auth/initAuth")
 attemptToAuthoriseTokens()
 
 //Redirect to journals if user is already logged in
-if(!!store.getters["auth/currentUser"]){
+if(Boolean(store.getters["auth/currentUser"])){
   router.push('journals')
 }
 
