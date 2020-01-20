@@ -1,14 +1,14 @@
 <template>
   <div class="app-layout app-background">
-    
     <header>
-      <h1> A super charged JAM stack powered by Vue.js, Netlify and FaunaDB 🚀 </h1>
+      <h1>
+        A super charged JAM stack powered by Vue.js, Netlify and FaunaDB 🚀
+      </h1>
     </header>
 
     <NavMenu />
-    
+
     <router-view />
-    
   </div>
 </template>
 
@@ -24,6 +24,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-@import '..//assets/styles/main.scss'
-
+@import "..//assets/styles/main.scss";
 </style>

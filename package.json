@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "lint": "vue-cli-service lint --no-fix ",
+    "lint:--fix": "vue-cli-service lint --no-fix ",
     "deploy": "npm run build && netlify deploy",
     "deploy:prod": "npm run build && netlify deploy --prod ",
     "dev": "netlify dev",
@@ -30,7 +31,11 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-vue": "^5.2.3",
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"
@@ -42,12 +47,41 @@
       "jest": true
     },
     "extends": [
+      "airbnb-base",
       "plugin:vue/essential",
+      "plugin:prettier/recommended",
       "eslint:recommended"
     ],
     "rules": {
       "no-console": "off",
-      "no-extra-boolean-cast": 1
+      "no-extra-boolean-cast": 1,
+      "vue/attribute-hyphenation": "warning",
+      "vue/html-closing-bracket-newline": "warning",
+      "vue/html-closing-bracket-spacing": "warning",
+      "vue/html-end-tags": "warning",
+      "vue/html-indent": "warning",
+      "vue/html-quotes": "warning",
+      "vue/html-self-closing": "warning",
+      "vue/max-attributes-per-line": "warning",
+      "vue/multiline-html-element-content-newline": "warning",
+      "vue/mustache-interpolation-spacing": "warning",
+      "vue/name-property-casing": "warning",
+      "vue/no-multi-spaces": "warning",
+      "vue/no-spaces-around-equal-signs-in-attribute": "warning",
+      "vue/no-template-shadow": "warning",
+      "vue/prop-name-casing": "warning",
+      "vue/require-default-prop": "warning",
+      "vue/require-prop-types": "warning",
+      "vue/singleline-html-element-content-newline": "warning",
+      "vue/v-bind-style": "warning",
+      "vue/v-on-style": "warning",
+      "vue/attributes-order": "error",
+      "vue/no-confusing-v-for-v-if": "error",
+      "vue/no-v-html": "error",
+      "vue/order-in-components": "error",
+      "vue/this-in-template": "error",
+      "vue/arrow-spacing": "warning",
+      "vue/eqeqeq": "warning"
     },
     "parserOptions": {
       "parser": "babel-eslint"
