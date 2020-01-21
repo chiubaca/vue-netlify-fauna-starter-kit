@@ -1,12 +1,19 @@
 <template>
-  <main class="home">
-    <h2>🏠 This is the public home page</h2>
+  <main class="home space">
+    <h1>Vue- Netlify - Fauna</h1>
+    <h2>A JAM stack template with authentication baked in</h2>
+    <Login />
   </main>
 </template>
 
 <script>
+import Login from "./Login.vue";
+
 export default {
   name: "Home",
+  components: {
+    Login
+  },
   props: {
     msg: String
   },
