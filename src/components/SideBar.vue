@@ -7,15 +7,13 @@
             <router-link :to="{ name: 'home' }">Home</router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'login' }">Login</router-link>
-          </li>
-          <li>
             <router-link :to="{ name: 'journals' }">All Journals</router-link>
           </li>
           <li>
             <router-link :to="{ name: 'profile' }">Your Profile</router-link>
           </li>
         </ul>
+        <ThemeToggle />
       </nav>
     </transition>
 
@@ -39,9 +37,13 @@
 </template>
 
 <script>
+import ThemeToggle from "./ThemeToggle.vue";
+
 export default {
   name: "BurgerMenu",
-  components: {},
+  components: {
+    ThemeToggle
+  },
   data() {
     return {
       show: false
@@ -120,19 +122,16 @@ input[type="checkbox"] {
 }
 
 nav {
-  background: white;
+  background-color: var(--app-background-color);
   box-shadow: 0px 2px 5px 1px #7d7d7d;
-  width: 250px;
+  width: 20rem;
   height: 100vh;
   position: fixed;
   z-index: 4;
 }
 
 .nav-items {
-  display: flex;
-  flex-direction: column;
-  padding-top: 60px;
-  border-bottom: 1px solid #d6d6d6;
+  list-style: none;
 }
 
 #bottom-divider {
