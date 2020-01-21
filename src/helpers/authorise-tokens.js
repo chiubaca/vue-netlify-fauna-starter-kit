@@ -12,7 +12,10 @@ function checkConfirmationToken() {
   let token = decodeURIComponent(window.location.search)
     .substring(1)
     .split("confirmation_token=")[1];
-  console.log("Checking for a token..");
+  console.log(
+    "Checking for a token in url...",
+    decodeURIComponent(window.location.search)
+  );
   // Authorise if a token is available, otherwise exit early
   if (token) {
     console.log("Found a token: ", token);
@@ -36,7 +39,10 @@ function checkConfirmationToken() {
  */
 function checkAccessToken() {
   const externalToken = /access_token=/;
-  console.log("Checking for an external provider token..");
+  console.log(
+    "Checking for an external provider token in url...",
+    document.location.hash
+  );
   // Clean the URL
   const hash = (document.location.hash || "").replace(/^#\/?/, "");
 
