@@ -2,11 +2,17 @@
   <main class="home space">
     <h1>Vue - Netlify - Fauna</h1>
     <h2>A JAM stack template with authentication baked in</h2>
-    <Login />
+    <Login v-if="currentUser === null" />
+    <div v-else>
+      Welcome Back! <br />
+      You're already logged in, Go check out your private
+      <router-link :to="{ name: 'journals' }">journals</router-link>.
+    </div>
   </main>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Login from "./Login.vue";
 
 export default {
@@ -19,6 +25,12 @@ export default {
   },
   data() {
     return {};
+  },
+  computed: {
+    ...mapGetters("auth", ["currentUser"])
+  },
+  mounted() {
+    console.log("what is current user?", this.currentUser);
   }
 };
 </script>
