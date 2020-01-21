@@ -12,10 +12,10 @@ function checkConfirmationToken() {
   let token = decodeURIComponent(window.location.search)
     .substring(1)
     .split("confirmation_token=")[1];
-
+  console.log("Checking for a token..");
   // Authorise if a token is available, otherwise exit early
   if (token) {
-    console.log("got a token: ", token);
+    console.log("Found a token: ", token);
     store
       .dispatch("auth/attemptConfirmation", token)
       .then(resp => {
@@ -27,6 +27,7 @@ function checkConfirmationToken() {
       });
     return;
   }
+  console.log("no token found");
 }
 
 /**
@@ -35,12 +36,12 @@ function checkConfirmationToken() {
  */
 function checkAccessToken() {
   const externalToken = /access_token=/;
-
+  console.log("Checking for an external provider token..");
   // Clean the URL
   const hash = (document.location.hash || "").replace(/^#\/?/, "");
 
   if (hash.match(externalToken)) {
-    console.log("detected external token", hash.match(externalToken));
+    console.log("Detected external token", hash.match(externalToken));
     //create token param from url hash
     const params = {};
 
@@ -59,6 +60,7 @@ function checkAccessToken() {
         console.error(error, "Somethings gone wrong logging in");
       });
   }
+  console.log("no external provider token found");
 }
 
 export default function() {
