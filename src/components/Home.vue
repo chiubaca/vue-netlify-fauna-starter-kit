@@ -1,6 +1,6 @@
 <template>
   <main class="home space">
-    <h1>Vue- Netlify - Fauna</h1>
+    <h1>Vue - Netlify - Fauna</h1>
     <h2>A JAM stack template with authentication baked in</h2>
     <Login />
   </main>
@@ -25,6 +25,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+.home {
+  height: 100vh;
+}
+
 .test-area {
   background-color: beige;
   width: 500px;
