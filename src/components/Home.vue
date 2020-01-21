@@ -28,9 +28,6 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["currentUser"])
-  },
-  mounted() {
-    console.log("what is current user?", this.currentUser);
   }
 };
 </script>
