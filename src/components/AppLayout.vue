@@ -1,23 +1,17 @@
 <template>
   <div class="app-layout app-background">
-    <header>
-      <h1>
-        A super charged JAM stack powered by Vue.js, Netlify and FaunaDB 🚀
-      </h1>
-    </header>
-
-    <NavMenu />
+    <SideBar />
 
     <router-view />
   </div>
 </template>
 
 <script>
-import NavMenu from "./NavMenu.vue";
+import SideBar from "./SideBar.vue";
 
 export default {
   components: {
-    NavMenu
+    SideBar
   }
 };
 </script>
