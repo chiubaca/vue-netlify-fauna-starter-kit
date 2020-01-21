@@ -1,0 +1,17 @@
+/*
+  A set of reusable css utility classes 
+*/
+
+// 58 bytes of css to look great nearly everywhere
+// https://jrl.ninja/etc/1/
+.space {
+  max-width: 38rem;
+  padding: 2rem;
+  margin: auto;
+}
+
+// helper vertically align items
+.stack {
+  display: flex;
+  flex-direction: column;
+}
