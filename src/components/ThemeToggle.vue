@@ -1,5 +1,7 @@
 <template>
   <div>
+    <span v-if="darkMode === false"> 🌚 </span>
+    <span v-else> 🌞 </span>
     <input v-model="darkMode" type="checkbox" class="theme-switch" />
   </div>
 </template>

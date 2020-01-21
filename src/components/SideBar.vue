@@ -12,8 +12,10 @@
           <li>
             <router-link :to="{ name: 'profile' }">Your Profile</router-link>
           </li>
+          <li>
+            <ThemeToggle />
+          </li>
         </ul>
-        <ThemeToggle />
       </nav>
     </transition>
 
@@ -130,8 +132,9 @@ nav {
   z-index: 4;
 }
 
-.nav-items {
+.nav-items li {
   list-style: none;
+  padding-top: 2rem;
 }
 
 #bottom-divider {
