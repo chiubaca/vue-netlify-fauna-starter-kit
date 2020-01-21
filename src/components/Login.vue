@@ -112,10 +112,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.stack {
-  display: flex;
-  flex-direction: column;
-  width: 20%;
-}
-</style>
+<style scoped></style>
