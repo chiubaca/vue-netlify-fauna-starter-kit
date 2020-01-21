@@ -97,7 +97,7 @@ export default {
       this.attemptLogin({ ...this.crendentials })
         .then(() => {
           alert(`You have signed in!`);
-          this.$router.push(this.$route.query.redirect || "/");
+          this.$router.push(this.$route.query.redirect || "journals");
         })
         .catch(error => {
           alert(`Somethings gone wrong logging in.

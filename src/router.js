@@ -5,17 +5,11 @@ import store from "./store";
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/", redirect: "/journals" },
+  { path: "/", redirect: "/home" },
   {
     path: "/home",
     name: "home",
     component: () => import("./components/Home.vue")
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: () => import("./components/Login.vue"),
-    meta: { guest: true }
   },
   {
     path: "/journals",
@@ -56,7 +50,7 @@ router.beforeEach((to, from, next) => {
   }
 
   console.warn("Page restricted, you need to login");
-  next({ name: "login", query: { redirectFrom: to.fullPath } });
+  next({ name: "home", query: { redirectFrom: to.fullPath } });
 });
 
 export default router;
