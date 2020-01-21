@@ -4,13 +4,15 @@
       <nav v-if="show" id="side-bar">
         <ul class="nav-items">
           <li>
-            <router-link :to="{ name: 'home' }">Home</router-link>
+            <router-link :to="{ name: 'home' }">🏠 Home</router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'journals' }">All Journals</router-link>
+            <router-link :to="{ name: 'journals' }"
+              >📔 Your Journals</router-link
+            >
           </li>
           <li>
-            <router-link :to="{ name: 'profile' }">Your Profile</router-link>
+            <router-link :to="{ name: 'profile' }">🆔 Your Profile</router-link>
           </li>
           <li>
             <ThemeToggle />
