@@ -40,7 +40,13 @@
           <a href="#" @click="toggleMode">Create an account</a>
         </p>
 
-        <SetNetlifyURL v-if="isDevEnvironment" />
+        <div v-if="isDevEnvironment">
+          <SetNetlifyURL />
+          <button @click="mockEmailConfirm()">Mock confirm email URL</button>
+          <button @click="mockExternalProviderConfirm()">
+            Mock confirm external provider
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -107,6 +113,25 @@ export default {
     },
     loginExternal() {
       this.attemptExternalLogin("Google");
+    },
+    mockEmailConfirm() {
+      this.$router.push({
+        path: "home" + "#confirmation_token=-YdXmnMpIOJWLU7rglUqBQ"
+      });
+      window.location.reload();
+    },
+    mockExternalProviderConfirm() {
+      this.$router.push({
+        path:
+          "home" +
+          "#access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Nzk3MjIzMjksInN1YiI6ImQ0NDQyZmUwLWY1MzEtNGIw" +
+          "Zi05YzQ3LWQwMGU4NzIwNjBkNSIsImVtYWlsIjoiYWxleGNoaXUxMUBnbWFpbC5jb20iLCJhcHBfbWV0YWRhdGEiOnsiZGJfdG9rZW4iOiJ" +
+          "mbkVEaUdtNzhuQUNFd09FaV9fWFFBSUFCLXBkcmstWDZKZ01menVlR1BOdXk4WVF6dG8iLCJwcm92aWRlciI6Ikdvb2dsZSJ9LCJ1c2VyX2" +
+          "1ldGFkYXRhIjp7ImF2YXRhcl91cmwiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQUF1RTdtQUo0Z1pnRGhyTGtsd" +
+          "HJWcGxpQWVUd2RROUtnZU1HNjNWdk11RVFBdyIsImZ1bGxfbmFtZSI6IkFsZXggQ2hpdSJ9fQ.9TvysshCz_28oYIINWMLtoKdtLudzS1Qc" +
+          "yQdxzQK328&expires_in=3600&refresh_token=kXkBuwMovMn66GcMjjzNWA&token_type=bearer"
+      });
+      window.location.reload();
     }
   }
 };
