@@ -124,12 +124,7 @@ export default {
       this.$router.push({
         path:
           "home" +
-          "#access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Nzk3MjIzMjksInN1YiI6ImQ0NDQyZmUwLWY1MzEtNGIw" +
-          "Zi05YzQ3LWQwMGU4NzIwNjBkNSIsImVtYWlsIjoiYWxleGNoaXUxMUBnbWFpbC5jb20iLCJhcHBfbWV0YWRhdGEiOnsiZGJfdG9rZW4iOiJ" +
-          "mbkVEaUdtNzhuQUNFd09FaV9fWFFBSUFCLXBkcmstWDZKZ01menVlR1BOdXk4WVF6dG8iLCJwcm92aWRlciI6Ikdvb2dsZSJ9LCJ1c2VyX2" +
-          "1ldGFkYXRhIjp7ImF2YXRhcl91cmwiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQUF1RTdtQUo0Z1pnRGhyTGtsd" +
-          "HJWcGxpQWVUd2RROUtnZU1HNjNWdk11RVFBdyIsImZ1bGxfbmFtZSI6IkFsZXggQ2hpdSJ9fQ.9TvysshCz_28oYIINWMLtoKdtLudzS1Qc" +
-          "yQdxzQK328&expires_in=3600&refresh_token=kXkBuwMovMn66GcMjjzNWA&token_type=bearer"
+          "#access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Nzk4ODk1NzcsInN1YiI6Ijc0MDVhMmU2LTZmNmQtNGMyMS1iZTBiLWQ2NGFlYmI0OWFjZiIsImVtYWlsIjoiYWxleGNoaXUxMUBnbWFpbC5jb20iLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJHb29nbGUifSwidXNlcl9tZXRhZGF0YSI6eyJhdmF0YXJfdXJsIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FBdUU3bUFKNGdaZ0RockxrbHRyVnBsaUFlVHdkUTlLZ2VNRzYzVnZNdUVRQXciLCJmdWxsX25hbWUiOiJBbGV4IENoaXUifX0.I6U9yCYOgziss4iuUeAd8NPA_KM9xs4l1OaXyBuWjhI&expires_in=3600&refresh_token=f8fjCu9_MX_V5Eoci2iV8g&token_type=bearer"
       });
       window.location.reload();
     }
