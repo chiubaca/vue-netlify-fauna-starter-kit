@@ -9,12 +9,12 @@ import store from "../store";
  * confirms their email address via the automated email sent by Netlify.
  */
 function checkConfirmationToken() {
-  let token = decodeURIComponent(window.location.search)
-    .substring(1)
+  // eslint-disable-next-line prettier/prettier
+  let token = decodeURIComponent(document.location.hash)
     .split("confirmation_token=")[1];
   console.log(
     "Checking for a token in url...",
-    decodeURIComponent(window.location.search)
+    decodeURIComponent(document.location.hash)
   );
   // Authorise if a token is available, otherwise exit early
   if (token) {
@@ -38,7 +38,7 @@ function checkConfirmationToken() {
  * via an external provider
  */
 function checkAccessToken() {
-  const externalToken = /access_token=/;
+  const externalTokenRegex = /access_token=/;
   console.log(
     "Checking for an external provider token in url...",
     document.location.hash
@@ -46,8 +46,8 @@ function checkAccessToken() {
   // Clean the URL
   const hash = (document.location.hash || "").replace(/^#\/?/, "");
 
-  if (hash.match(externalToken)) {
-    console.log("Detected external token", hash.match(externalToken));
+  if (hash.match(externalTokenRegex)) {
+    console.log("Detected external token", hash.match(externalTokenRegex));
     //create token param from url hash
     const params = {};
 
