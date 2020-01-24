@@ -142,7 +142,7 @@ export default {
               });
           })
           .catch(error => {
-            console.error("Problem with external login", error);
+            reject(error);
           });
       });
     },
