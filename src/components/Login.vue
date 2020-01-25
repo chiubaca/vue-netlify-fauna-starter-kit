@@ -42,10 +42,6 @@
 
         <div v-if="isDevEnvironment">
           <SetNetlifyURL />
-          <button @click="mockEmailConfirm()">Mock confirm email URL</button>
-          <button @click="mockExternalProviderConfirm()">
-            Mock confirm external provider
-          </button>
         </div>
       </form>
     </div>
@@ -113,20 +109,6 @@ export default {
     },
     loginExternal() {
       this.attemptExternalLogin("Google");
-    },
-    mockEmailConfirm() {
-      this.$router.push({
-        path: "home" + "#confirmation_token=-YdXmnMpIOJWLU7rglUqBQ"
-      });
-      window.location.reload();
-    },
-    mockExternalProviderConfirm() {
-      this.$router.push({
-        path:
-          "home" +
-          "#access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Nzk4ODk1NzcsInN1YiI6Ijc0MDVhMmU2LTZmNmQtNGMyMS1iZTBiLWQ2NGFlYmI0OWFjZiIsImVtYWlsIjoiYWxleGNoaXUxMUBnbWFpbC5jb20iLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJHb29nbGUifSwidXNlcl9tZXRhZGF0YSI6eyJhdmF0YXJfdXJsIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FBdUU3bUFKNGdaZ0RockxrbHRyVnBsaUFlVHdkUTlLZ2VNRzYzVnZNdUVRQXciLCJmdWxsX25hbWUiOiJBbGV4IENoaXUifX0.I6U9yCYOgziss4iuUeAd8NPA_KM9xs4l1OaXyBuWjhI&expires_in=3600&refresh_token=f8fjCu9_MX_V5Eoci2iV8g&token_type=bearer"
-      });
-      window.location.reload();
     }
   }
 };
