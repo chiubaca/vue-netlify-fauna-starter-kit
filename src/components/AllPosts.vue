@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space">
     <h1>Your Posts</h1>
 
     <div class="dev-stuff">Journal ID: {{ this.$route.params.id }}</div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space">
     <h1>Your Journals</h1>
     <div id="journals-container">
       <JournalCard

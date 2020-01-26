@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space">
     <h1>Your Profile</h1>
     <p>🔒 You should be logged in to see this page 🔒</p>
     <div class="profile-panel">

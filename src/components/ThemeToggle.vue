@@ -1,26 +1,13 @@
 <template>
   <div>
-    <ul class="nav-menu">
-      <li>
-        <router-link :to="{ name: 'home' }">Home</router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'login' }">Login</router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'journals' }">All Journals</router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'profile' }">Your Profile</router-link>
-      </li>
-    </ul>
+    <span v-if="darkMode === false"> 🌚 Dark Mode </span>
+    <span v-else> 🌞 Light Mode </span>
     <input v-model="darkMode" type="checkbox" class="theme-switch" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "NavMenu",
   data() {
     return {
       darkMode: false
@@ -30,7 +17,6 @@ export default {
     darkMode: function() {
       // add/remove class to/from html tag
       let htmlElement = document.documentElement;
-
       if (this.darkMode) {
         localStorage.setItem("theme", "dark");
         htmlElement.setAttribute("theme", "dark");
@@ -43,10 +29,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.nav-menu {
-  display: flex;
-  justify-content: space-evenly;
-  list-style-type: none;
-}
-</style>
+<style lang="scss" scoped></style>
