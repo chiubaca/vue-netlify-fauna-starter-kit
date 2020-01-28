@@ -11,9 +11,10 @@
         />
         <input
           v-model="crendentials.password"
-          type="password"
+          :type="passwordType"
           placeholder="password"
         />
+        <i :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
         <button type="button" @click="signup()">Sign Up</button>
         <p class="message">
           Already registered?
@@ -30,9 +31,11 @@
         />
         <input
           v-model="crendentials.password"
-          type="password"
+          :type="passwordType"
           placeholder="password"
         />
+        <i :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
+
         <button type="button" @click="login()">login</button>
         <div @click="loginExternal()">Sign in with Google</div>
         <p class="message">
@@ -64,11 +67,18 @@ export default {
         password: "",
         email: ""
       },
+      hidePassword: true,
       mode: "login"
     };
   },
   computed: {
-    ...mapGetters("app", ["isDevEnvironment"])
+    ...mapGetters("app", ["isDevEnvironment"]),
+    passwordType() {
+      return this.hidePassword ? "password" : "text";
+    },
+    passwordIcon() {
+      return this.hidePassword ? "eye-open" : "eye-closed";
+    }
   },
   methods: {
     ...mapActions("auth", [
@@ -114,4 +124,19 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.eye-open {
+  background-image: url("..\\assets\\icons\\eye.svg");
+  background-repeat: no-repeat;
+
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.eye-closed {
+  background-image: url("..\\assets\\icons\\eye-off.svg");
+  background-repeat: no-repeat;
+
+  width: 2rem;
+  height: 2rem;
+}
+</style>
