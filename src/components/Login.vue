@@ -3,18 +3,31 @@
     <div class="form">
       <form v-if="mode === 'register'" class="register-form stack">
         <h2>👋 Register Here</h2>
-        <input v-model="crendentials.name" type="text" placeholder="name" />
+        <label for="name">Name</label>
         <input
+          id="name"
+          v-model="crendentials.name"
+          type="text"
+          placeholder="Arnold Schwarzenegger"
+        />
+        <label for="email">Email</label>
+        <input
+          id="email"
           v-model="crendentials.email"
           type="text"
-          placeholder="email address"
+          placeholder="arnie@terminator.com"
         />
+        <span class="line">
+          <label for="password">Password</label>
+          <i :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
+        </span>
         <input
+          id="password"
           v-model="crendentials.password"
           :type="passwordType"
-          placeholder="password"
+          placeholder="******"
         />
-        <i :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
+
         <button type="button" @click="signup()">Sign Up</button>
         <p class="message">
           Already registered?
@@ -24,17 +37,24 @@
 
       <form v-else class="login-form stack">
         <h2>🔐 Login Here</h2>
+        <label for="email">Email</label>
         <input
+          id="email"
           v-model="crendentials.email"
           type="text"
           placeholder="username"
         />
+
+        <span class="line">
+          <label for="password">Password</label>
+          <i :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
+        </span>
+
         <input
           v-model="crendentials.password"
           :type="passwordType"
           placeholder="password"
         />
-        <i :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
 
         <button type="button" @click="login()">login</button>
         <div @click="loginExternal()">Sign in with Google</div>
@@ -128,15 +148,17 @@ export default {
 .eye-open {
   background-image: url("..\\assets\\icons\\eye.svg");
   background-repeat: no-repeat;
-
   width: 1.5rem;
   height: 1.5rem;
 }
 .eye-closed {
   background-image: url("..\\assets\\icons\\eye-off.svg");
   background-repeat: no-repeat;
+  width: 1.5rem;
+  height: 1.5rem;
+}
 
-  width: 2rem;
-  height: 2rem;
+label {
+  padding: 10px 5px 10px 0;
 }
 </style>
