@@ -59,7 +59,9 @@
           :type="passwordType"
           placeholder="******"
         />
-
+        <div @click="requestPasswordRecover(crendentials.email)">
+          Forgot your password?
+        </div>
         <button type="button" @click="login()">Login</button>
         <button @click="loginExternal()">Sign in with Google</button>
         <p class="message">
@@ -108,7 +110,8 @@ export default {
     ...mapActions("auth", [
       "attemptLogin",
       "attemptSignup",
-      "attemptExternalLogin"
+      "attemptExternalLogin",
+      "requestPasswordRecover"
     ]),
     toggleMode() {
       if (this.mode === "register") {

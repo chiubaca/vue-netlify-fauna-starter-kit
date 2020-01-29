@@ -10,6 +10,7 @@ import store from "../store";
 function detectTokens() {
   const emailToken = detectEmailConfirmationToken();
   const externalAccessToken = detectExternalAccessToken();
+  const recoveryToken = detectRecoveryToken();
 
   if (emailToken) {
     console.log("Detected email confirmation token", emailToken);
@@ -22,6 +23,8 @@ function detectTokens() {
     );
     confirmExternalAccessToken(externalAccessToken);
     return;
+  } else if (recoveryToken) {
+    console.log("found recovery token", recoveryToken)
   }
 
   console.log("No tokens detected in URL hash");
@@ -75,6 +78,23 @@ function detectExternalAccessToken() {
   }
 }
 
+function detectRecoveryToken() {
+  try {
+    // split the hash where it detects `confirmation_token=`. The string which proceeds is the part which we want.
+    const token = decodeURIComponent(document.location.hash).split(
+      "recovery_token="
+    )[1];
+    return token;
+  } catch (error) {
+    console.error(
+      "Something went wrong when trying to extract email confirmation email",
+      error
+    );
+    return null;
+  }
+}
+}
+
 /**
  * @param {string} token - authentication token used to confirm a user who has created an account via email signup.
  */
@@ -108,6 +128,6 @@ function confirmExternalAccessToken(externalAccessTokenObject) {
     });
 }
 
-export default function() {
+export default function () {
   detectTokens();
 }

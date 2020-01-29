@@ -247,7 +247,7 @@ export default {
       const IPv4Pattern = /\b((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\b/;
       const hostName = document.location.hostname;
       const APIUrl = `https://${hostName}/.netlify/identity`;
-      const initNewGoTrue = function(APIUrl) {
+      const initNewGoTrue = APIUrl => {
         return new GoTrue({
           APIUrl: APIUrl,
           audience: "",
@@ -290,6 +290,12 @@ export default {
 
       console.log("Initialising Go True client with ", APIUrl);
       commit("SET_GOTRUE", initNewGoTrue(APIUrl));
+    },
+
+    requestPasswordRecover({ state }, email) {
+      state.GoTrueAuth.requestPasswordRecovery(email)
+        .then(response => alert("Recovery email sent", { response }))
+        .catch(error => alert("Error sending recovery mail:", error));
     }
   }
 };
