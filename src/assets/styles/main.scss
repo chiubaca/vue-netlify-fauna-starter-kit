@@ -11,3 +11,27 @@ font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvet
 h1 {
     color: var(--primary-text);;
 }
+
+button {
+    padding: 5px;
+    text-align: center;
+    border: 0;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+  background: rgb(158, 158, 158)
+}
+
+button:active {
+  background: rgb(112, 112, 112)
+}
+
+input[type=text] {
+  border: none;
+  border-bottom: 2px solid ;
+}
+input[type=password] {
+  border: none;
+  border-bottom: 2px solid ;
+}
