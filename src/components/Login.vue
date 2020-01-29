@@ -1,7 +1,11 @@
 <template>
   <div class="login-page">
     <div class="form">
-      <form v-if="mode === 'register'" class="register-form stack">
+      <form
+        v-if="mode === 'register'"
+        class="register-form stack"
+        @keyup.enter="signup()"
+      >
         <h2>👋 Register Here</h2>
         <label for="name">Name</label>
         <input
@@ -35,7 +39,7 @@
         </p>
       </form>
 
-      <form v-else class="login-form stack">
+      <form v-else class="login-form stack" @keyup.enter="login()">
         <h2>🔐 Login Here</h2>
         <label for="email">Email</label>
         <input
