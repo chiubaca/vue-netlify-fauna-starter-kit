@@ -46,7 +46,7 @@
           id="email"
           v-model="crendentials.email"
           type="text"
-          placeholder="username"
+          placeholder="hey@email.com"
         />
 
         <span class="line">
@@ -57,11 +57,11 @@
         <input
           v-model="crendentials.password"
           :type="passwordType"
-          placeholder="password"
+          placeholder="******"
         />
 
-        <button type="button" @click="login()">login</button>
-        <div @click="loginExternal()">Sign in with Google</div>
+        <button type="button" @click="login()">Login</button>
+        <button @click="loginExternal()">Sign in with Google</button>
         <p class="message">
           Not registered?
           <a href="#" @click="toggleMode">Create an account</a>
@@ -164,5 +164,9 @@ export default {
 
 label {
   padding: 10px 5px 10px 0;
+}
+
+button {
+  margin-top: 10px;
 }
 </style>
