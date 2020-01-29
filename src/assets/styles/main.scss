@@ -9,7 +9,7 @@ font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvet
 }
 
 h1 {
-    color: var(--primary-text);;
+    color: var(--primary);
 }
 
 button {
@@ -29,9 +29,9 @@ button:active {
 
 input[type=text] {
   border: none;
-  border-bottom: 2px solid ;
+  border-bottom: 3px solid var(--primary);
 }
 input[type=password] {
   border: none;
-  border-bottom: 2px solid ;
+  border-bottom: 3px solid var(--primary);
 }
