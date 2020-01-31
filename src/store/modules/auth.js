@@ -296,6 +296,17 @@ export default {
       state.GoTrueAuth.requestPasswordRecovery(email)
         .then(response => alert("Recovery email sent", { response }))
         .catch(error => alert("Error sending recovery mail:", error));
+    },
+
+    attemptPasswordRecovery({ state, commit }, token) {
+      state.GoTrueAuth.recover(token)
+        .then(response => {
+          console.log("recvoered user object", response);
+          commit("SET_CURRENT_USER", response);
+        })
+        .catch(error =>
+          console.log("Failed to verify recover token: %o", error)
+        );
     }
   }
 };

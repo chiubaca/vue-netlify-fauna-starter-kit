@@ -28,6 +28,11 @@ const routes = [
     name: "profile",
     component: () => import("./components/Profile.vue"),
     meta: { authRequired: true }
+  },
+  {
+    path: "/recover",
+    name: "recover",
+    component: () => import("./components/RecoverAccount.vue")
   }
 ];
 

@@ -39,7 +39,11 @@
         </p>
       </form>
 
-      <form v-else class="login-form stack" @keyup.enter="login()">
+      <form
+        v-if="mode === 'login'"
+        class="login-form stack"
+        @keyup.enter="login()"
+      >
         <h2>🔐 Login Here</h2>
         <label for="email">Email</label>
         <input
@@ -59,9 +63,7 @@
           :type="passwordType"
           placeholder="******"
         />
-        <div @click="requestPasswordRecover(crendentials.email)">
-          Forgot your password?
-        </div>
+        <router-link to="recover">Forgot your password?</router-link>
         <button type="button" @click="login()">Login</button>
         <button @click="loginExternal()">Sign in with Google</button>
         <p class="message">
@@ -110,15 +112,12 @@ export default {
     ...mapActions("auth", [
       "attemptLogin",
       "attemptSignup",
-      "attemptExternalLogin",
-      "requestPasswordRecover"
+      "attemptExternalLogin"
     ]),
     toggleMode() {
-      if (this.mode === "register") {
-        this.mode = "login";
-      } else {
-        this.mode = "register";
-      }
+      this.mode === "register"
+        ? (this.mode = "login")
+        : (this.mode = "register");
     },
     signup() {
       this.attemptSignup(this.crendentials)

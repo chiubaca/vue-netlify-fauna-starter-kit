@@ -24,7 +24,9 @@ function detectTokens() {
     confirmExternalAccessToken(externalAccessToken);
     return;
   } else if (recoveryToken) {
-    console.log("found recovery token", recoveryToken)
+    console.log("found recovery token", recoveryToken);
+    confirmRecoveryToken(recoveryToken);
+    return;
   }
 
   console.log("No tokens detected in URL hash");
@@ -93,7 +95,6 @@ function detectRecoveryToken() {
     return null;
   }
 }
-}
 
 /**
  * @param {string} token - authentication token used to confirm a user who has created an account via email signup.
@@ -128,6 +129,19 @@ function confirmExternalAccessToken(externalAccessTokenObject) {
     });
 }
 
-export default function () {
+function confirmRecoveryToken(recoveryToken) {
+  store
+    .dispatch("auth/attemptPasswordRecovery", recoveryToken)
+    .then(resp => {
+      console.log("password recovered", recoveryToken);
+      alert(resp);
+    })
+    .catch(error => {
+      alert(`Can't receover password`);
+      console.error(error, "Somethings went wrong");
+    });
+}
+
+export default function() {
   detectTokens();
 }
