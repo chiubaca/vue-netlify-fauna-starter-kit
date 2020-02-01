@@ -299,14 +299,18 @@ export default {
     },
 
     attemptPasswordRecovery({ state, commit }, token) {
-      state.GoTrueAuth.recover(token)
-        .then(response => {
-          console.log("recvoered user object", response);
-          commit("SET_CURRENT_USER", response);
-        })
-        .catch(error =>
-          console.log("Failed to verify recover token: %o", error)
-        );
+      return new Promise((resolve, reject) => {
+        state.GoTrueAuth.recover(token)
+          .then(response => {
+            console.log("Signing in user with recovery token");
+            commit("SET_CURRENT_USER", response);
+            resolve(response);
+          })
+          .catch(error => {
+            console.error("Failed to verify recover token: %o", error);
+            reject();
+          });
+      });
     }
   }
 };
