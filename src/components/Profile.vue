@@ -6,7 +6,6 @@
       <ul v-if="currentUser">
         <li>Current_UserID : {{ currentUser.id }}</li>
         <li>Current_Email : {{ currentUser.email }}</li>
-        <li>app_metadata : {{ currentUser.app_metadata }}</li>
         <li>user_metadata : {{ currentUser.user_metadata.full_name }}</li>
       </ul>
 
@@ -25,7 +24,7 @@
           <label for="name">User Name</label>
           <input
             id="name"
-            v-model="username"
+            v-model="userData.data.full_name"
             type="text"
             :placeholder="currentUser.user_metadata.full_name"
           />
@@ -38,12 +37,12 @@
           </span>
           <input
             id="password"
-            v-model="password"
+            v-model="userData.password"
             :type="passwordType"
             placeholder="******"
           />
 
-          <button type="button" @click="update()">Update</button>
+          <button type="button" @click="update(userData)">Update</button>
         </form>
       </Modal>
     </div>
@@ -61,8 +60,12 @@ export default {
   },
   data() {
     return {
-      username: "",
-      password: "",
+      userData: {
+        password: "",
+        data: {
+          full_name: ""
+        }
+      },
       modalHiddenOnStart: true,
       hidePassword: true
     };
@@ -87,8 +90,22 @@ export default {
       "updateUserMetaData",
       "getUserJWTToken",
       "getCurrentUser",
-      "attemptLogout"
-    ])
+      "attemptLogout",
+      "updateUserAccount"
+    ]),
+    update(userData) {
+      let data = userData;
+      data.email = this.currentUser.email;
+      console.log("whats the user data?", data);
+      this.updateUserAccount(data)
+        .then(() => {
+          alert("You have updated your profile");
+        })
+        .catch(error => {
+          alert("Sorry, something went wrong");
+          console.error("Failed to update user account: %o", error);
+        });
+    }
   }
 };
 </script>

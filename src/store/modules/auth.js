@@ -314,15 +314,18 @@ export default {
     },
 
     updateUserAccount({ state }, userData) {
+      //TODO : fix bug in this action - https://github.com/chiubaca/vue-netlify-fauna-starter-kit/issues/12
       return new Promise((resolve, reject) => {
-        state.GoTrueAuth.update(userData)
+        const user = state.GoTrueAuth.currentUser();
+        user
+          .update(userData)
           .then(response => {
             console.log("Updated user account details");
             resolve(response);
           })
           .catch(error => {
-            console.error("Failed to verify recover token: %o", error);
-            reject();
+            console.error("Failed to update user account: %o", error);
+            reject(error);
           });
       });
     }
