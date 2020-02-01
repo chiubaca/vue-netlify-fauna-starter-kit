@@ -16,7 +16,10 @@
       <button @click="getCurrentUser">Get User Object</button>
       <!-- Bug: logging out throws a console error, likely to do with Vue not handling the state change correctly -->
       <button @click="attemptLogout()">Log Out</button>
-      <Modal button-text="Update User Data">
+      <Modal
+        button-text="Update User Data"
+        :hidden-on-start="modalHiddenOnStart"
+      >
         <h1>Update Your User Account Details</h1>
         <form class="stack" action="">
           <label for="name">User Name</label>
@@ -60,9 +63,11 @@ export default {
     return {
       username: "",
       password: "",
+      modalHiddenOnStart: true,
       hidePassword: true
     };
   },
+
   computed: {
     ...mapGetters("auth", ["currentUser", "netlifyUserLoggedIn"]),
     passwordType() {
@@ -70,6 +75,11 @@ export default {
     },
     passwordIcon() {
       return this.hidePassword ? "eye-open" : "eye-closed";
+    }
+  },
+  created() {
+    if (this.$route.query.showUpdateUserModal === "true") {
+      this.modalHiddenOnStart = false;
     }
   },
   methods: {
