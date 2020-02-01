@@ -2,6 +2,7 @@
 Extract and validate tokens in the URL if they are present.
 */
 import store from "../store";
+import router from "../router";
 
 /**
  * Reads the URL hash attempts and tries to detect if there is confirmation tokens from either an email signup or
@@ -132,13 +133,12 @@ function confirmExternalAccessToken(externalAccessTokenObject) {
 function confirmRecoveryToken(recoveryToken) {
   store
     .dispatch("auth/attemptPasswordRecovery", recoveryToken)
-    .then(resp => {
-      console.log("password recovered", recoveryToken);
-      alert(resp);
+    .then(() => {
+      router.push("profile");
+      alert("Account has been recovered. Update your password now.");
     })
-    .catch(error => {
-      alert(`Can't receover password`);
-      console.error(error, "Somethings went wrong");
+    .catch(() => {
+      alert(`Can't recover password`);
     });
 }
 
