@@ -30,6 +30,10 @@ export default {
   props: {
     buttonText: {
       type: String
+    },
+    hiddenOnStart: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -37,8 +41,10 @@ export default {
       showModal: false
     };
   },
-  created() {
-    console.log("show modal", this.showModal);
+  mounted() {
+    if (this.hiddenOnStart === false) {
+      this.showModal = true;
+    }
   },
   methods: {}
 };
