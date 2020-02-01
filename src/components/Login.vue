@@ -151,19 +151,6 @@ export default {
 </script>
 
 <style scoped>
-.eye-open {
-  background-image: url("..\\assets\\icons\\eye.svg");
-  background-repeat: no-repeat;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-.eye-closed {
-  background-image: url("..\\assets\\icons\\eye-off.svg");
-  background-repeat: no-repeat;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
 label {
   padding: 10px 5px 10px 0;
 }
