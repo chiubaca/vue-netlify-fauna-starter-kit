@@ -311,6 +311,20 @@ export default {
             reject();
           });
       });
+    },
+
+    updateUserAccount({ state }, userData) {
+      return new Promise((resolve, reject) => {
+        state.GoTrueAuth.update(userData)
+          .then(response => {
+            console.log("Updated user account details");
+            resolve(response);
+          })
+          .catch(error => {
+            console.error("Failed to verify recover token: %o", error);
+            reject();
+          });
+      });
     }
   }
 };
