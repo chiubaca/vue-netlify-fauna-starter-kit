@@ -81,7 +81,7 @@ export default {
     attemptLogin({ commit, state }, credentials) {
       console.log(`Attempting login for ${credentials.email}`);
       return new Promise((resolve, reject) => {
-        state.GoTrueAuth.login(credentials.email, credentials.password)
+        state.GoTrueAuth.login(credentials.email, credentials.password, true)
           .then(response => {
             resolve(response);
             commit("SET_CURRENT_USER", response);
@@ -198,16 +198,21 @@ export default {
      * @param {*} store - vuex store object
      */
     attemptLogout({ state, commit }) {
-      commit("SET_CURRENT_USER", null);
-      state.GoTrueAuth.currentUser()
-        .logout()
-        .then(() => {
-          console.log("User logged out");
-          alert("you have logged out");
-        })
-        .catch(error => {
-          console.error("Could not log user out", error);
-        });
+      return new Promise((resolve, reject) => {
+        state.GoTrueAuth.currentUser()
+          .logout()
+          .then(resp => {
+            console.log("User logged out", resp);
+            alert("you have logged out");
+            commit("SET_CURRENT_USER", null);
+            resolve(resp);
+          })
+          .catch(error => {
+            console.error("Could not log user out", error);
+            commit("SET_CURRENT_USER", null);
+            reject(error);
+          });
+      });
     },
 
     /**
@@ -251,7 +256,7 @@ export default {
         return new GoTrue({
           APIUrl: APIUrl,
           audience: "",
-          setCookie: false
+          setCookie: true
         });
       };
 

@@ -14,7 +14,7 @@
       <button @click="getUserJWTToken">Get User JWT</button>
       <button @click="getCurrentUser">Get User Object</button>
       <!-- Bug: logging out throws a console error, likely to do with Vue not handling the state change correctly -->
-      <button @click="attemptLogout()">Log Out</button>
+      <button @click="logout()">Log Out</button>
       <Modal
         button-text="Update User Data"
         :hidden-on-start="modalHiddenOnStart"
@@ -104,6 +104,19 @@ export default {
         .catch(error => {
           alert("Sorry, something went wrong");
           console.error("Failed to update user account: %o", error);
+        });
+    },
+    logout() {
+      this.attemptLogout()
+        .then(resp => {
+          alert("logged out");
+          location.reload();
+          console.log("logged out", resp);
+        })
+        .catch(error => {
+          alert("problem with logout");
+          location.reload();
+          console.error("problem with logout", error);
         });
     }
   }
