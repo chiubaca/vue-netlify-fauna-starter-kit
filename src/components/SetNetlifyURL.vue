@@ -1,8 +1,9 @@
 <template>
   <div class="dev-check stack">
-    👋 Hey fellow developer! It looks like you're in a local development
-    environment. Ensure Netlify Identity is enabled and you have set your
-    assigned Netlify URL here:
+    👋 Hey fellow developer! <br />It looks like you're in a local development
+    environment. Dont worry, this wont show in your production site.
+    <br />Ensure Netlify Identity is enabled and you have set your assigned
+    Netlify URL here:
     <div id="input-container">
       <span>https://</span>
       <input
