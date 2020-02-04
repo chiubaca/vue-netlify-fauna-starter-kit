@@ -4,9 +4,9 @@
     <p>🔒 You should be logged in to see this page 🔒</p>
     <div class="profile-panel">
       <ul v-if="currentUser">
-        <li>Current_UserID : {{ currentUser.id }}</li>
-        <li>Current_Email : {{ currentUser.email }}</li>
-        <li>user_metadata : {{ currentUser.user_metadata.full_name }}</li>
+        <li>Username : {{ currentUser.user_metadata.full_name }}</li>
+        <li>Email : {{ currentUser.email }}</li>
+        <li>User ID : {{ currentUser.id }}</li>
       </ul>
 
       <div v-else>No data to show</div>
