@@ -13,7 +13,8 @@
 
       <button @click="getUserJWTToken">Get User JWT</button>
       <button @click="getCurrentUser">Get User Object</button>
-      <!-- Bug: logging out throws a console error, likely to do with Vue not handling the state change correctly -->
+      <!-- Bug: logging out throws a console error, likely to do with Vue not handling the state change correctly.
+       Related issue: https://github.com/chiubaca/vue-netlify-fauna-starter-kit/issues/12 -->
       <button @click="logout()">Log Out</button>
       <Modal
         button-text="Update User Data"
