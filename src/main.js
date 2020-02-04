@@ -13,13 +13,6 @@ new Vue({
 
 store.dispatch("auth/initAuth");
 
-//TODO: This is not guaranteed to run. It seems to gets skipped when a route gets redirected. Needs tweaking.
 attemptToAuthoriseTokens();
-
-// Redirect to journals if user is already logged in
-// Commented out for now, as this seems to be causing some redirect bugs
-// if (store.getters["auth/currentUser"]) {
-//   router.push("journals");
-// }
 
 Vue.config.productionTip = false;
