@@ -1,19 +1,37 @@
 <template>
   <div class="login-page">
     <div class="form">
-      <form v-if="mode === 'register'" class="register-form stack">
+      <form
+        v-if="mode === 'register'"
+        class="register-form stack"
+        @keyup.enter="signup()"
+      >
         <h2>👋 Register Here</h2>
-        <input v-model="crendentials.name" type="text" placeholder="name" />
+        <label for="name">Name</label>
         <input
+          id="name"
+          v-model="crendentials.name"
+          type="text"
+          placeholder="Arnold Schwarzenegger"
+        />
+        <label for="email">Email</label>
+        <input
+          id="email"
           v-model="crendentials.email"
           type="text"
-          placeholder="email address"
+          placeholder="arnie@terminator.com"
         />
+        <span class="line">
+          <label for="password">Password</label>
+          <i :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
+        </span>
         <input
+          id="password"
           v-model="crendentials.password"
-          type="password"
-          placeholder="password"
+          :type="passwordType"
+          placeholder="******"
         />
+
         <button type="button" @click="signup()">Sign Up</button>
         <p class="message">
           Already registered?
@@ -21,20 +39,33 @@
         </p>
       </form>
 
-      <form v-else class="login-form stack">
+      <form
+        v-if="mode === 'login'"
+        class="login-form stack"
+        @keyup.enter="login()"
+      >
         <h2>🔐 Login Here</h2>
+        <label for="email">Email</label>
         <input
+          id="email"
           v-model="crendentials.email"
           type="text"
-          placeholder="username"
+          placeholder="hey@email.com"
         />
+
+        <span class="line">
+          <label for="password">Password</label>
+          <i :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
+        </span>
+
         <input
           v-model="crendentials.password"
-          type="password"
-          placeholder="password"
+          :type="passwordType"
+          placeholder="******"
         />
-        <button type="button" @click="login()">login</button>
-        <div @click="loginExternal()">Sign in with Google</div>
+        <router-link to="recover">Forgot your password?</router-link>
+        <button type="button" @click="login()">Login</button>
+        <button @click="loginExternal()">Sign in with Google</button>
         <p class="message">
           Not registered?
           <a href="#" @click="toggleMode">Create an account</a>
@@ -64,11 +95,18 @@ export default {
         password: "",
         email: ""
       },
+      hidePassword: true,
       mode: "login"
     };
   },
   computed: {
-    ...mapGetters("app", ["isDevEnvironment"])
+    ...mapGetters("app", ["isDevEnvironment"]),
+    passwordType() {
+      return this.hidePassword ? "password" : "text";
+    },
+    passwordIcon() {
+      return this.hidePassword ? "eye-open" : "eye-closed";
+    }
   },
   methods: {
     ...mapActions("auth", [
@@ -77,11 +115,9 @@ export default {
       "attemptExternalLogin"
     ]),
     toggleMode() {
-      if (this.mode === "register") {
-        this.mode = "login";
-      } else {
-        this.mode = "register";
-      }
+      this.mode === "register"
+        ? (this.mode = "login")
+        : (this.mode = "register");
     },
     signup() {
       this.attemptSignup(this.crendentials)
@@ -114,4 +150,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+label {
+  padding: 10px 5px 10px 0;
+}
+
+button {
+  margin-top: 10px;
+}
+</style>

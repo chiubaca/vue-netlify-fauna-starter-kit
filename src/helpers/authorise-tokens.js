@@ -2,6 +2,7 @@
 Extract and validate tokens in the URL if they are present.
 */
 import store from "../store";
+import router from "../router";
 
 /**
  * Reads the URL hash attempts and tries to detect if there is confirmation tokens from either an email signup or
@@ -10,6 +11,7 @@ import store from "../store";
 function detectTokens() {
   const emailToken = detectEmailConfirmationToken();
   const externalAccessToken = detectExternalAccessToken();
+  const recoveryToken = detectRecoveryToken();
 
   if (emailToken) {
     console.log("Detected email confirmation token", emailToken);
@@ -21,6 +23,10 @@ function detectTokens() {
       externalAccessToken
     );
     confirmExternalAccessToken(externalAccessToken);
+    return;
+  } else if (recoveryToken) {
+    console.log("found recovery token", recoveryToken);
+    confirmRecoveryToken(recoveryToken);
     return;
   }
 
@@ -75,6 +81,22 @@ function detectExternalAccessToken() {
   }
 }
 
+function detectRecoveryToken() {
+  try {
+    // split the hash where it detects `confirmation_token=`. The string which proceeds is the part which we want.
+    const token = decodeURIComponent(document.location.hash).split(
+      "recovery_token="
+    )[1];
+    return token;
+  } catch (error) {
+    console.error(
+      "Something went wrong when trying to extract email confirmation email",
+      error
+    );
+    return null;
+  }
+}
+
 /**
  * @param {string} token - authentication token used to confirm a user who has created an account via email signup.
  */
@@ -105,6 +127,18 @@ function confirmExternalAccessToken(externalAccessTokenObject) {
     .catch(error => {
       alert(`Can't Authorise your account right now, try again`);
       console.error(error, "Somethings gone wrong logging in");
+    });
+}
+
+function confirmRecoveryToken(recoveryToken) {
+  store
+    .dispatch("auth/attemptPasswordRecovery", recoveryToken)
+    .then(() => {
+      router.push("profile?showUpdateUserModal=true");
+      alert("Account has been recovered. Update your password now.");
+    })
+    .catch(() => {
+      alert(`Can't recover password`);
     });
 }
 

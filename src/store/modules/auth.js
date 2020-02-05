@@ -81,7 +81,7 @@ export default {
     attemptLogin({ commit, state }, credentials) {
       console.log(`Attempting login for ${credentials.email}`);
       return new Promise((resolve, reject) => {
-        state.GoTrueAuth.login(credentials.email, credentials.password)
+        state.GoTrueAuth.login(credentials.email, credentials.password, true)
           .then(response => {
             resolve(response);
             commit("SET_CURRENT_USER", response);
@@ -198,16 +198,21 @@ export default {
      * @param {*} store - vuex store object
      */
     attemptLogout({ state, commit }) {
-      commit("SET_CURRENT_USER", null);
-      state.GoTrueAuth.currentUser()
-        .logout()
-        .then(() => {
-          console.log("User logged out");
-          alert("you have logged out");
-        })
-        .catch(error => {
-          console.error("Could not log user out", error);
-        });
+      return new Promise((resolve, reject) => {
+        state.GoTrueAuth.currentUser()
+          .logout()
+          .then(resp => {
+            console.log("User logged out", resp);
+            alert("you have logged out");
+            commit("SET_CURRENT_USER", null);
+            resolve(resp);
+          })
+          .catch(error => {
+            console.error("Could not log user out", error);
+            commit("SET_CURRENT_USER", null);
+            reject(error);
+          });
+      });
     },
 
     /**
@@ -247,14 +252,17 @@ export default {
       const IPv4Pattern = /\b((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\b/;
       const hostName = document.location.hostname;
       const APIUrl = `https://${hostName}/.netlify/identity`;
-      const initNewGoTrue = function(APIUrl) {
+      const initNewGoTrue = APIUrl => {
         return new GoTrue({
           APIUrl: APIUrl,
           audience: "",
-          setCookie: false
+          setCookie: true
         });
       };
 
+      // Detect if app is being run in a development environment, if so a flag is set to indicate this so that it is
+      // possible to set the URL for the netlify identity in the login component.
+      // TODO : possibly move this logic out into a separate file.
       if (hostName.match(IPv4Pattern) || hostName === "localhost") {
         console.log("Looks like your in a dev environment", hostName);
         commit("app/SET_DEV_ENV", true, { root: true });
@@ -290,6 +298,44 @@ export default {
 
       console.log("Initialising Go True client with ", APIUrl);
       commit("SET_GOTRUE", initNewGoTrue(APIUrl));
+    },
+
+    requestPasswordRecover({ state }, email) {
+      state.GoTrueAuth.requestPasswordRecovery(email)
+        .then(response => alert("Recovery email sent", { response }))
+        .catch(error => alert("Error sending recovery mail:", error));
+    },
+
+    attemptPasswordRecovery({ state, commit }, token) {
+      return new Promise((resolve, reject) => {
+        state.GoTrueAuth.recover(token)
+          .then(response => {
+            console.log("Signing in user with recovery token");
+            commit("SET_CURRENT_USER", response);
+            resolve(response);
+          })
+          .catch(error => {
+            console.error("Failed to verify recover token: %o", error);
+            reject();
+          });
+      });
+    },
+
+    updateUserAccount({ state }, userData) {
+      //TODO : fix bug in this action - https://github.com/chiubaca/vue-netlify-fauna-starter-kit/issues/12
+      return new Promise((resolve, reject) => {
+        const user = state.GoTrueAuth.currentUser();
+        user
+          .update(userData)
+          .then(response => {
+            console.log("Updated user account details");
+            resolve(response);
+          })
+          .catch(error => {
+            console.error("Failed to update user account: %o", error);
+            reject(error);
+          });
+      });
     }
   }
 };

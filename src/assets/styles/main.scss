@@ -9,5 +9,43 @@ font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvet
 }
 
 h1 {
-    color: var(--primary-text);;
+    color: var(--primary);
+}
+
+button {
+    padding: 5px;
+    text-align: center;
+    border: 0;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+  background: rgb(158, 158, 158)
+}
+
+button:active {
+  background: rgb(112, 112, 112)
+}
+
+input[type=text] {
+  border: none;
+  border-bottom: 3px solid var(--primary);
+}
+input[type=password] {
+  border: none;
+  border-bottom: 3px solid var(--primary);
+}
+
+.eye-open {
+  background-image: url("../assets/icons/eye.svg");
+  background-repeat: no-repeat;
+  width: 1.5rem;
+  height: 1.5rem;
+
+}
+.eye-closed {
+  background-image: url("../assets/icons/eye-off.svg");
+  background-repeat: no-repeat;
+  width: 1.5rem;
+  height: 1.5rem;
 }
