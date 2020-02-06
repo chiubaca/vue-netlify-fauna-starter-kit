@@ -65,7 +65,9 @@
         />
         <router-link to="recover">Forgot your password?</router-link>
         <button type="button" @click="login()">Login</button>
-        <button @click="loginExternal()">Sign in with Google</button>
+        <button type="button" @click="loginExternal()">
+          Sign in with Google
+        </button>
         <p class="message">
           Not registered?
           <a href="#" @click="toggleMode">Create an account</a>
