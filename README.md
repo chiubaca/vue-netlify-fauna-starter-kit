@@ -59,7 +59,7 @@ I plan on writing a blog series on this soon.
 
 ## Why This Exists
 
-I build this template because pretty much all my side projects need persistent data storage and a login system. It was also a great opportunity to learn more about the Netlify eco system including Netlify Functions, Identity and Netlify Dev. Full credits need to go to the following repos which I have effectively mashed together.
+I built this template because pretty much all my side projects need persistent data storage and a login system. It was also a great opportunity to learn more about the Netlify eco system including Netlify Functions, Identity and Netlify Dev. Full credits need to go to the following repos which I have effectively mashed together.
 
 - https://github.com/shortdiv/gotruejs-in-vue
 - https://github.com/fauna/netlify-faunadb-todomvc
