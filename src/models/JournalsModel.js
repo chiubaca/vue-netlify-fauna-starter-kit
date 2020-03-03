@@ -1,14 +1,14 @@
 import { q, client } from "../helpers/init-db";
 
 export function createJournal(journalData) {
-  const me = q.Select("ref", q.Get(q.Ref("classes/users/self")));
+  const me = q.Identity();
 
   return client
     .query(
       q.Create(q.Collection("journals"), {
         data: {
           ...journalData,
-          owner: q.Select("ref", q.Get(q.Ref("classes/users/self")))
+          owner: me
         },
         permissions: {
           read: me,
