@@ -1,11 +1,11 @@
  # Vue - Netlify - Fauna
- ## A [JAM stack](https://jamstack.org/) template for building CRUD applications with authentication baked in. 
+ ## A serverless stack with authentication ready to go! 
 
-This template uses [Vue](https://vuejs.org/) for the front-end, [Netlify](https://www.netlify.com/) for APIs (via Netlify Functions) and [Fauna](https://www.netlify.com/) for persistent data storage. 
+This serverless stack uses [Vue](https://vuejs.org/) for the front-end, [Netlify](https://www.netlify.com/) for APIs (via Netlify Functions) and [Fauna](https://www.netlify.com/) for persistent data storage. 
 
-This is a serverless stack which leans heavily on Netlify and Fauna for the backend. These services offer generous free tiers which means anyone can get started, deploy and host this completely free.
+At the time of publishing this, Netlify and Fauna offer generous free tiers which means anyone can get started, deploy and host this completely free.
 
-## Initial Project setup
+## Prerequisite project setup
 
 Don't skip these steps ❗❗
 
