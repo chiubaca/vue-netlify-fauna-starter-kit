@@ -1,7 +1,7 @@
 import { q, client } from "../helpers/init-db";
 
 export function addPost(postData, journalID) {
-  const me = q.Select("ref", q.Get(q.Ref("classes/users/self")));
+  const me = q.Identity();
 
   return client
     .query(
@@ -9,7 +9,7 @@ export function addPost(postData, journalID) {
         data: {
           ...postData,
           journal: q.Ref(q.Collection("journals"), journalID),
-          owner: q.Select("ref", q.Get(q.Ref("classes/users/self")))
+          owner: me
         },
         permissions: {
           read: me,

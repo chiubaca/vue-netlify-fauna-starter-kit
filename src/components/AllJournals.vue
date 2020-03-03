@@ -35,10 +35,12 @@ export default {
     };
   },
   beforeMount() {
-    getJournals().then(resp => {
-      console.log("Got journals from DB", resp.data);
-      this.allJournals = resp.data;
-    });
+    getJournals()
+      .then(resp => {
+        console.log("Got journals from DB", resp.data);
+        this.allJournals = resp.data;
+      })
+      .catch(err => console.error("problem getting journals", err));
   },
   methods: {
     /**
