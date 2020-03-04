@@ -1,5 +1,5 @@
 <template>
-  <div class="post-card">
+  <div class="post-card shadow">
     <span>Title: {{ cardData.data.title }} </span>
     <span>Contents:{{ cardData.data.contents }} </span>
   </div>
@@ -17,9 +17,15 @@ export default {
 
 <style lang="scss" scoped>
 .post-card {
-  display: flex;
-  flex-direction: column;
-  border-style: solid;
+  background: var(--app-secondary-background-color);
+  flex-shrink: 5;
+  cursor: pointer;
+  display: grid;
   width: 500px;
+  text-align: center;
+  padding: 10px;
+  margin: 20px;
+  border-radius: 15px;
+  height: 90px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="space">
+  <div id="journal-background" class="space">
     <h1>Your Journals</h1>
     <div id="journals-container">
       <JournalCard
@@ -69,11 +69,13 @@ export default {
   flex-direction: column;
 }
 
-.journal-card {
-  margin: 20px;
-}
-
 #journals-container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#journals-background {
+  background-color: black;
 }
 </style>
