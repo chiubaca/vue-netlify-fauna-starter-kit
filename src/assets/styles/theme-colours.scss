@@ -1,17 +1,17 @@
 /*
 * === COLORS ===
 */
-[theme="light"] {
+[data-theme="light"] {
     --app-background-color: #FFFFFF;
     --primary: rgb(44, 44, 44);
 }
 
-[theme="dark"] {
+[data-theme="dark"] {
     --app-background-color: #091A28;
     --primary: #FFFFFF
 }
 
-[theme="sepia"] {
+[data-theme="sepia"] {
     --app-background-color: #F1E7D0;
 }
 
