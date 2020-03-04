@@ -36,6 +36,10 @@ input[type=password] {
   border-bottom: 3px solid var(--primary);
 }
 
+.shadow{
+  box-shadow: 10px 10px 28px -3px rgba(173,170,173,1);
+}
+
 .eye-open {
   background-image: url("../assets/icons/eye.svg");
   background-repeat: no-repeat;
