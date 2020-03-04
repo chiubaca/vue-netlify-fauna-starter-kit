@@ -1,5 +1,5 @@
 <template>
-  <div class="app-layout app-background">
+  <div class="app-background">
     <SideBar />
 
     <router-view />
