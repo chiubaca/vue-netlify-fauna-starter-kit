@@ -54,11 +54,14 @@ export default {
      * Sumbit a new post to db
      */
     submit() {
-      console.log("Post Submitted", this.post);
       addPost(this.post, this.$route.params.id)
         .then(resp => {
-          alert(resp.message);
-          console.log(resp);
+          console.log("post obj", resp);
+          alert("Created a new post");
+          this.allPosts.push(resp);
+          if (resp.msg) {
+            alert(resp.message);
+          }
         })
         .catch(err => {
           alert("there was a problem adding post");

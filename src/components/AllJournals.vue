@@ -47,11 +47,14 @@ export default {
      * Sumbit a new post to db
      */
     submit() {
-      console.log("Journal Created", this.journal);
       createJournal(this.journal)
         .then(resp => {
-          alert(resp.message);
-          console.log(resp);
+          alert("New journal created");
+          console.log("journal obj", resp);
+          this.allJournals.push(resp);
+          if (resp.msg) {
+            alert(resp.message);
+          }
         })
         .catch(err => {
           alert("There was a problem creating your journal");
