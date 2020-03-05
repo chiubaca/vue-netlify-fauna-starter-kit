@@ -1,6 +1,7 @@
 <template>
   <div class="space">
     <h1>Your Posts</h1>
+    <div class="dev-stuff">Journal ID: {{ this.$route.params.id }}</div>
     <div id="create-post-container" class="shadow">
       <form class="new-post">
         <input v-model="post.title" type="text" placeholder="Title" />
@@ -18,20 +19,19 @@
       </form>
     </div>
 
-    <div class="dev-stuff">Journal ID: {{ this.$route.params.id }}</div>
-
     <div id="posts-container">
       <PostCard
         v-for="(item, index) in allPosts"
         :key="index"
         :card-data="item"
+        @delete-post="deletePost"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { addPost, getPosts } from "../models/PostsModel";
+import { addPost, getPosts, deletePost } from "../models/PostsModel";
 import PostCard from "./PostCard.vue";
 
 export default {
@@ -72,6 +72,11 @@ export default {
           alert("there was a problem adding post");
           console.error(err);
         });
+    },
+    deletePost(refID) {
+      deletePost(refID).then(() => {
+        alert("post deleted");
+      });
     }
   }
 };

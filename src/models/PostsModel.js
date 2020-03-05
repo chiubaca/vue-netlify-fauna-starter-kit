@@ -1,5 +1,10 @@
 import { q, client } from "../helpers/init-db";
 
+/**
+ *
+ * @param {object} postData - posts data object
+ * @param {string} journalID - the journal id which corresponds to a FuanaDB ref number
+ */
 export function addPost(postData, journalID) {
   const me = q.Identity();
 
@@ -21,6 +26,10 @@ export function addPost(postData, journalID) {
     .catch(error => error);
 }
 
+/**
+ *
+ * @param {string} journalID
+ */
 export function getPosts(journalID) {
   // Get the Current Journal reference object
   // TODO: Wonder if we could just store the current journal ID object into a vuex,
@@ -39,4 +48,17 @@ export function getPosts(journalID) {
         .then(resp => resp);
     })
     .catch(err => console.error("couldnt get posts", err));
+}
+
+/**
+ *
+ * @param {object} refID - fauna ref object
+ */
+export function deletePost(refID) {
+  return client
+    .query(q.Delete(refID))
+    .then(resp => {
+      console.log("deleted post", resp);
+    })
+    .catch(err => console.log("error deleting post", err));
 }

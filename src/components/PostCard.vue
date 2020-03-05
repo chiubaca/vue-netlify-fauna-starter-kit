@@ -2,6 +2,7 @@
   <div class="post-card shadow">
     <span>Title: {{ cardData.data.title }} </span>
     <span>Contents:{{ cardData.data.contents }} </span>
+    <button @click="$emit('delete-post', cardData.ref)">Delete post</button>
   </div>
 </template>
 
