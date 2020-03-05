@@ -1,6 +1,24 @@
 <template>
-  <div class="space">
+  <div id="journal-background" class="space">
     <h1>Your Journals</h1>
+
+    <div id="create-journal-container" class="shadow">
+      <form id="create-new-journal">
+        <input
+          v-model="journal.title"
+          required
+          type="text"
+          placeholder="Name of new journal"
+        />
+        <input
+          name="create journal"
+          value="Create Journal"
+          type="button"
+          @click="submit()"
+        />
+      </form>
+    </div>
+
     <div id="journals-container">
       <JournalCard
         v-for="(item, index) in allJournals"
@@ -8,12 +26,6 @@
         :journal-data="item"
       />
     </div>
-
-    <h2>Create A New Journal</h2>
-    <form class="create-new-journal">
-      <input v-model="journal.title" type="text" placeholder="Title" />
-      <button type="button" @click="submit()">Create</button>
-    </form>
   </div>
 </template>
 
@@ -47,11 +59,14 @@ export default {
      * Sumbit a new post to db
      */
     submit() {
-      console.log("Journal Created", this.journal);
       createJournal(this.journal)
         .then(resp => {
-          alert(resp.message);
-          console.log(resp);
+          alert("New journal created");
+          console.log("journal obj", resp);
+          this.allJournals.push(resp);
+          if (resp.msg) {
+            alert(resp.message);
+          }
         })
         .catch(err => {
           alert("There was a problem creating your journal");
@@ -63,17 +78,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.create-new-journal {
-  width: 400px;
-  display: flex;
+#create-journal-container {
+  background: #f5f5f5;
   flex-direction: column;
-}
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  border-radius: 15px;
+  #create-new-journal {
+    display: flex;
+    flex-direction: column;
+  }
 
-.journal-card {
-  margin: 20px;
+  input[type="text"] {
+    background: #f5f5f5;
+  }
 }
 
 #journals-container {
   display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+}
+
+#journals-background {
+  background-color: black;
+}
+
+input[type="button"] {
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 0 0px 15px 15px;
+  background: #a7a7a7;
+}
+input[type="button"]:hover {
+  background: rgb(158, 158, 158);
+}
+
+input[type="button"]:active {
+  background: rgb(112, 112, 112);
+  box-shadow: 0px 0px 0px -4px rgba(0, 0, 0, 0.75);
 }
 </style>

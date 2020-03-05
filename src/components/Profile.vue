@@ -1,5 +1,5 @@
 <template>
-  <div class="space">
+  <div id="profile-background" class="space">
     <h1>Your Profile</h1>
     <p>🔒 You should be logged in to see this page 🔒</p>
     <div class="profile-panel">
@@ -125,6 +125,9 @@ export default {
 </script>
 
 <style scoped>
+#profile-background {
+  height: 100vh;
+}
 .profile-panel {
   border-width: 1px;
   border-style: dashed;

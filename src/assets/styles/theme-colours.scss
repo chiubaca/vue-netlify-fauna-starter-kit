@@ -1,23 +1,24 @@
 /*
 * === COLORS ===
 */
-[theme="light"] {
-    --app-background-color: #FFFFFF;
+[data-theme="light"] {
+    --app-background-color: #F1E7D0;
+    --app-secondary-background-color: rgb(245, 245, 245);
     --primary: rgb(44, 44, 44);
 }
 
-[theme="dark"] {
+[data-theme="dark"] {
     --app-background-color: #091A28;
     --primary: #FFFFFF
 }
 
-[theme="sepia"] {
+[data-theme="sepia"] {
     --app-background-color: #F1E7D0;
 }
 
 /*
 * === STYLES ===
 */
-.app-background {
+body{
   background-color: var(--app-background-color);
 }

@@ -19,10 +19,10 @@ export default {
       let htmlElement = document.documentElement;
       if (this.darkMode) {
         localStorage.setItem("theme", "dark");
-        htmlElement.setAttribute("theme", "dark");
+        htmlElement.setAttribute("data-theme", "dark");
       } else {
         localStorage.setItem("theme", "light");
-        htmlElement.setAttribute("theme", "light");
+        htmlElement.setAttribute("data-theme", "light");
       }
     }
   }

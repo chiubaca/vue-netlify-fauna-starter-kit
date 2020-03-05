@@ -1,9 +1,10 @@
 <template>
-  <div class="dev-check stack">
+  <div class="dev-check stack shadow">
     👋 Hey fellow developer! <br />It looks like you're in a local development
     environment. Dont worry, this wont show in your production site.
     <br />Ensure Netlify Identity is enabled and you have set your assigned
     Netlify URL here:
+    <span v-if="siteURL" id="url-hint">Set URL: https://{{ siteURL }} </span>
     <div id="input-container">
       <span>https://</span>
       <input
@@ -14,7 +15,7 @@
     </div>
 
     <button type="button" @click="setURL()">SET</button>
-    <span v-if="siteURL" id="url-hint">Saved URL: {{ siteURL }} </span>
+
     ⚠️ Note: Logging in via an external provider will redirect you back to your
     live Netlify URL.
   </div>
@@ -45,17 +46,17 @@ export default {
 .dev-check {
   background: beige;
   padding: 20px;
+  border-radius: 15px;
 }
 
 #input-container {
   display: flex;
-  justify-content: start;
   align-items: baseline;
 }
 
 #input-container span {
   background: #a7dea7;
-  padding: 1px;
+  padding: 10px;
   border-bottom: 3px solid rgb(44, 44, 44);
 }
 
@@ -66,7 +67,11 @@ export default {
 #url-hint {
   padding: 10px;
   margin: 10px 0 10px 0;
-  background-color: burlywood;
+  background-color: #def6c7;
+  border-style: dashed;
+  border-color: #c6c6c6;
+  border-width: 1px;
+  border-radius: 15px;
 }
 
 input {
