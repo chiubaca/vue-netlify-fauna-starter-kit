@@ -35,3 +35,22 @@ export function getJournals() {
     )
     .then(resp => resp);
 }
+
+export function deleteJournal(journalRefID) {
+  return client
+    .query(
+      q.Map(
+        q.Paginate(
+          q.Match(
+            q.Index("posts_by_journal"),
+            q.Ref(q.Collection("journals"), journalRefID)
+          )
+        ),
+        //deletes all posts within the given journal
+        q.Lambda("X", q.Delete(q.Select("ref", q.Get(q.Var("X")))))
+      )
+      //delete the journal
+    )
+    .then(resp => resp)
+    .catch(err => err);
+}

@@ -24,13 +24,18 @@
         v-for="(item, index) in allJournals"
         :key="index"
         :journal-data="item"
+        @delete-journal="deleteJournal"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { createJournal, getJournals } from "../models/JournalsModel";
+import {
+  createJournal,
+  getJournals,
+  deleteJournal
+} from "../models/JournalsModel";
 import JournalCard from "./JournalCard.vue";
 
 export default {
@@ -71,6 +76,16 @@ export default {
         .catch(err => {
           alert("There was a problem creating your journal");
           console.error(err);
+        });
+    },
+    deleteJournal(journal) {
+      console.log("Deleting journal...", journal.ref.value.id);
+      deleteJournal(journal.ref.value.id)
+        .then(resp => {
+          console.log("response back...", resp);
+        })
+        .catch(err => {
+          console.error("problem deleting", err);
         });
     }
   }

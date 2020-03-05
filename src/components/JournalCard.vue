@@ -1,12 +1,18 @@
 <template>
-  <router-link
-    tag="div"
-    :to="{ path: `journals/${journalData.ref.value.id}/posts` }"
-    class="journal-card shadow"
-  >
-    <span>{{ journalData.data.title }} </span>
-    <p>Click for all posts</p>
-  </router-link>
+  <div class="journal-card shadow">
+    <router-link :to="{ path: `journals/${journalData.ref.value.id}/posts` }">
+      {{ journalData.data.title }}
+    </router-link>
+    <router-link
+      tag="p"
+      :to="{ path: `journals/${journalData.ref.value.id}/posts` }"
+    >
+      Click for all posts
+    </router-link>
+    <button @click="$emit('delete-journal', journalData)">
+      Delete Journal
+    </button>
+  </div>
 </template>
 
 <script>
@@ -27,7 +33,6 @@ export default {
   display: grid;
   width: 500px;
   text-align: center;
-  padding: 10px;
   margin: 20px;
   border-radius: 15px;
   height: 90px;
@@ -36,17 +41,26 @@ export default {
   grid-template-areas:
     ".  .  ."
     ". name ."
-    ". . link";
-  span {
+    "delete . link";
+  a {
     grid-area: name;
     text-transform: capitalize;
   }
   p {
     grid-area: link;
     background: #b4a695;
-    padding: 5px 2px 6px 25px;
-    margin: 0px -10px -10px 38px;
+    // padding: 5px 2px 6px 25px;
+    margin: 0px;
     border-radius: 15px 0px 14px 0px;
+    font-size: 0.8rem;
+    display: inline-block;
+    // top: 0px;
+    // right: 0;
+  }
+  button {
+    border: none;
+    grid-area: delete;
+    border-radius: 0px 15px 0px 15px;
   }
 }
 </style>
