@@ -36,21 +36,27 @@ export function getJournals() {
     .then(resp => resp);
 }
 
-export function deleteJournal(journalRefID) {
+/**
+ *
+ * @param {*} journal - Fuana journal object
+ */
+export function deleteJournal(journal) {
+  //deletes all posts within the given journal
   return client
     .query(
       q.Map(
         q.Paginate(
           q.Match(
             q.Index("posts_by_journal"),
-            q.Ref(q.Collection("journals"), journalRefID)
+            q.Ref(q.Collection("journals"), journal.ref.value.id)
           )
         ),
-        //deletes all posts within the given journal
         q.Lambda("X", q.Delete(q.Select("ref", q.Get(q.Var("X")))))
       )
-      //delete the journal
     )
-    .then(resp => resp)
+    .then(() => {
+      //delete the journal
+      return client.query(q.Delete(journal.ref));
+    })
     .catch(err => err);
 }

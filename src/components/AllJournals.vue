@@ -80,7 +80,7 @@ export default {
     },
     deleteJournal(journal) {
       console.log("Deleting journal...", journal.ref.value.id);
-      deleteJournal(journal.ref.value.id)
+      deleteJournal(journal)
         .then(resp => {
           console.log("response back...", resp);
         })
