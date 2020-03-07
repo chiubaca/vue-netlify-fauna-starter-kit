@@ -1,15 +1,37 @@
 <template>
   <div class="journal-card shadow">
-    <router-link :to="{ path: `journals/${journal.item.ref.value.id}/posts` }">
+    <router-link
+      v-if="editMode === false"
+      :to="{ path: `journals/${journal.item.ref.value.id}/posts` }"
+    >
       {{ journal.item.data.title }}
     </router-link>
-    <button class="update rnd-corner-a">✏️ Update</button>
+    <input
+      v-else
+      v-model="journal.title"
+      required
+      type="text"
+      :placeholder="journal.item.data.title"
+    />
+
+    <button class="update rnd-corner-a" @click="editMode = !editMode">
+      ✏️ Rename
+    </button>
+
+    <button
+      v-if="editMode"
+      class="update rnd-corner-a"
+      @click="editMode = !editMode"
+    >
+      👍 Update
+    </button>
+
     <router-link
       class="posts rnd-corner-b"
       tag="button"
       :to="{ path: `journals/${journal.item.ref.value.id}/posts` }"
     >
-      👆 See all posts
+      👀 See posts
     </router-link>
     <button
       class="delete rnd-corner-a"
@@ -26,6 +48,12 @@ export default {
     journal: {
       type: Object
     }
+  },
+  data() {
+    return {
+      editMode: false,
+      journalTitle: ""
+    };
   }
 };
 </script>
@@ -45,26 +73,35 @@ export default {
     ".  .  update"
     ". name ."
     "delete . posts";
+  justify-content: center;
+  align-items: center;
   a {
     grid-area: name;
     text-transform: capitalize;
+  }
+  input {
+    grid-area: name;
+    border-bottom: 3px dotted grey;
+    background: inherit;
+    width: 100px;
   }
   button.posts {
     display: flex;
     grid-area: posts;
     margin: 0px;
-
+    margin-top: 22px;
     display: inline-block;
-    padding: 4px;
   }
   button.delete {
     grid-area: delete;
+    margin-top: 22px;
   }
   button.delete:hover {
     background-color: rgb(209, 100, 100);
   }
   button.update {
     grid-area: update;
+    margin-bottom: 21px;
   }
 }
 </style>
