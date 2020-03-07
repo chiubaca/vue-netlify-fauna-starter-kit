@@ -1,8 +1,10 @@
 <template>
   <div class="post-card shadow">
-    <span>Title: {{ post.item.data.title }} </span>
-    <span>Contents:{{ post.item.data.contents }} </span>
-    <button @click="$emit('delete-post', post)">Delete post</button>
+    <span class="title">{{ post.item.data.title }} </span>
+    <span class="contents">{{ post.item.data.contents }} </span>
+    <button class="delete rnd-corner-a" @click="$emit('delete-post', post)">
+      🗑️ Delete
+    </button>
   </div>
 </template>
 
@@ -24,9 +26,24 @@ export default {
   display: grid;
   width: 500px;
   text-align: center;
-  padding: 10px;
-  margin: 20px;
   border-radius: 15px;
-  height: 90px;
+  grid-template-areas:
+    "title  title  title"
+    "content content content"
+    "delete . .";
+  .title {
+    grid-area: title;
+    border-radius: 15px 15px 0px 0px;
+    background-color: rgb(209, 209, 209);
+    border-bottom: black;
+    border-bottom: 3px solid black;
+  }
+  .contents {
+    grid-area: content;
+  }
+  .delete {
+    grid-area: delete;
+    margin-top: 22px;
+  }
 }
 </style>
