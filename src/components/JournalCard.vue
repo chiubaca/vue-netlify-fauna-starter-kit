@@ -3,7 +3,7 @@
     <router-link :to="{ path: `journals/${journal.item.ref.value.id}/posts` }">
       {{ journal.item.data.title }}
     </router-link>
-    <button class="update rnd-corner-a">update</button>
+    <button class="update rnd-corner-a">✏️ Update</button>
     <router-link
       class="posts rnd-corner-b"
       tag="button"
@@ -59,6 +59,9 @@ export default {
   }
   button.delete {
     grid-area: delete;
+  }
+  button.delete:hover {
+    background-color: rgb(209, 100, 100);
   }
   button.update {
     grid-area: update;
