@@ -1,16 +1,16 @@
 <template>
   <div class="journal-card shadow">
-    <router-link :to="{ path: `journals/${journalData.ref.value.id}/posts` }">
-      {{ journalData.data.title }}
+    <router-link :to="{ path: `journals/${journal.item.ref.value.id}/posts` }">
+      {{ journal.item.data.title }}
     </router-link>
     <router-link
       tag="p"
-      :to="{ path: `journals/${journalData.ref.value.id}/posts` }"
+      :to="{ path: `journals/${journal.item.ref.value.id}/posts` }"
     >
-      Click for all posts
+      👆 See all posts
     </router-link>
-    <button @click="$emit('delete-journal', journalData)">
-      Delete Journal
+    <button @click="$emit('delete-journal', journal)">
+      🗑️ Delete
     </button>
   </div>
 </template>
@@ -18,7 +18,7 @@
 <script>
 export default {
   props: {
-    "journal-data": {
+    journal: {
       type: Object
     }
   }
@@ -29,7 +29,7 @@ export default {
 .journal-card {
   background: var(--app-secondary-background-color);
   flex-shrink: 5;
-  cursor: pointer;
+
   display: grid;
   width: 500px;
   text-align: center;
@@ -47,15 +47,14 @@ export default {
     text-transform: capitalize;
   }
   p {
+    display: flex;
     grid-area: link;
     background: #b4a695;
-    // padding: 5px 2px 6px 25px;
+    cursor: pointer;
     margin: 0px;
     border-radius: 15px 0px 14px 0px;
-    font-size: 0.8rem;
     display: inline-block;
-    // top: 0px;
-    // right: 0;
+    padding: 4px;
   }
   button {
     border: none;
