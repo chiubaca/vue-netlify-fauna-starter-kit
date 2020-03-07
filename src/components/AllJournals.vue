@@ -25,6 +25,7 @@
         :key="index"
         :journal="{ item, index }"
         @delete-journal="deleteJournal"
+        @update-journal="updateJournalTitle"
       />
     </div>
   </div>
@@ -34,7 +35,8 @@
 import {
   createJournal,
   getJournals,
-  deleteJournal
+  deleteJournal,
+  updateJournalTitle
 } from "../models/JournalsModel";
 import JournalCard from "./JournalCard.vue";
 
@@ -78,14 +80,32 @@ export default {
           console.error(err);
         });
     },
-    deleteJournal(journal) {
-      console.log("Deleting journal...", journal.item.ref.value.id);
-      deleteJournal(journal.item)
+    /**
+     * delete journal
+     *  @param {object} journal - object containing index journal and fauna db journal object
+     */
+    deleteJournal({ item, index }) {
+      console.log("Deleting journal...", item.ref.value.id);
+      deleteJournal(item)
         .then(() => {
-          this.allJournals.splice(journal.index, 1);
+          this.allJournals.splice(index, 1);
         })
         .catch(err => {
           console.error("problem deleting", err);
+        });
+    },
+    /**
+     * update a journal
+     * @param {object} journal - object containing new journla title and fauna db journal object
+     */
+    updateJournalTitle({ journal, newJournalTitle, index }) {
+      console.log("Updating new journal title to ", newJournalTitle, journal);
+      updateJournalTitle(journal, newJournalTitle)
+        .then(() => {
+          this.allJournals[index].data.title = newJournalTitle;
+        })
+        .catch(err => {
+          console.error("problem updating journal", err);
         });
     }
   }

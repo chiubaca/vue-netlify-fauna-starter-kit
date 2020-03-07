@@ -60,3 +60,19 @@ export function deleteJournal(journal) {
     })
     .catch(err => err);
 }
+
+/**
+ *
+ * @param {object} journal - faunaDb Journal object
+ * @param {string} newTitle - new title for journal
+ */
+export function updateJournalTitle(journal, newTitle) {
+  return client
+    .query(
+      q.Update(q.Ref(q.Collection("journals"), journal.ref.value.id), {
+        data: { title: newTitle }
+      })
+    )
+    .then(resp => resp)
+    .catch(err => err);
+}

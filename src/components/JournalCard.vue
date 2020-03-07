@@ -8,7 +8,7 @@
     </router-link>
     <input
       v-else
-      v-model="journal.title"
+      v-model="newJournalTitle"
       required
       type="text"
       :placeholder="journal.item.data.title"
@@ -21,7 +21,7 @@
     <button
       v-if="editMode"
       class="update rnd-corner-a"
-      @click="editMode = !editMode"
+      @click="emitNewJournalTitle"
     >
       👍 Update
     </button>
@@ -52,8 +52,22 @@ export default {
   data() {
     return {
       editMode: false,
-      journalTitle: ""
+      newJournalTitle: null
     };
+  },
+  methods: {
+    emitNewJournalTitle() {
+      this.editMode = false;
+      //if updated journal title is null or empty dont update
+      if (!this.newJournalTitle) {
+        return;
+      }
+      this.$emit("update-journal", {
+        newJournalTitle: this.newJournalTitle,
+        journal: this.journal.item,
+        index: this.journal.index
+      });
+    }
   }
 };
 </script>
