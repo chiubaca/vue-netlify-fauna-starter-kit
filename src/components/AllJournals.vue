@@ -1,6 +1,6 @@
 <template>
   <div id="journal-background" class="space">
-    <h1>Your Journals</h1>
+    <h1>📔 Your Journals</h1>
 
     <div id="create-journal-container" class="shadow">
       <form id="create-new-journal">
