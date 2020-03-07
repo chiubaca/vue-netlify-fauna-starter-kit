@@ -23,7 +23,7 @@
       <JournalCard
         v-for="(item, index) in allJournals"
         :key="index"
-        :journal-data="item"
+        :journal="{ item, index }"
         @delete-journal="deleteJournal"
       />
     </div>
@@ -79,10 +79,10 @@ export default {
         });
     },
     deleteJournal(journal) {
-      console.log("Deleting journal...", journal.ref.value.id);
-      deleteJournal(journal)
-        .then(resp => {
-          console.log("response back...", resp);
+      console.log("Deleting journal...", journal.item.ref.value.id);
+      deleteJournal(journal.item)
+        .then(() => {
+          this.allJournals.splice(journal.index, 1);
         })
         .catch(err => {
           console.error("problem deleting", err);
