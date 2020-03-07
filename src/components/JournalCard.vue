@@ -3,13 +3,18 @@
     <router-link :to="{ path: `journals/${journal.item.ref.value.id}/posts` }">
       {{ journal.item.data.title }}
     </router-link>
+    <button class="update rnd-corner-a">update</button>
     <router-link
-      tag="p"
+      class="posts rnd-corner-b"
+      tag="button"
       :to="{ path: `journals/${journal.item.ref.value.id}/posts` }"
     >
       👆 See all posts
     </router-link>
-    <button @click="$emit('delete-journal', journal)">
+    <button
+      class="delete rnd-corner-a"
+      @click="$emit('delete-journal', journal)"
+    >
       🗑️ Delete
     </button>
   </div>
@@ -28,38 +33,35 @@ export default {
 <style lang="scss" scoped>
 .journal-card {
   background: var(--app-secondary-background-color);
-  flex-shrink: 5;
-
   display: grid;
-  width: 500px;
+  width: 100%;
   text-align: center;
   margin: 20px;
   border-radius: 15px;
-  height: 90px;
+  height: 150px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:
-    ".  .  ."
+    ".  .  update"
     ". name ."
-    "delete . link";
+    "delete . posts";
   a {
     grid-area: name;
     text-transform: capitalize;
   }
-  p {
+  button.posts {
     display: flex;
-    grid-area: link;
-    background: #b4a695;
-    cursor: pointer;
+    grid-area: posts;
     margin: 0px;
-    border-radius: 15px 0px 14px 0px;
+
     display: inline-block;
     padding: 4px;
   }
-  button {
-    border: none;
+  button.delete {
     grid-area: delete;
-    border-radius: 0px 15px 0px 15px;
+  }
+  button.update {
+    grid-area: update;
   }
 }
 </style>
