@@ -1,15 +1,15 @@
 <template>
   <div class="post-card shadow">
-    <span>Title: {{ cardData.data.title }} </span>
-    <span>Contents:{{ cardData.data.contents }} </span>
-    <button @click="$emit('delete-post', cardData.ref)">Delete post</button>
+    <span>Title: {{ post.item.data.title }} </span>
+    <span>Contents:{{ post.item.data.contents }} </span>
+    <button @click="$emit('delete-post', post)">Delete post</button>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    cardData: {
+    post: {
       type: Object
     }
   }

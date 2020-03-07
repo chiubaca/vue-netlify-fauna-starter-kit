@@ -23,7 +23,7 @@
       <PostCard
         v-for="(item, index) in allPosts"
         :key="index"
-        :card-data="item"
+        :post="{ item, index }"
         @delete-post="deletePost"
       />
     </div>
@@ -73,9 +73,12 @@ export default {
           console.error(err);
         });
     },
-    deletePost(refID) {
-      deletePost(refID).then(() => {
-        alert("post deleted");
+    /**
+     * @param {object} post - fauna post object
+     */
+    deletePost(post) {
+      deletePost(post.item.ref).then(() => {
+        this.allPosts.splice(post.index, 1);
       });
     }
   }
