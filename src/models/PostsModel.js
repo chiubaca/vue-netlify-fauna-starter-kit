@@ -62,3 +62,19 @@ export function deletePost(refID) {
     })
     .catch(err => console.log("error deleting post", err));
 }
+
+/**
+ *
+ * @param {object} postRefID - faunaDb Post object
+ * @param {string} newPost - new post for journal
+ */
+export function updatePost(postRefID, newPostData) {
+  return client
+    .query(
+      q.Update(q.Ref(q.Collection("posts"), postRefID), {
+        data: newPostData
+      })
+    )
+    .then(resp => resp)
+    .catch(err => err);
+}
