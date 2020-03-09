@@ -98,9 +98,13 @@ export default {
      * update a journal
      * @param {object} journal - object containing new journla title and fauna db journal object
      */
-    updateJournalTitle({ journal, newJournalTitle, index }) {
-      console.log("Updating new journal title to ", newJournalTitle, journal);
-      updateJournalTitle(journal, newJournalTitle)
+    updateJournalTitle({ journalRefID, newJournalTitle, index }) {
+      console.log(
+        "Updating new journal title to ",
+        newJournalTitle,
+        journalRefID
+      );
+      updateJournalTitle(journalRefID, newJournalTitle)
         .then(() => {
           this.allJournals[index].data.title = newJournalTitle;
         })

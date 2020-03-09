@@ -64,7 +64,7 @@ export default {
       }
       this.$emit("update-journal", {
         newJournalTitle: this.newJournalTitle,
-        journal: this.journal.item,
+        journalRefID: this.journal.item.ref.value.id,
         index: this.journal.index
       });
     }

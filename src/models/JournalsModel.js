@@ -63,13 +63,13 @@ export function deleteJournal(journal) {
 
 /**
  *
- * @param {object} journal - faunaDb Journal object
+ * @param {object} journalRefID - faunaDb Journal object
  * @param {string} newTitle - new title for journal
  */
-export function updateJournalTitle(journal, newTitle) {
+export function updateJournalTitle(journalRefID, newTitle) {
   return client
     .query(
-      q.Update(q.Ref(q.Collection("journals"), journal.ref.value.id), {
+      q.Update(q.Ref(q.Collection("journals"), journalRefID), {
         data: { title: newTitle }
       })
     )
