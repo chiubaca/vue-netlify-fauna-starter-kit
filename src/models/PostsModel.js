@@ -65,7 +65,7 @@ export function deletePost(refID) {
 
 /**
  *
- * @param {object} postRefID - faunaDb Post object
+ * @param {object} postRefID - faunaDb Post collection reference ID
  * @param {string} newPost - new post for journal
  */
 export function updatePost(postRefID, newPostData) {

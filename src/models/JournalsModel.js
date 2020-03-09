@@ -63,7 +63,7 @@ export function deleteJournal(journal) {
 
 /**
  *
- * @param {object} journalRefID - faunaDb Journal object
+ * @param {object} journalRefID - faunaDb journal collection reference ID
  * @param {string} newTitle - new title for journal
  */
 export function updateJournalTitle(journalRefID, newTitle) {
