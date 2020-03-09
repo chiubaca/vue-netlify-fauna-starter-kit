@@ -25,13 +25,19 @@
         :key="index"
         :post="{ item, index }"
         @delete-post="deletePost"
+        @update-post="updatePost"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { addPost, getPosts, deletePost } from "../models/PostsModel";
+import {
+  addPost,
+  getPosts,
+  deletePost,
+  updatePost
+} from "../models/PostsModel";
 import PostCard from "./PostCard.vue";
 
 export default {
@@ -80,6 +86,19 @@ export default {
       deletePost(post.item.ref).then(() => {
         this.allPosts.splice(post.index, 1);
       });
+    },
+    /**
+     * @param {object} updatedPost - fauna post object with modified data
+     */
+    updatePost({ postRefID, updatedPost }) {
+      console.log("got update post event", updatedPost);
+      updatePost(postRefID, updatedPost)
+        .then(() => {
+          console.log("updated post");
+        })
+        .catch(err => {
+          console.error("problem updating post", err);
+        });
     }
   }
 };
