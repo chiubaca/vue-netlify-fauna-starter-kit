@@ -39,24 +39,22 @@ export default {
     return {
       editMode: false,
       updatedPost: {
-        title: null,
-        contents: null
+        title: "",
+        contents: ""
       }
     };
+  },
+  beforeMount() {
+    this.updatedPost = this.post.item.data;
   },
   methods: {
     emitPostUpdate() {
       this.editMode = false;
-      if (this.updatedPost.title || this.updatedPost.contents) {
-        console.log("udpated");
-
-        this.$emit("update-post", {
-          index: this.post.index,
-          post: this.updatedPost
-        });
-        return;
-      }
-      console.log("nothing changed");
+      //TODO: detect if anything has actually changed, as currently this is updating the db even if no changes were made
+      this.$emit("update-post", {
+        postRefID: this.post.item.ref.value.id,
+        updatedPost: this.updatedPost
+      });
     }
   }
 };
