@@ -4,6 +4,7 @@
     <input
       v-if="editMode"
       v-model="updatedPost.title"
+      v-focus
       class="title"
       type="text"
       :placeholder="post.item.data.title"

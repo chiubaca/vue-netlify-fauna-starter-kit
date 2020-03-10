@@ -9,6 +9,7 @@
     <input
       v-else
       v-model="newJournalTitle"
+      v-focus
       required
       type="text"
       :placeholder="journal.item.data.title"
