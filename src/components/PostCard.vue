@@ -79,12 +79,21 @@ export default {
     background-color: rgb(209, 209, 209);
     border-bottom: black;
     border-bottom: 3px solid black;
-    padding: 10px;
+    padding: 5px;
     text-transform: capitalize;
+  }
+  input[type="text"].title {
+    text-align: center;
   }
   .contents {
     grid-area: content;
     margin: 20px;
+    background-color: inherit;
+  }
+  input[type="text"].contents {
+    text-align: center;
+    padding: 0;
+    border: none;
   }
   .delete {
     grid-area: delete;
