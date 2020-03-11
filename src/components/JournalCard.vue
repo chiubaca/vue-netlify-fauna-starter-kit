@@ -1,21 +1,16 @@
+/* eslint-disable no-debugger */
 <template>
-  <div class="journal-card shadow">
-    <router-link
-      v-if="editMode === false"
-      :to="{ path: `journals/${journal.item.ref.value.id}/posts` }"
-    >
-      {{ journal.item.data.title }}
-    </router-link>
+  <div v-if="deleted === false" ref="journalCard" class="journal-card shadow">
     <input
-      v-else
-      v-model="newJournalTitle"
-      v-focus
-      required
+      ref="editTitle"
+      v-model="journalTitle"
+      readonly
       type="text"
-      :placeholder="journal.item.data.title"
+      @keyup.enter="emitNewJournalTitle"
+      @click="enableEditMode"
     />
 
-    <button class="update rnd-corner-a" @click="editMode = !editMode">
+    <button class="update rnd-corner-a" @click="enableEditMode">
       ✏️ Rename
     </button>
 
@@ -34,10 +29,7 @@
     >
       👀 See posts
     </router-link>
-    <button
-      class="delete rnd-corner-a"
-      @click="$emit('delete-journal', journal)"
-    >
+    <button class="delete rnd-corner-a" @click="deleteJournal">
       🗑️ Delete
     </button>
   </div>
@@ -52,22 +44,42 @@ export default {
   },
   data() {
     return {
+      // when in edit mode, the input for title become editable and toggle the update button
       editMode: false,
-      newJournalTitle: null
+      // on mounted, this hold the journal title and will save changes to the new title if it is edited
+      journalTitle: "",
+      // the card is hidden from view when the user deletes the card, this preserves component index.
+      // if the index is not preserved this can cause the card state to get jumbled up and its very confusing for the end-user
+      deleted: false
     };
   },
+  mounted() {
+    //set the journal title into view and into state
+    this.journalTitle = this.journal.item.data.title;
+    this.$refs.editTitle.value = this.journal.item.data.title;
+  },
   methods: {
+    enableEditMode() {
+      this.editMode = true;
+      // remove readonly mode so that the input is editable
+      this.$refs.editTitle.removeAttribute("readonly");
+      //set the value of the input so that the user can edit the existing title
+      this.$refs.editTitle.value = this.journal.item.data.title;
+      this.$refs.editTitle.focus();
+    },
     emitNewJournalTitle() {
       this.editMode = false;
-      //if updated journal title is null or empty dont update
-      if (!this.newJournalTitle) {
-        return;
-      }
+      this.$refs.editTitle.setAttribute("readonly", "true");
+
       this.$emit("update-journal", {
-        newJournalTitle: this.newJournalTitle,
+        newJournalTitle: this.journalTitle,
         journalRefID: this.journal.item.ref.value.id,
         index: this.journal.index
       });
+    },
+    deleteJournal() {
+      this.$emit("delete-journal", this.journal.item);
+      this.deleted = true;
     }
   }
 };
@@ -77,46 +89,44 @@ export default {
 .journal-card {
   background: var(--app-secondary-background-color);
   display: grid;
-  width: 100%;
   text-align: center;
   margin: 20px;
   border-radius: 15px;
-  height: 150px;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas:
-    ".  .  update"
-    ". name ."
-    "delete . posts";
   justify-content: center;
   align-items: center;
+  grid-template-areas:
+    ".  .  update"
+    "name name name"
+    "delete . posts";
+
   a {
     grid-area: name;
-    text-transform: capitalize;
+
+    margin: 3rem;
   }
   input {
     grid-area: name;
-    border-bottom: 3px dotted grey;
     background: inherit;
-    width: 100px;
+    border: none;
+    text-align: center;
+    margin: 3rem;
+    cursor: pointer;
+    text-transform: capitalize;
   }
   button.posts {
     display: flex;
     grid-area: posts;
     margin: 0px;
-    margin-top: 22px;
     display: inline-block;
   }
   button.delete {
     grid-area: delete;
-    margin-top: 22px;
   }
   button.delete:hover {
     background-color: rgb(209, 100, 100);
   }
   button.update {
     grid-area: update;
-    margin-bottom: 21px;
   }
 }
 </style>
