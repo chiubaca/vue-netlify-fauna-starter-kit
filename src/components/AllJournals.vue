@@ -84,11 +84,11 @@ export default {
      * delete journal
      *  @param {object} journal - object containing index journal and fauna db journal object
      */
-    deleteJournal({ item, index }) {
-      console.log("Deleting journal...", item.ref.value.id);
-      deleteJournal(item)
-        .then(() => {
-          this.allJournals.splice(index, 1);
+    deleteJournal(journal) {
+      console.log("Deleting journal...", journal.ref.value.id);
+      deleteJournal(journal)
+        .then(resp => {
+          console.log("journal deleted!", resp);
         })
         .catch(err => {
           console.error("problem deleting", err);
