@@ -2,22 +2,27 @@
   <div class="post-card shadow">
     <span class="title">{{ post.item.data.title }} </span>
     <input
-      v-if="editMode"
       v-model="updatedPost.title"
       v-focus
       class="title"
       type="text"
       :placeholder="post.item.data.title"
+      @click="editMode = true"
+      @keyup.enter="emitPostUpdate"
     />
-    <span class="contents">{{ post.item.data.contents }} </span>
     <input
-      v-if="editMode"
       v-model="updatedPost.contents"
       class="contents"
       type="text"
       :placeholder="post.item.data.contents"
+      @click="editMode = true"
+      @keyup.enter="emitPostUpdate"
     />
-    <button class="delete rnd-corner-a" @click="$emit('delete-post', post)">
+    <button
+      v-if="editMode"
+      class="delete rnd-corner-a"
+      @click="$emit('delete-post', post)"
+    >
       🗑️ Delete
     </button>
     <button class="update rnd-corner-b" @click="editMode = !editMode">
