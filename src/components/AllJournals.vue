@@ -85,10 +85,9 @@ export default {
      *  @param {object} journal - object containing index journal and fauna db journal object
      */
     deleteJournal(journal) {
-      console.log("Deleting journal...", journal.ref.value.id);
       deleteJournal(journal)
         .then(resp => {
-          console.log("journal deleted!", resp);
+          console.log("Journal deleted!", resp);
         })
         .catch(err => {
           console.error("problem deleting", err);
