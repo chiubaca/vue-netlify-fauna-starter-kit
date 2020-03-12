@@ -29,7 +29,7 @@
     >
       👀 See posts
     </router-link>
-    <button class="delete rnd-corner-a" @click="deleteJournal">
+    <button v-if="editMode" class="delete rnd-corner-a" @click="deleteJournal">
       🗑️ Delete
     </button>
   </div>
