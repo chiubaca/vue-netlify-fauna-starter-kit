@@ -91,10 +91,9 @@ export default {
      * @param {object} updatedPost - fauna post object with modified data
      */
     updatePost({ postRefID, updatedPost }) {
-      console.log("got update post event", updatedPost);
       updatePost(postRefID, updatedPost)
-        .then(() => {
-          console.log("updated post");
+        .then(resp => {
+          console.log("Post Updated", resp);
         })
         .catch(err => {
           console.error("problem updating post", err);
