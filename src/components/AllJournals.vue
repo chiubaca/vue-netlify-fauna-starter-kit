@@ -3,12 +3,15 @@
     <h1>📔 Your Journals</h1>
 
     <div id="create-journal-container" class="shadow">
-      <form id="create-new-journal">
+      <!-- fix to stop page from refreshing when hitting enter:
+           https://stackoverflow.com/questions/2215462/html-form-when-i-hit-enter-it-refreshes-page -->
+      <form id="create-new-journal" onkeypress="return event.keyCode != 13">
         <input
           v-model="journal.title"
           required
           type="text"
           placeholder="Name of new journal"
+          @keyup.enter="submit()"
         />
         <input
           name="create journal"
