@@ -1,5 +1,9 @@
 import { q, client } from "../helpers/init-db";
 
+/**
+ *
+ * @param {object} journalData - object containing the title of journal, could contain other data too in the future
+ */
 export function createJournal(journalData) {
   const me = q.Identity();
 
@@ -23,14 +27,8 @@ export function createJournal(journalData) {
 export function getJournals() {
   return client
     .query(
-      q.Map(
-        q.Paginate(
-          q.Match(
-            // todo use lists_by_owner
-            q.Ref("indexes/all_journals")
-          )
-        ),
-        ref => q.Get(ref)
+      q.Map(q.Paginate(q.Match(q.Ref("indexes/all_journals"))), ref =>
+        q.Get(ref)
       )
     )
     .then(resp => resp);
@@ -38,7 +36,7 @@ export function getJournals() {
 
 /**
  *
- * @param {*} journal - Fuana journal object
+ * @param {object} journal - Fuana journal object
  */
 export function deleteJournal(journal) {
   //deletes all posts within the given journal
@@ -55,7 +53,6 @@ export function deleteJournal(journal) {
       )
     )
     .then(() => {
-      //delete the journal
       return client.query(q.Delete(journal.ref));
     })
     .catch(err => err);
@@ -70,6 +67,7 @@ export function updateJournalTitle(journalRefID, newTitle) {
   return client
     .query(
       q.Update(q.Ref(q.Collection("journals"), journalRefID), {
+        //TODO - should think about spreading a journal object into here. See createJournal method.
         data: { title: newTitle }
       })
     )
