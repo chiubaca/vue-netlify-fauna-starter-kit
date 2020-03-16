@@ -36,7 +36,7 @@ export function getJournals() {
 
 /**
  *
- * @param {object} journal - Fuana journal object
+ * @param {object} journal - Fauna journal object
  */
 export function deleteJournal(journal) {
   return client
@@ -50,7 +50,7 @@ export function deleteJournal(journal) {
           )
         ),
         // then delete all of the posts within that given journal ref,
-        // I used a FQL Lambda here because a i could get an inline arrow function to work here 
+        // I used a FQL Lambda here because i couldn't get an inline arrow function to work here
         q.Lambda("X", q.Delete(q.Select("ref", q.Get(q.Var("X")))))
       )
     )
