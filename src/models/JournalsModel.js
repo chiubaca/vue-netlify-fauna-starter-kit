@@ -39,20 +39,23 @@ export function getJournals() {
  * @param {object} journal - Fuana journal object
  */
 export function deleteJournal(journal) {
-  //deletes all posts within the given journal
   return client
     .query(
       q.Map(
         q.Paginate(
           q.Match(
+            // get all the posts within a given journal ref
             q.Index("posts_by_journal"),
             q.Ref(q.Collection("journals"), journal.ref.value.id)
           )
         ),
+        // then delete all of the posts within that given journal ref,
+        // I used a FQL Lambda here because a i could get an inline arrow function to work here 
         q.Lambda("X", q.Delete(q.Select("ref", q.Get(q.Var("X")))))
       )
     )
     .then(() => {
+      // Once all of the posts in that given journals have been removed we delete the joural itself
       return client.query(q.Delete(journal.ref));
     })
     .catch(err => err);
