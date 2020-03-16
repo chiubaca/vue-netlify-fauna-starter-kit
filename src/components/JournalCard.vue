@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 <template>
   <div v-if="deleted === false" ref="journalCard" class="journal-card shadow">
     <input
