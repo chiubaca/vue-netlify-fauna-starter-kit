@@ -55,7 +55,7 @@ export function deleteJournal(journal) {
       )
     )
     .then(() => {
-      // Once all of the posts in that given journals have been removed we delete the joural itself
+      // Once all of the posts in that given journals have been removed we delete the journal itself
       return client.query(q.Delete(journal.ref));
     })
     .catch(err => err);
