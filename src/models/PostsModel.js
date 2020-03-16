@@ -47,7 +47,7 @@ export function getPosts(journalID) {
         )
         .then(resp => resp);
     })
-    .catch(err => console.error("couldnt get posts", err));
+    .catch(err => err);
 }
 
 /**
@@ -57,10 +57,8 @@ export function getPosts(journalID) {
 export function deletePost(refID) {
   return client
     .query(q.Delete(refID))
-    .then(resp => {
-      console.log("deleted post", resp);
-    })
-    .catch(err => console.log("error deleting post", err));
+    .then(resp => resp)
+    .catch(err => err);
 }
 
 /**
