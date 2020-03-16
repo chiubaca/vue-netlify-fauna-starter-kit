@@ -82,8 +82,8 @@ export default {
      * @param {object} post - fauna post object
      */
     deletePost(post) {
-      deletePost(post.item.ref).then(() => {
-        this.allPosts.splice(post.index, 1);
+      deletePost(post.item.ref).then(resp => {
+        console.log("Deleted post", resp);
       });
     },
     /**

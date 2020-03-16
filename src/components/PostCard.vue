@@ -1,5 +1,5 @@
 <template>
-  <div class="post-card shadow">
+  <div v-if="deleted === false" class="post-card shadow">
     <span class="title">{{ post.item.data.title }} </span>
     <input
       v-model="updatedPost.title"
@@ -18,11 +18,7 @@
       @click="editMode = true"
       @keyup.enter="emitPostUpdate"
     />
-    <button
-      v-if="editMode"
-      class="delete rnd-corner-a"
-      @click="$emit('delete-post', post)"
-    >
+    <button v-if="editMode" class="delete rnd-corner-a" @click="deleteJournal">
       🗑️ Delete
     </button>
     <button class="update rnd-corner-b" @click="editMode = !editMode">
@@ -47,7 +43,8 @@ export default {
       updatedPost: {
         title: "",
         contents: ""
-      }
+      },
+      deleted: false
     };
   },
   beforeMount() {
@@ -61,6 +58,10 @@ export default {
         postRefID: this.post.item.ref.value.id,
         updatedPost: this.updatedPost
       });
+    },
+    deleteJournal() {
+      this.deleted = true;
+      this.$emit("delete-post", this.post);
     }
   }
 };
