@@ -1,7 +1,6 @@
 <template>
   <div class="space">
     <h1>📝 Your Posts</h1>
-    <div class="dev-stuff">Journal ID: {{ this.$route.params.id }}</div>
     <div id="create-post-container" class="shadow">
       <form class="new-post">
         <input v-model="post.title" type="text" placeholder="Title" />
