@@ -50,7 +50,7 @@ export function deleteJournal(journal) {
           )
         ),
         // then delete all of the posts within that given journal ref,
-        // I used a FQL Lambda here because i couldn't get an inline arrow function to work here
+        // I used a FQL Lambda here because i couldn't get an inline arrow function to work
         q.Lambda("X", q.Delete(q.Select("ref", q.Get(q.Var("X")))))
       )
     )
