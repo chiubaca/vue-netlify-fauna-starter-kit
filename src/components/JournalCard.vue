@@ -1,19 +1,84 @@
 <template>
-  <router-link
-    tag="div"
-    :to="{ path: `journals/${journalData.ref.value.id}/posts` }"
-    class="journal-card shadow"
-  >
-    <span>{{ journalData.data.title }} </span>
-    <p>Click for all posts</p>
-  </router-link>
+  <div v-if="deleted === false" ref="journalCard" class="journal-card shadow">
+    <input
+      ref="editTitle"
+      v-model="journalTitle"
+      readonly
+      type="text"
+      @keyup.enter="emitNewJournalTitle"
+      @click="enableEditMode"
+    />
+
+    <button class="update rnd-corner-a" @click="enableEditMode">
+      ✏️ Rename
+    </button>
+
+    <button
+      v-if="editMode"
+      class="update rnd-corner-a"
+      @click="emitNewJournalTitle"
+    >
+      👍 Update
+    </button>
+
+    <router-link
+      class="posts rnd-corner-b"
+      tag="button"
+      :to="{ path: `journals/${journal.item.ref.value.id}/posts` }"
+    >
+      👀 See posts
+    </router-link>
+    <button v-if="editMode" class="delete rnd-corner-a" @click="deleteJournal">
+      🗑️ Delete
+    </button>
+  </div>
 </template>
 
 <script>
 export default {
   props: {
-    "journal-data": {
+    journal: {
       type: Object
+    }
+  },
+  data() {
+    return {
+      // when in edit mode, the input for title become editable and toggle the update button
+      editMode: false,
+      // on mounted, this hold the journal title and will save changes to the new title if it is edited
+      journalTitle: "",
+      // the card is hidden from view when the user deletes the card, this preserves component index.
+      // if the index is not preserved this can cause the card state to get jumbled up and its very confusing for the end-user
+      deleted: false
+    };
+  },
+  mounted() {
+    //set the journal title into view and into state
+    this.journalTitle = this.journal.item.data.title;
+    this.$refs.editTitle.value = this.journal.item.data.title;
+  },
+  methods: {
+    enableEditMode() {
+      this.editMode = true;
+      // remove readonly mode so that the input is editable
+      this.$refs.editTitle.removeAttribute("readonly");
+      //set the value of the input so that the user can edit the existing title
+      this.$refs.editTitle.value = this.journal.item.data.title;
+      this.$refs.editTitle.focus();
+    },
+    emitNewJournalTitle() {
+      this.editMode = false;
+      this.$refs.editTitle.setAttribute("readonly", "true");
+
+      this.$emit("update-journal", {
+        newJournalTitle: this.journalTitle,
+        journalRefID: this.journal.item.ref.value.id,
+        index: this.journal.index
+      });
+    },
+    deleteJournal() {
+      this.$emit("delete-journal", this.journal.item);
+      this.deleted = true;
     }
   }
 };
@@ -22,31 +87,45 @@ export default {
 <style lang="scss" scoped>
 .journal-card {
   background: var(--app-secondary-background-color);
-  flex-shrink: 5;
-  cursor: pointer;
   display: grid;
-  width: 500px;
   text-align: center;
-  padding: 10px;
   margin: 20px;
   border-radius: 15px;
-  height: 90px;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
   grid-template-areas:
-    ".  .  ."
-    ". name ."
-    ". . link";
-  span {
+    ".  .  update"
+    "name name name"
+    "delete . posts";
+
+  a {
     grid-area: name;
+
+    margin: 3rem;
+  }
+  input {
+    grid-area: name;
+    background: inherit;
+    border: none;
+    text-align: center;
+    margin: 3rem;
+    cursor: pointer;
     text-transform: capitalize;
   }
-  p {
-    grid-area: link;
-    background: #b4a695;
-    padding: 5px 2px 6px 25px;
-    margin: 0px -10px -10px 38px;
-    border-radius: 15px 0px 14px 0px;
+  button.posts {
+    display: flex;
+    grid-area: posts;
+    margin: 0px;
+    display: inline-block;
+  }
+  button.delete {
+    grid-area: delete;
+  }
+  button.delete:hover {
+    background-color: rgb(209, 100, 100);
+  }
+  button.update {
+    grid-area: update;
   }
 }
 </style>

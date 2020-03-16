@@ -1,6 +1,6 @@
 <template>
   <div class="space">
-    <h1>Your Posts</h1>
+    <h1>📝 Your Posts</h1>
     <div id="create-post-container" class="shadow">
       <form class="new-post">
         <input v-model="post.title" type="text" placeholder="Title" />
@@ -18,20 +18,25 @@
       </form>
     </div>
 
-    <div class="dev-stuff">Journal ID: {{ this.$route.params.id }}</div>
-
     <div id="posts-container">
       <PostCard
         v-for="(item, index) in allPosts"
         :key="index"
-        :card-data="item"
+        :post="{ item, index }"
+        @delete-post="deletePost"
+        @update-post="updatePost"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { addPost, getPosts } from "../models/PostsModel";
+import {
+  addPost,
+  getPosts,
+  deletePost,
+  updatePost
+} from "../models/PostsModel";
 import PostCard from "./PostCard.vue";
 
 export default {
@@ -71,6 +76,26 @@ export default {
         .catch(err => {
           alert("there was a problem adding post");
           console.error(err);
+        });
+    },
+    /**
+     * @param {object} post - fauna post object
+     */
+    deletePost(post) {
+      deletePost(post.item.ref).then(resp => {
+        console.log("Deleted post", resp);
+      });
+    },
+    /**
+     * @param {object} updatedPost - fauna post object with modified data
+     */
+    updatePost({ postRefID, updatedPost }) {
+      updatePost(postRefID, updatedPost)
+        .then(resp => {
+          console.log("Post Updated", resp);
+        })
+        .catch(err => {
+          console.error("problem updating post", err);
         });
     }
   }

@@ -21,3 +21,13 @@
   display: flex;
   align-items: center;
 }
+
+.rnd-corner-a {
+  border-radius: 0px 15px 0px 15px;
+  border: none;
+}
+
+.rnd-corner-b {
+  border-radius: 15px 0px 15px 0px;
+  border: none;
+}

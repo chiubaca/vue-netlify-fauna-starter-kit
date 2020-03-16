@@ -1,6 +1,6 @@
 <template>
   <div id="journal-background" class="space">
-    <h1>Your Journals</h1>
+    <h1>📔 Your Journals</h1>
 
     <div id="create-journal-container" class="shadow">
       <form id="create-new-journal">
@@ -23,14 +23,21 @@
       <JournalCard
         v-for="(item, index) in allJournals"
         :key="index"
-        :journal-data="item"
+        :journal="{ item, index }"
+        @delete-journal="deleteJournal"
+        @update-journal="updateJournalTitle"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { createJournal, getJournals } from "../models/JournalsModel";
+import {
+  createJournal,
+  getJournals,
+  deleteJournal,
+  updateJournalTitle
+} from "../models/JournalsModel";
 import JournalCard from "./JournalCard.vue";
 
 export default {
@@ -71,6 +78,37 @@ export default {
         .catch(err => {
           alert("There was a problem creating your journal");
           console.error(err);
+        });
+    },
+    /**
+     * delete journal
+     *  @param {object} journal - object containing index journal and fauna db journal object
+     */
+    deleteJournal(journal) {
+      deleteJournal(journal)
+        .then(resp => {
+          console.log("Journal deleted!", resp);
+        })
+        .catch(err => {
+          console.error("problem deleting", err);
+        });
+    },
+    /**
+     * update a journal
+     * @param {object} journal - object containing new journla title and fauna db journal object
+     */
+    updateJournalTitle({ journalRefID, newJournalTitle, index }) {
+      console.log(
+        "Updating new journal title to ",
+        newJournalTitle,
+        journalRefID
+      );
+      updateJournalTitle(journalRefID, newJournalTitle)
+        .then(() => {
+          this.allJournals[index].data.title = newJournalTitle;
+        })
+        .catch(err => {
+          console.error("problem updating journal", err);
         });
     }
   }
