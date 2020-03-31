@@ -1,12 +1,29 @@
 <template>
   <main class="home space">
     <h1>Vue - Netlify - Fauna</h1>
-    <h2>A JAM stack template with authentication baked in</h2>
+    <h2>A serverless stack with authentication baked in</h2>
+    <div>
+      <p>
+        This is a demo app to show how you can use cool technologies like Fauna
+        and Netlify to build a CRUD application completely serverless and host
+        for free! 😎
+      </p>
+
+      <p>
+        If you want to see how this is all glued together check out the
+        <a href="https://github.com/chiubaca/vue-netlify-fauna-starter-kit"
+          >source code</a
+        >
+        . Happy hacking!
+      </p>
+    </div>
     <Login v-if="currentUser === null" />
-    <div v-else>
-      Welcome Back! <br />
-      You're already logged in, Go check out your private
-      <router-link :to="{ name: 'journals' }">journals</router-link>.
+    <div v-else id="greeting">
+      <h2>🖐️ Welcome Back!</h2>
+      <p>
+        You're logged in. Go check out your
+        <router-link :to="{ name: 'journals' }">journals ➡️ </router-link>.
+      </p>
     </div>
   </main>
 </template>
@@ -38,13 +55,11 @@ export default {
   height: 100vh;
 }
 
-.test-area {
-  background-color: beige;
-  width: 500px;
-
-  span {
-    background-color: red;
-    padding: 5px;
-  }
+#greeting {
+  border-style: dashed;
+  padding: 15px;
+  border-radius: 15px;
+  border-color: #c6c6c6;
+  border-width: 1px;
 }
 </style>
