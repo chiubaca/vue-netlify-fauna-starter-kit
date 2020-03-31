@@ -3,15 +3,19 @@
     <SideBar />
 
     <router-view />
+
+    <Footer />
   </div>
 </template>
 
 <script>
 import SideBar from "./SideBar.vue";
+import Footer from "./Footer.vue";
 
 export default {
   components: {
-    SideBar
+    SideBar,
+    Footer
   }
 };
 </script>
