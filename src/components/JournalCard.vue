@@ -110,7 +110,7 @@ export default {
     background: inherit;
     border: none;
     text-align: center;
-    margin: 3rem;
+    margin: 1.5rem;
     cursor: pointer;
     text-transform: capitalize;
     font-size: 1.2rem;
