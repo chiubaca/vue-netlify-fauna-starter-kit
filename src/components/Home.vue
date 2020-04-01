@@ -6,7 +6,7 @@
       alt="logos of Vue, Netlify and Fauna"
     />
     <h1 style="text-align:center">Vue - Netlify - Fauna</h1>
-    <h2>A serverless stack with authentication baked in</h2>
+    <h2>A serverless stack with authentication ready to go!</h2>
 
     <div>
       <p>
