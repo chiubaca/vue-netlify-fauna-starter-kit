@@ -1,5 +1,5 @@
 <template>
-  <div v-if="deleted === false" ref="journalCard" class="journal-card shadow">
+  <div v-if="deleted === false" ref="journalCard" class="journal-card">
     <input
       ref="editTitle"
       v-model="journalTitle"
@@ -86,6 +86,7 @@ export default {
 
 <style lang="scss" scoped>
 .journal-card {
+  cursor: pointer;
   background: var(--app-secondary-background-color);
   display: grid;
   text-align: center;
@@ -93,8 +94,9 @@ export default {
   border-radius: 15px;
   justify-content: center;
   align-items: center;
+  box-shadow: 8px 8px 0px -4px rgba(0, 0, 0, 0.75);
   grid-template-areas:
-    ".  .  update"
+    "info  .  update"
     "name name name"
     "delete . posts";
 
@@ -111,12 +113,13 @@ export default {
     margin: 3rem;
     cursor: pointer;
     text-transform: capitalize;
+    font-size: 1.2rem;
+    font-weight: bold;
   }
   button.posts {
     display: flex;
     grid-area: posts;
     margin: 0px;
-    display: inline-block;
   }
   button.delete {
     grid-area: delete;
@@ -127,5 +130,9 @@ export default {
   button.update {
     grid-area: update;
   }
+}
+
+.journal-card:hover {
+  box-shadow: 11px 11px 0px -4px rgba(0, 0, 0, 0.75);
 }
 </style>

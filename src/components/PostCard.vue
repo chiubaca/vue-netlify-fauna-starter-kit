@@ -1,5 +1,5 @@
 <template>
-  <div v-if="deleted === false" class="post-card shadow">
+  <div v-if="deleted === false" class="post-card">
     <span class="title">{{ post.item.data.title }} </span>
     <input
       v-model="updatedPost.title"
@@ -75,6 +75,7 @@ export default {
   min-height: 10rem;
   text-align: center;
   border-radius: 15px;
+  box-shadow: 8px 8px 0px -4px rgba(0, 0, 0, 0.75);
   grid-template-areas:
     "title  title  title"
     "content content content"
@@ -108,5 +109,9 @@ export default {
   .update {
     grid-area: update;
   }
+}
+
+.post-card:hover {
+  box-shadow: 11px 11px 0px -4px rgba(0, 0, 0, 0.75);
 }
 </style>
