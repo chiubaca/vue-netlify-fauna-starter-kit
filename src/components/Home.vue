@@ -1,7 +1,13 @@
 <template>
   <main class="home space">
-    <h1>Vue - Netlify - Fauna</h1>
+    <img
+      id="logo"
+      src="https://user-images.githubusercontent.com/18376481/78156268-78aed080-7436-11ea-9da7-57d83ec5ec8a.png"
+      alt="logos of Vue, Netlify and Fauna"
+    />
+    <h1 style="text-align:center">Vue - Netlify - Fauna</h1>
     <h2>A serverless stack with authentication baked in</h2>
+
     <div>
       <p>
         This is a demo app to show how you can use cool technologies like Fauna
@@ -25,17 +31,22 @@
         <router-link :to="{ name: 'journals' }">journals ➡️ </router-link>.
       </p>
     </div>
+    <GithubCorner
+      url="https://github.com/chiubaca/vue-netlify-fauna-starter-kit"
+    />
   </main>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Login from "./Login.vue";
+import GithubCorner from "./GithubCorner.vue";
 
 export default {
   name: "Home",
   components: {
-    Login
+    Login,
+    GithubCorner
   },
   props: {
     msg: String
@@ -61,5 +72,9 @@ export default {
   border-radius: 15px;
   border-color: #c6c6c6;
   border-width: 1px;
+}
+img#logo {
+  width: 100%;
+  height: auto;
 }
 </style>
