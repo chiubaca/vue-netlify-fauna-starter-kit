@@ -37,7 +37,7 @@ import {
   deletePost,
   updatePost
 } from "../models/PostsModel";
-import PostCard from "./PostCard.vue";
+import PostCard from "../components/PostCard.vue";
 
 export default {
   components: {

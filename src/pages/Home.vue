@@ -39,8 +39,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Login from "./Login.vue";
-import GithubCorner from "./GithubCorner.vue";
+import Login from "../components/Login.vue";
+import GithubCorner from "../components/GithubCorner.vue";
 
 export default {
   name: "Home",

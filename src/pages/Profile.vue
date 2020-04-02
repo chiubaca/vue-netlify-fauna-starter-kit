@@ -52,7 +52,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Modal from "./Modal.vue";
+import Modal from "../components/Modal.vue";
 
 export default {
   name: "Profile",

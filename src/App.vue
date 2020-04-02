@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import SideBar from "./SideBar.vue";
-import Footer from "./Footer.vue";
+import SideBar from "./components/SideBar.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
   components: {
@@ -22,5 +22,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-@import "..//assets/styles/main.scss";
+@import "./assets/styles/main.scss";
 </style>
