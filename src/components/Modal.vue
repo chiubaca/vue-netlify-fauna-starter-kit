@@ -67,7 +67,7 @@ export default {
 .modal-shadow .modal-contents {
   max-height: 35rem;
   padding: 1rem;
-  background-color: #fff;
+  background-color: var(--app-secondary-background-color);
   box-shadow: 0px 0px 13px #7d7d7d;
   position: fixed;
   left: 50%;
@@ -82,6 +82,7 @@ export default {
   float: right;
   background: none;
   fill: grey;
+  border: none;
 }
 
 #button-exit:active {
