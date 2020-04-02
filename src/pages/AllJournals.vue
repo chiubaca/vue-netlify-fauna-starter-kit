@@ -41,7 +41,7 @@ import {
   deleteJournal,
   updateJournalTitle
 } from "../models/JournalsModel";
-import JournalCard from "./JournalCard.vue";
+import JournalCard from "../components/JournalCard.vue";
 
 export default {
   components: {
