@@ -62,10 +62,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-.home {
-  height: 100vh;
-}
-
 #greeting {
   border-style: dashed;
   padding: 15px;
