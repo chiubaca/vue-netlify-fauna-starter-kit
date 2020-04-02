@@ -47,6 +47,7 @@ export default {
   background: beige;
   padding: 20px;
   border-radius: 15px;
+  margin-bottom: 60px;
 }
 
 #input-container {

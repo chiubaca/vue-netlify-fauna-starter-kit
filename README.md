@@ -1,3 +1,4 @@
+ ![](https://user-images.githubusercontent.com/18376481/78156268-78aed080-7436-11ea-9da7-57d83ec5ec8a.png)
  # Vue - Netlify - Fauna
  ## A serverless stack with authentication ready to go! 
 

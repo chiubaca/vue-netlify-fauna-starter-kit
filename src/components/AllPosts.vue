@@ -104,7 +104,7 @@ export default {
 
 <style lang="scss" scoped>
 #create-post-container {
-  background: #f5f5f5;
+  background: var(--app-secondary-background-color);
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -112,10 +112,10 @@ export default {
   border-radius: 15px;
 
   input[type="text"] {
-    background: #f5f5f5;
+    background: var(--app-secondary-background-color);
   }
   textarea {
-    background: #f5f5f5;
+    background: var(--app-secondary-background-color);
   }
 }
 
