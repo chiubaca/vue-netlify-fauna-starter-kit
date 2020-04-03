@@ -1,27 +1,28 @@
 <template>
-  <div id="journal-background" class="space">
-    <h1>📔 Your Journals</h1>
+  <main>
+    <div class="space">
+      <h1>📔 Your Journals</h1>
 
-    <div id="create-journal-container" class="shadow">
-      <!-- fix to stop page from refreshing when hitting enter:
+      <div id="create-journal-container" class="shadow">
+        <!-- fix to stop page from refreshing when hitting enter:
            https://stackoverflow.com/questions/2215462/html-form-when-i-hit-enter-it-refreshes-page -->
-      <form id="create-new-journal" onkeypress="return event.keyCode != 13">
-        <input
-          v-model="journal.title"
-          required
-          type="text"
-          placeholder="Name of new journal"
-          @keyup.enter="submit()"
-        />
-        <input
-          name="create journal"
-          value="Create Journal"
-          type="button"
-          @click="submit()"
-        />
-      </form>
+        <form id="create-new-journal" onkeypress="return event.keyCode != 13">
+          <input
+            v-model="journal.title"
+            required
+            type="text"
+            placeholder="Name of new journal"
+            @keyup.enter="submit()"
+          />
+          <input
+            name="create journal"
+            value="Create Journal"
+            type="button"
+            @click="submit()"
+          />
+        </form>
+      </div>
     </div>
-
     <div id="journals-container">
       <JournalCard
         v-for="(item, index) in allJournals"
@@ -31,7 +32,7 @@
         @update-journal="updateJournalTitle"
       />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -119,6 +120,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#journals-background {
+  max-width: 28rem;
+  padding: 1rem;
+  margin: 1rem;
+}
+
 #create-journal-container {
   background: var(--app-secondary-background-color);
   flex-direction: column;
@@ -140,10 +147,6 @@ export default {
   display: flex;
   flex-wrap: wrap-reverse;
   justify-content: center;
-}
-
-#journals-background {
-  background-color: black;
 }
 
 input[type="button"] {

@@ -1,21 +1,19 @@
 <template>
   <div id="profile-background" class="space">
-    <h1>Your Profile</h1>
-    <p>🔒 You should be logged in to see this page 🔒</p>
+    <h1>🆔 Your Profile</h1>
     <div class="profile-panel">
-      <ul v-if="currentUser">
-        <li>Username : {{ currentUser.user_metadata.full_name }}</li>
-        <li>Email : {{ currentUser.email }}</li>
-        <li>User ID : {{ currentUser.id }}</li>
-      </ul>
-
-      <div v-else>No data to show</div>
-
-      <button @click="getUserJWTToken">Get User JWT</button>
-      <button @click="getCurrentUser">Get User Object</button>
-      <!-- Bug: logging out throws a console error, likely to do with Vue not handling the state change correctly.
-       Related issue: https://github.com/chiubaca/vue-netlify-fauna-starter-kit/issues/12 -->
-      <button @click="logout()">Log Out</button>
+      <div class="stack">
+        <h2>Username</h2>
+        <p>{{ currentUser.user_metadata.full_name }}</p>
+      </div>
+      <div class="stack">
+        <h2>Email</h2>
+        <p>{{ currentUser.email }}</p>
+      </div>
+      <div class="stack">
+        <h2>User ID</h2>
+        <p>{{ currentUser.id }}</p>
+      </div>
       <Modal
         button-text="Update User Data"
         :hidden-on-start="modalHiddenOnStart"
@@ -46,8 +44,16 @@
           <button type="button" @click="update(userData)">Update</button>
         </form>
       </Modal>
+      <!-- Bug: logging out throws a console error, likely to do with Vue not handling the state change correctly.
+       Related issue: https://github.com/chiubaca/vue-netlify-fauna-starter-kit/issues/12 -->
     </div>
+    <button @click="logout">Log Out</button>
   </div>
+
+  <!-- <div>
+    <button @click="getUserJWTToken">Get User JWT</button>
+    <button @click="getCurrentUser">Get User Object</button>
+  </div> -->
 </template>
 
 <script>
@@ -97,7 +103,6 @@ export default {
     update(userData) {
       let data = userData;
       data.email = this.currentUser.email;
-      console.log("whats the user data?", data);
       this.updateUserAccount(data)
         .then(() => {
           alert("You have updated your profile");
@@ -111,7 +116,7 @@ export default {
       this.attemptLogout()
         .then(resp => {
           alert("logged out");
-          location.reload();
+          this.$router.push("home");
           console.log("logged out", resp);
         })
         .catch(error => {
@@ -124,24 +129,16 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #profile-background {
-  height: 100vh;
-}
-.profile-panel {
-  border-width: 1px;
-  border-style: dashed;
-  right: 30%;
-  right: 0;
-  bottom: 50;
-  word-wrap: break-word;
-}
-
-label {
-  padding: 10px 5px 10px 0;
-}
-
-button {
-  margin-top: 10px;
+  h2 {
+    margin: 10px;
+  }
+  p {
+    padding: 0 0 0 15px;
+  }
+  button {
+    margin-top: 15px;
+  }
 }
 </style>

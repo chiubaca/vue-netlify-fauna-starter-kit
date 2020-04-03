@@ -1,21 +1,23 @@
 <template>
-  <div class="space">
-    <h1>📝 Your Posts</h1>
-    <div id="create-post-container" class="shadow">
-      <form class="new-post">
-        <input v-model="post.title" type="text" placeholder="Title" />
-        <textarea
-          v-model="post.contents"
-          type="text"
-          placeholder="What's on your mind?"
-        />
-        <input
-          type="button"
-          name="add post"
-          value="Add Post"
-          @click="submit()"
-        />
-      </form>
+  <main>
+    <div class="space">
+      <h1>📝 Your Posts</h1>
+      <div id="create-post-container" class="shadow">
+        <form class="new-post">
+          <input v-model="post.title" type="text" placeholder="Title" />
+          <textarea
+            v-model="post.contents"
+            type="text"
+            placeholder="What's on your mind?"
+          />
+          <input
+            type="button"
+            name="add post"
+            value="Add Post"
+            @click="submit()"
+          />
+        </form>
+      </div>
     </div>
 
     <div id="posts-container">
@@ -27,7 +29,7 @@
         @update-post="updatePost"
       />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -116,6 +118,7 @@ export default {
   }
   textarea {
     background: var(--app-secondary-background-color);
+    resize: vertical;
   }
 }
 
