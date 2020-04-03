@@ -26,6 +26,12 @@ export default {
         htmlElement.setAttribute("data-theme", "light");
       }
     }
+  },
+  beforeMount() {
+    // check saved theme and apply
+    localStorage.getItem("theme") === "dark"
+      ? (this.darkMode = true)
+      : (this.darkMode = false);
   }
 };
 </script>
