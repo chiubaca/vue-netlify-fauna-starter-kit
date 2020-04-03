@@ -26,10 +26,8 @@ footer {
     border-bottom: 2px solid lightskyblue;
   }
   a:hover {
-    // border-bottom: 5px solid #000;
     border-radius: 5px;
     background-color: lightskyblue;
-    // border-bottom: 2px solid #000;
   }
 }
 </style>
