@@ -47,7 +47,7 @@
       <!-- Bug: logging out throws a console error, likely to do with Vue not handling the state change correctly.
        Related issue: https://github.com/chiubaca/vue-netlify-fauna-starter-kit/issues/12 -->
     </div>
-    <button @click="logout()">Log Out</button>
+    <button @click="logout">Log Out</button>
   </div>
 
   <!-- <div>
@@ -116,7 +116,7 @@ export default {
       this.attemptLogout()
         .then(resp => {
           alert("logged out");
-          location.reload();
+          this.$router.push("home");
           console.log("logged out", resp);
         })
         .catch(error => {
