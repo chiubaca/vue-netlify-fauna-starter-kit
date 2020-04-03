@@ -38,11 +38,13 @@ button:active {
 }
 
 input[type=text] {
+  background-color: var(--app-secondary-background-color);
   border: none;
   padding: 10px;
   border-bottom: 3px solid var(--primary);
 }
 input[type=password] {
+  background-color: var(--app-secondary-background-color);
   border: none;
   padding: 10px;
   border-bottom: 3px solid var(--primary);
