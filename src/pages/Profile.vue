@@ -4,15 +4,15 @@
     <div class="profile-panel">
       <div class="stack">
         <h2>Username</h2>
-        <span>{{ currentUser.user_metadata.full_name }}</span>
+        <p>{{ currentUser.user_metadata.full_name }}</p>
       </div>
       <div class="stack">
         <h2>Email</h2>
-        <span>{{ currentUser.email }}</span>
+        <p>{{ currentUser.email }}</p>
       </div>
       <div class="stack">
         <h2>User ID</h2>
-        <span>{{ currentUser.id }}</span>
+        <p>{{ currentUser.id }}</p>
       </div>
       <Modal
         button-text="Update User Data"
@@ -131,14 +131,11 @@ export default {
 
 <style lang="scss" scoped>
 #profile-background {
-  background-color: var(--app-secondary-background-color);
-  border-radius: 15px;
-
   h2 {
     margin: 10px;
   }
-  span {
-    padding: 0 0 15px 15px;
+  p {
+    padding: 0 0 0 15px;
   }
   button {
     margin-top: 15px;
