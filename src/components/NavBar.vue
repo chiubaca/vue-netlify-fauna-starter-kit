@@ -6,7 +6,7 @@
       <router-link :to="{ name: 'journals' }">📔 Your Journals</router-link>
 
       <router-link id="profile-link" :to="{ name: 'profile' }"
-        >🆔 {{ currentUser.user_metadata.full_name }}</router-link
+        >🆔 Profile</router-link
       >
 
       <ThemeToggle />
