@@ -43,6 +43,8 @@ nav#nav-bar #nav-items {
   margin: 30px 10px 0 10px;
 
   a {
+    border-bottom: solid 3px rgba(255, 255, 255, 0);
+    padding-bottom: 5px;
     text-decoration: none;
     font-weight: bold;
   }
