@@ -19,7 +19,7 @@ Don't skip these steps ❗❗
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/chiubaca/vue-netlify-fauna-starter-kit)
 
 
-3. Remember to enable Identity on your newly deployed Netlify site otherwise signups and logins wont work.
+3. Enable Identity on your newly deployed Netlify site otherwise signups and logins wont work. Also remember to enable Google as an External Provider. This is can found in "Settings & Usage" in the Idenity tab, then scroll down to "External Providers" and select Google in the add providers drop down. 
 
 ![Enable Netlify Identity](https://user-images.githubusercontent.com/18376481/74047309-07b7e300-49c8-11ea-90c9-688bf226d0d5.gif)
 
