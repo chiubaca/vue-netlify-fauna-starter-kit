@@ -9,7 +9,6 @@ export default {
 
   state() {
     return {
-      testData: "some test data",
       currentUser: null,
       GoTrueAuth: null
     };
