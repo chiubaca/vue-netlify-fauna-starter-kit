@@ -68,8 +68,12 @@ function handler(event, context, callback) {
   const password = generatePassword();
 
   createDbUser(userData, password)
-    .then(user => obtainToken(user, password))
+    .then(user => {
+      console.log("what is the user?", user);
+      obtainToken(user, password);
+    })
     .then(key => {
+      console.log("what is the key?", key);
       console.log("Successfully created DB account");
       callback(null, {
         //If return status is 200 or 204 the function will get blocked
