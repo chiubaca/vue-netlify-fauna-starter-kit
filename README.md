@@ -40,7 +40,7 @@ npm start
 
 ### Builds the app and deploys to Netlify on a preview URL
 ```
-npm run deploy
+npm run deploy:preview
 ```
 
 ### Builds the app and deploys to Netlify on your master URL
