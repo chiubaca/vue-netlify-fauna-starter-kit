@@ -23,7 +23,7 @@
         . Happy hacking!
       </p>
     </div>
-    <Login v-if="currentUser === null" />
+    <LoginSignup v-if="currentUser === null" />
     <div v-else id="greeting">
       <h2>🖐️ Welcome Back {{ currentUser.user_metadata.full_name }}!</h2>
       <p>
@@ -39,13 +39,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Login from "../components/Login.vue";
+import LoginSignup from "../components/LoginSignup.vue";
 import GithubCorner from "../components/GithubCorner.vue";
 
 export default {
   name: "Home",
   components: {
-    Login,
+    LoginSignup,
     GithubCorner
   },
   props: {

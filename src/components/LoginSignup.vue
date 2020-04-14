@@ -86,7 +86,7 @@ import { mapActions, mapGetters } from "vuex";
 import SetNetlifyURL from "./SetNetlifyURL.vue";
 
 export default {
-  name: "Login",
+  name: "LoginSignup",
   components: {
     SetNetlifyURL
   },
