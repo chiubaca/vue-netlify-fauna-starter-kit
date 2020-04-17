@@ -19,7 +19,7 @@ const client = new faunadb.Client({
 
 /**
  * create and store Netlify metadata in a new user FaunaDB record.
- * @param {object} - userData
+ * @param {object} - Netlify userData
  * @property {string} - userData.id - netlify id nunmber
  * @property {object} - userData.user_metadata - additonal arbitary
  * @param {string} - password
