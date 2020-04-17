@@ -6,8 +6,9 @@ function imperatively. Without this, the function is unable to update the user a
 */
 
 "use strict";
+// eslint-disable-next-line import/no-extraneous-dependencies
 const fetch = require("node-fetch");
-const identitySignup = require('./identity-signup')
+const identitySignup = require("./identity-signup");
 
 /**
  * Update the app_metadata for a netlify user to include add the faunaDB token
@@ -16,15 +17,17 @@ const identitySignup = require('./identity-signup')
  * @param {string} - adminAuthHeader - authorisation JWT
  * @return {promise <object>} - Netlify user
  */
-function updateNetlifyUserAppMetaData (appMetaData, usersAdminUrl, JWT){
+function updateNetlifyUserAppMetaData(appMetaData, usersAdminUrl, JWT) {
   return fetch(usersAdminUrl, {
-      method: "PUT",
-      headers: { Authorization: `Bearer ${JWT}` },
-      body: JSON.stringify({app_metadata: appMetaData})
-    })
+    method: "PUT",
+    headers: { Authorization: `Bearer ${JWT}` },
+    body: JSON.stringify({ app_metadata: appMetaData })
+  })
     .then(response => response.json())
-    .then(data =>  data )
-    .catch(e => { console.error("error authorising user", e) });
+    .then(data => data)
+    .catch(e => {
+      console.error("error authorising user", e);
+    });
 }
 
 function handler(event, context, callback) {
@@ -32,41 +35,44 @@ function handler(event, context, callback) {
 
   // Guard if endpoint is hit directly and user has not provided a valid user JWT in the authorisation header.
   if (!user) {
-      return callback(null, {
+    return callback(null, {
       statusCode: 401,
       body: "You shouldn't be here"
-      });
+    });
   }
 
-  const userID = user.sub
+  const userID = user.sub;
   const JWT = identity.token;
   const usersAdminUrl = `${identity.url}/admin/users/${userID}`;
   const userObject = {
-    id : userID,
+    id: userID,
     user_metadata: user.user_metadata
-  }
-  const password = identitySignup.generatePassword()
-  console.log("admin url check", usersAdminUrl)
-  console.log("bearer token check", JWT)
+  };
+  const password = identitySignup.generatePassword();
+  console.log("admin url check", usersAdminUrl);
+  console.log("bearer token check", JWT);
 
-  identitySignup.createDbUser(userObject, password)
-    .then((user) => identitySignup.obtainToken(user, password))
-    .then((key) => updateNetlifyUserAppMetaData({db_token : key.secret} , usersAdminUrl, JWT))
-    .then((resp) => {
-      console.log("Received response: ", !!resp)
-      console.log("Updated the user", resp.id );
+  identitySignup
+    .createDbUser(userObject, password)
+    .then(user => identitySignup.obtainToken(user, password))
+    .then(key =>
+      updateNetlifyUserAppMetaData({ db_token: key.secret }, usersAdminUrl, JWT)
+    )
+    .then(resp => {
+      console.log("Received response: ", !!resp);
+      console.log("Updated the user", resp.id);
       callback(null, {
-        statusCode: 200, 
+        statusCode: 200,
         body: JSON.stringify(resp)
-      })
+      });
     })
-    .catch((error) => {
-      console.error("Unable to create a user account", error)
+    .catch(error => {
+      console.error("Unable to create a user account", error);
       callback(null, {
         statusCode: 418,
-        body: JSON.stringify({error: error})
-      })
-    })
+        body: JSON.stringify({ error: error })
+      });
+    });
 }
 
-module.exports = {handler: handler};
+module.exports = { handler: handler };

@@ -9,7 +9,6 @@ export default {
 
   state() {
     return {
-      testData: "some test data",
       currentUser: null,
       GoTrueAuth: null
     };
@@ -262,7 +261,7 @@ export default {
 
       // Detect if app is being run in a development environment, if so a flag is set to indicate this so that it is
       // possible to set the URL for the netlify identity in the login component.
-      // TODO : possibly move this logic out into a separate file.
+      // TODO : Move this logic into a separate action.
       if (hostName.match(IPv4Pattern) || hostName === "localhost") {
         console.log("Looks like your in a dev environment", hostName);
         commit("app/SET_DEV_ENV", true, { root: true });
