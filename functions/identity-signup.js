@@ -23,7 +23,15 @@ const client = new faunadb.Client({
  * @property {string} - userData.id - netlify id nunmber
  * @property {object} - userData.user_metadata - additonal arbitary
  * @param {string} - password
- * @return {promise <object>} - FaunaDB response object
+ * @return {promise <object>} - FaunaDB response object e.g
+ * {
+  ref: Ref(Collection("users"), "262617811824673300"), 
+  ts: 1586710712280000,
+  data: {
+    id: 'e362dc96-b891-4c81-9df4-506215498f39',
+    user_metadata: { full_name: 'alexchiu.11@gmail.com' }
+  }
+}
  */
 
 function createDbUser(userData, password) {
@@ -44,15 +52,7 @@ function createDbUser(userData, password) {
  * Create a new record in the DB user table.
  * @param {string} - userID
  * @param {string} - password
- * @return {promise <object>} - FaunaDB response object e.g
- * {
-  ref: Ref(Collection("users"), "262617811824673300"), 
-  ts: 1586710712280000,
-  data: {
-    id: 'e362dc96-b891-4c81-9df4-506215498f39',
-    user_metadata: { full_name: 'alexchiu.11@gmail.com' }
-  }
-}
+ * @return {promise <object>} - FaunaDB response object
  */
 function obtainToken(user, password) {
   console.log("Generating new DB token");
@@ -61,13 +61,7 @@ function obtainToken(user, password) {
 
 /**
  * Wrapper function to return a randomly generated password
- * @return {string} - randomly generated password e.g:
- * {
-  ref: Ref(Tokens(), "262617812398244372"),
-  ts: 1586710712970000,
-  instance: Ref(Collection("users"), "262617811824673300"),
-  secret: 'fnEDpQGCS7ACFAOEi__XQAIASsGv54Ds-mbOLClSfuUpmlOzbBc'
-}
+ * @return {string} - randomly generated password
  */
 function generatePassword() {
   return generator.generate({
