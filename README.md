@@ -53,11 +53,9 @@ npm run deploy:prod
 npm run test:unit
 ```
 
-## Dymystifying the magic
-So how does this all work and does one extend upon this?
-
-TODO...
-I plan on writing a blog series on this soon.
+## Breakdown 
+I wrote a blog explaining how everything works:
+https://dev.to/chiubaca/build-a-serverless-crud-app-using-vue-js-netlify-and-faunadb-5dno
 
 ## Why This Exists
 
