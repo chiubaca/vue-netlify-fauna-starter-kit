@@ -1,10 +1,10 @@
 [build]
-  command = "npm run build"
+  command = "sed -i s/FAUNADB_SERVER_SECRET/$FAUNADB_SERVER_SECRET/g netlify.toml && npm run build"
   functions = "functions" # netlify dev uses this to know where to scaffold and serve your functions
   publish = "dist"
 
 [dev]
-  port = 3000 # Port that the dev server will be listening on
+  port = 3001 # Port that the dev server will be listening on
   functionsPort = 34567 # port for functions server
   targetPort = 8080 # Port of target app server
   publish = "dist" # If you use a _redirect file, provide the path to your static content folder
@@ -12,4 +12,4 @@
   autoLaunch = true # a Boolean value that determines if Netlify Dev launches the local server address in your browser
 
 [template.environment]
-  FAUNADB_SERVER_SECRET = "your FaunaDB server secret"
+  FAUNADB_SERVER_SECRET = ""
